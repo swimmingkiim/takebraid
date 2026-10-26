@@ -15,7 +15,8 @@ to its source and evidence.
 
 | Available now | Planned |
 |---|---|
-| `takebraid ingest`: read-only metadata and SHA-256 identity | Project registry and proxy generation |
+| `takebraid ingest`: read-only metadata and SHA-256 identity | Manual timeline and proxy generation |
+| Versioned project registry, relinking and checked scan cache | Preview rendering and audio alignment |
 | `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Quality/content analysis |
 | Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
@@ -49,6 +50,9 @@ Inspect a video with `takebraid ingest ./raw/clip.mov --project ./workspace/demo
 This saves versioned metadata without modifying the source. Then run
 `takebraid scan <asset.json> --stream 0` to inspect decoded presentation timestamps.
 See [ingest](docs/ingest.md) and [frame-map usage and limitations](docs/frame-maps.md).
+Use `takebraid project show ./workspace/demo` to inspect the registry and `project verify` to
+check source content. Repeated scans reuse validated results; `scan --force` preserves a fresh
+attempt. See [projects, relinking and cache rules](docs/projects.md).
 
 ## Design commitments
 

@@ -24,7 +24,9 @@ render a preview, and verify it against that range. This is the first implementa
 - [x] TB-102: decode source PTS maps, validate exact source boundaries and map proxy sample
   coordinates through explicit 1x clocks/origins. Uncertain timing is diagnosed without repair;
   proxy generation is separate. See `frame-maps.md`.
-- [ ] TB-103: persist project/plan artifacts atomically, fingerprint sources, detect changed media.
+- [x] TB-103: versioned project registry, content-verified relinking, validated asset/frame-map
+  loaders and content-addressed scan attempts with checked cache reuse and terminal receipts.
+  Future plan records will use the same publication primitives. See `projects.md`.
 - [ ] TB-104: execute a manual single-source timeline using argument-list FFmpeg calls; no shell;
   protect originals/destinations; support cancellation and failure receipts.
 - [ ] TB-105: generate small synthetic, redistributable CFR/VFR fixtures with visible frame indices
@@ -55,13 +57,21 @@ Verify against generated CFR/VFR/nonzero-start cases before implementing proxy m
 TB-101's full fingerprint and one-file publication support this slice; TB-103 still owns the project
 registry, multi-artifact cache reuse and general stage persistence.
 
-### Next task: TB-103
+### Delivered slice: TB-103
 
 Implement a versioned project registry and validated artifact loaders, source relinking and changed-media
 checks, deterministic stage keys, and atomic completed/failed/cancelled stage receipts. Preserve
 user edits and prior artifacts; never reuse partial or stale outputs. Frame-map loaders must recompute
 domain validity instead of trusting a saved status. Proxy generation/rendering follows the trusted
 source-map and registry foundation in TB-104.
+
+### Next task: TB-104
+
+Persist and validate a manual single-source timeline using a ready decoded map. Render selected
+half-open frame ranges into a low-resolution preview with an explicit output clock/audio policy.
+Protect sources and existing renders, record stage receipts and validate actual duration/frames
+and audio alignment. Use synthetic frame indices/audio impulses to establish rounding tolerances.
+Do not infer cut positions from FPS or execute unvalidated saved timeline fields.
 
 ## M2 — Quality analysis and reversible decisions
 

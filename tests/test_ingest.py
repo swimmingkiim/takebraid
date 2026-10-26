@@ -7,16 +7,15 @@ import pytest
 from takebraid.adapters.artifacts import write_new_json
 from takebraid.application.ingest import IngestError, ingest
 from takebraid.cli import main
-from takebraid.domain.metadata import ProbeMetadata
 
 
 @pytest.fixture
-def source(tmp_path, monkeypatch):
+def source(tmp_path, monkeypatch, probe_metadata):
     video = tmp_path / "source.mov"
     video.write_bytes(b"synthetic source bytes")
     monkeypatch.setattr(
         "takebraid.application.ingest.probe_media",
-        lambda _: ProbeMetadata("test", None, None, (), "test-1", ("test",)),
+        lambda _: probe_metadata,
     )
     return video
 

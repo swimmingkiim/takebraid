@@ -7,6 +7,7 @@ from pathlib import Path
 from takebraid import __version__
 from takebraid.adapters.artifacts import write_new_json
 from takebraid.adapters.media.probe import ProbeError, probe_media
+from takebraid.adapters.projects import register_asset
 
 
 class IngestError(ValueError):
@@ -61,6 +62,7 @@ def ingest(source: Path, project: Path) -> Path:
         if target.resolve() == source:
             raise IngestError("Metadata destination cannot be the source file")
         write_new_json(target, document)
+        register_asset(project, target)
         return target
-    except (OSError, ProbeError) as exc:
+    except (OSError, ProbeError, ValueError) as exc:
         raise IngestError(f"Cannot ingest {source}: {exc}") from exc

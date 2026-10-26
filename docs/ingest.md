@@ -20,7 +20,8 @@ Success prints the absolute metadata path and returns 0:
 
 Errors return 1 with a message on stderr. Existing metadata is never overwritten, including on
 repeat ingest of identical bytes. Use another project directory for an independent registration.
-Relinking existing assets, batch ingest and a root `project.json` registry are future work.
+Ingest now also registers the asset in a versioned root `project.json`. Relinking is available through
+`project relink`; batch ingest remains future work. See [project storage](projects.md).
 
 Schema v0.1 records:
 

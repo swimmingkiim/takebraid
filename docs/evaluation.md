@@ -14,6 +14,9 @@ Current tests cover layer 1 and metadata-only media integration with generated v
 Decoded maps are checked against known uniform/VFR/offset/B-frame schedules; render/audio alignment
 checks remain future work. The environment CLI checks
 paths, not FFmpeg codec support. Media and model suites report skipped capabilities explicitly.
+Registry/cache tests additionally cover source moves, revision snapshots, lock conflicts, failed
+publication, corrupted records, force reruns and cancellation. A real media integration checks
+ingest -> scan -> relink -> cached scan -> preserved force rerun.
 
 ## Data
 
