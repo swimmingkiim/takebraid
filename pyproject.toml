@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "takebraid"
+version = "0.1.0.dev0"
+description = "Turn raw footage into a considered first cut."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{name = "Takebraid contributors"}]
+dependencies = []
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Environment :: Console",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Multimedia :: Video :: Non-Linear Editor",
+]
+
+[project.urls]
+Repository = "https://github.com/swimmingkiim/takebraid"
+Issues = "https://github.com/swimmingkiim/takebraid/issues"
+
+[project.scripts]
+takebraid = "takebraid.cli:main"
+
+[project.optional-dependencies]
+dev = ["build==1.6.1", "pytest==9.1.1", "ruff==0.17.2"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/takebraid"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
