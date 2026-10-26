@@ -21,7 +21,9 @@ render a preview, and verify it against that range. This is the first implementa
 - [x] TB-101: `ingest` reads ffprobe JSON into versioned asset metadata; preserves rotation, missing
   audio, fractional frame rates and signed starts. Missing A/V time bases are rejected; frame
   continuity is explicitly unverified until TB-102. See `ingest.md`.
-- [ ] TB-102: decode a source PTS map and proxy mapping; add source-boundary validation to contracts.
+- [x] TB-102: decode source PTS maps, validate exact source boundaries and map proxy sample
+  coordinates through explicit 1x clocks/origins. Uncertain timing is diagnosed without repair;
+  proxy generation is separate. See `frame-maps.md`.
 - [ ] TB-103: persist project/plan artifacts atomically, fingerprint sources, detect changed media.
 - [ ] TB-104: execute a manual single-source timeline using argument-list FFmpeg calls; no shell;
   protect originals/destinations; support cancellation and failure receipts.
@@ -44,7 +46,7 @@ actionable errors; missing audio is valid; fractional FPS is preserved as a rati
 source-time conversion; synthetic fixtures verify the parser and one real subprocess integration.
 Implement the media adapter, parser, artifact writer and `ingest` CLI as one working change.
 
-### Next task: TB-102
+### Delivered slice: TB-102
 
 Build a decoded frame PTS map keyed by asset and stream index. Preserve signed PTS, variable frame
 intervals and final presentation end; distinguish missing/non-monotonic timestamps from supported
@@ -52,6 +54,14 @@ input and define repair/unsupported outcomes. Do not infer frame positions from 
 Verify against generated CFR/VFR/nonzero-start cases before implementing proxy mapping.
 TB-101's full fingerprint and one-file publication support this slice; TB-103 still owns the project
 registry, multi-artifact cache reuse and general stage persistence.
+
+### Next task: TB-103
+
+Implement a versioned project registry and validated artifact loaders, source relinking and changed-media
+checks, deterministic stage keys, and atomic completed/failed/cancelled stage receipts. Preserve
+user edits and prior artifacts; never reuse partial or stale outputs. Frame-map loaders must recompute
+domain validity instead of trusting a saved status. Proxy generation/rendering follows the trusted
+source-map and registry foundation in TB-104.
 
 ## M2 — Quality analysis and reversible decisions
 

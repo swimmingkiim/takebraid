@@ -47,7 +47,8 @@ Ingest does not scan frames or packets, classify CFR/VFR, validate presentation 
 proxies, choose cuts or render video. FPS, container duration and stream duration are observations,
 not guarantees of valid frame boundaries. A missing/invalid A/V time base is rejected; missing start
 PTS/duration is retained as unknown. Every result includes `frame_timestamps_not_scanned`.
-Decoded PTS maps, discontinuity checks and frame-boundary validation belong to TB-102.
+Use the separate [scan command](frame-maps.md) for decoded PTS maps and frame-boundary validation.
+The original ingest metadata is retained unchanged; use the scan report for verified timing status.
 
 ## Publication and integrity
 

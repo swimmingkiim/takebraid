@@ -1,7 +1,7 @@
 # Architecture
 
 Status: accepted initial direction; most components below are planned. Current code includes
-source-time values, the environment CLI and read-only metadata ingest with atomic asset publication.
+source-time values, read-only metadata ingest, decoded frame maps and exact sample-coordinate mapping.
 See ADRs for decisions and the roadmap for delivery.
 
 ## Product boundary
@@ -68,7 +68,8 @@ missing or discontinuous timestamps require an explicit repair/unsupported resul
 Timeline coordinates: a chosen rational output frame rate and integer output frame counts.
 Audio coordinates: sample counts at an explicit sample rate. Conversion/rounding policies live in
 one place. For VFR, source membership and proxy mapping use frame PTS; average FPS is metadata only.
-Current `domain/time.py` validates arithmetic only; it cannot yet validate decoded frame membership.
+`domain/time.py` validates arithmetic; `domain/frames.py` validates decoded frame membership for
+ready maps. See `frame-maps.md` for conservative timing diagnostics and explicit proxy origins.
 
 ## Project storage and incremental execution
 

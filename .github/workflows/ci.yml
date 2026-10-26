@@ -42,7 +42,7 @@ jobs:
         run: takebraid --version
 
   media:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -52,8 +52,15 @@ jobs:
       - name: Ensure media tools are available
         run: |
           if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install --no-install-recommends -y ffmpeg
+            # The Azure HTTP mirror has stalled downloads on hosted runners.
+            # Keep Ubuntu's signed packages, using the official HTTPS archive.
+            for source in /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources; do
+              if [ -f "$source" ]; then
+                sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' "$source"
+              fi
+            done
+            sudo apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 update
+            sudo apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 install --no-install-recommends -y ffmpeg
           fi
           ffmpeg -version
           ffprobe -version

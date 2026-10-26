@@ -11,11 +11,12 @@ to its source and evidence.
 
 ## Current status
 
-**Pre-alpha. Metadata ingest is available; footage analysis and automatic editing are not yet implemented.**
+**Pre-alpha. Metadata ingest and decoded timing inspection are available; automatic editing is not yet implemented.**
 
 | Available now | Planned |
 |---|---|
-| `takebraid ingest`: read-only media metadata and full SHA-256 identity | Decoded PTS mapping and proxy generation |
+| `takebraid ingest`: read-only metadata and SHA-256 identity | Project registry and proxy generation |
+| `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Quality/content analysis |
 | Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -45,8 +46,9 @@ On Windows use `python -m venv .venv` and `.venv\Scripts\Activate.ps1` in PowerS
 It checks executable availability, not codecs or runtime compatibility.
 
 Inspect a video with `takebraid ingest ./raw/clip.mov --project ./workspace/demo`.
-This saves versioned metadata without modifying the source. It does not yet scan frame timestamps
-or edit video. See [ingest usage and limitations](docs/ingest.md).
+This saves versioned metadata without modifying the source. Then run
+`takebraid scan <asset.json> --stream 0` to inspect decoded presentation timestamps.
+See [ingest](docs/ingest.md) and [frame-map usage and limitations](docs/frame-maps.md).
 
 ## Design commitments
 
