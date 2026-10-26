@@ -1,8 +1,10 @@
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
+from takebraid.adapters.artifacts import to_json_value
 from takebraid.application.scan import ScanError, scan_asset
 from takebraid.cli import main
 from takebraid.domain.frames import FrameObservation
@@ -65,6 +67,14 @@ def registered(tmp_path, monkeypatch):
             (),
         ),
     )
+    document = json.loads(asset.read_text())
+    document["source"].update(
+        {"size_bytes": source.stat().st_size, "mtime_ns": source.stat().st_mtime_ns}
+    )
+    document["metadata"] = to_json_value(
+        ProbeMetadata("test", None, None, (stream,), "test-version", ())
+    )
+    asset.write_text(json.dumps(document))
     monkeypatch.setattr(
         "takebraid.application.scan.decode_frames",
         lambda *a, **k: (
@@ -85,8 +95,7 @@ def test_verified_map_is_published_without_updating_asset(registered):
     assert result["frame_map"]["stream_index"] == 0
     assert asset.read_bytes() == original
     assert source.read_bytes() == b"stable source"
-    with pytest.raises(ScanError, match="already exists"):
-        scan_asset(asset, 0)
+    assert scan_asset(asset, 0)[0] == output
 
 
 def test_changed_source_refused_before_decode(registered):
@@ -94,7 +103,7 @@ def test_changed_source_refused_before_decode(registered):
     source.write_bytes(b"modified")
     with pytest.raises(ScanError, match="fingerprint changed"):
         scan_asset(asset, 0)
-    assert not (asset.parent / "frames-0.json").exists()
+    assert list(asset.parent.glob("stages/*/attempts/*/frames.json")) == []
 
 
 def test_change_during_decode_does_not_publish(registered, monkeypatch):
@@ -107,7 +116,7 @@ def test_change_during_decode_does_not_publish(registered, monkeypatch):
     monkeypatch.setattr("takebraid.application.scan.decode_frames", change)
     with pytest.raises(ScanError, match="Source changed"):
         scan_asset(asset, 0)
-    assert not (asset.parent / "frames-0.json").exists()
+    assert list(asset.parent.glob("stages/*/attempts/*/frames.json")) == []
 
 
 def test_explicit_stream_selection_is_checked(registered):
@@ -133,6 +142,72 @@ def test_cli_diagnostic_map_has_exit_two(registered, monkeypatch, capsys):
     assert main(["scan", str(asset), "--stream", "0"]) == 2
     captured = capsys.readouterr()
     assert "unsupported" in captured.err
-    result = json.loads((asset.parent / "frames-0.json").read_text())
+    result = json.loads(Path(captured.out.strip()).read_text())
     assert result["status"] == "unsupported"
     assert result["frame_map"]["frames"][0]["pts"] is None
+
+
+def test_cache_hit_does_not_decode_again_and_force_preserves_prior_output(registered, monkeypatch):
+    asset, _ = registered
+    first, _ = scan_asset(asset, 0)
+    before = first.read_bytes()
+
+    def no_decode(*args, **kwargs):
+        raise AssertionError("cache hit must not decode")
+
+    monkeypatch.setattr("takebraid.application.scan.decode_frames", no_decode)
+    assert scan_asset(asset, 0)[0] == first
+    monkeypatch.setattr(
+        "takebraid.application.scan.decode_frames",
+        lambda *a, **k: (
+            FrameObservation(0, 40),
+            FrameObservation(40, 40),
+        ),
+    )
+    second, _ = scan_asset(asset, 0, force=True)
+    assert first != second
+    assert first.read_bytes() == before
+    assert scan_asset(asset, 0)[0] == second
+
+
+def test_tampered_cached_artifact_requires_recompute(registered):
+    asset, _ = registered
+    first, _ = scan_asset(asset, 0)
+    first.write_text("partial or changed output")
+    with pytest.raises(ScanError, match="checksum mismatch"):
+        scan_asset(asset, 0)
+    second, status = scan_asset(asset, 0, force=True)
+    assert status == "ready"
+    assert second != first
+    assert first.read_text() == "partial or changed output"
+
+
+def test_failed_forced_run_preserves_previous_cache(registered, monkeypatch):
+    asset, _ = registered
+    first, _ = scan_asset(asset, 0)
+
+    def fail(*args, **kwargs):
+        raise OSError("interrupted decode")
+
+    monkeypatch.setattr("takebraid.application.scan.decode_frames", fail)
+    with pytest.raises(ScanError, match="interrupted decode"):
+        scan_asset(asset, 0, force=True)
+    assert scan_asset(asset, 0)[0] == first
+
+
+@pytest.mark.parametrize(
+    "failure,state", [(RuntimeError("decode failed"), "failed"), (KeyboardInterrupt(), "cancelled")]
+)
+def test_scan_records_failed_or_cancelled_attempts(registered, monkeypatch, failure, state):
+    asset, _ = registered
+
+    def fail(*args, **kwargs):
+        raise failure
+
+    monkeypatch.setattr("takebraid.application.scan.decode_frames", fail)
+    with pytest.raises(type(failure)):
+        scan_asset(asset, 0)
+    receipts = list(asset.parent.glob("stages/*/attempts/*/receipt.json"))
+    assert len(receipts) == 1
+    assert json.loads(receipts[0].read_text())["status"] == state
+    assert list(asset.parent.glob("stages/*/completed.json")) == []

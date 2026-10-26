@@ -47,3 +47,24 @@ def write_new_json(target: Path, document: dict) -> None:
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)
+
+
+def replace_json(target: Path, document: dict) -> None:
+    """Atomically replace a derived pointer/current registry; callers preserve history."""
+    if target.is_symlink():
+        raise ValueError(f"Refusing to replace symlink: {target}")
+    payload = json.dumps(to_json_value(document), ensure_ascii=False, indent=2, allow_nan=False)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", newline="\n", dir=target.parent, delete=False
+        ) as handle:
+            temporary = Path(handle.name)
+            handle.write(payload + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, target)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)

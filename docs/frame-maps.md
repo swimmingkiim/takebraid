@@ -6,10 +6,11 @@ After ingest, explicitly select the absolute video stream index from `asset.json
 takebraid scan ./workspace/demo/assets/sha256-<digest>/asset.json --stream 0
 ```
 
-The scanner checks the asset schema/content ID, rehashes the source, probes current stream metadata
-and decodes frame metadata with FFprobe. It publishes a new `frames-<stream>.json` beside the asset.
-Existing maps and the original asset metadata remain untouched. Selecting audio/cover art or changed
-media fails. No source media or proxy is created/modified. Root project registry/relinking is TB-103.
+The scanner validates the asset/content ID, resolves registry relinks, rehashes the source and probes
+current stream metadata. It reuses a validated completed scan or decodes frames into a new preserved
+stage attempt at `stages/<key>/attempts/<uuid>/frames.json`. `--force` creates a new attempt without
+replacing old outputs. Original asset metadata stays unchanged. Selecting audio/cover art or changed
+media fails. No source media or proxy is created/modified. See [projects and cache rules](projects.md).
 
 ## Contract and status
 
@@ -46,8 +47,8 @@ so a partial decode cannot become a ready map.
 `FrameMap.validate_range(SourceRange(...))` checks asset, stream, clock and exact frame boundaries.
 It refuses both uncertain statuses. Intervals remain half-open: a cut can end at the final
 presentation end, but cannot start there. Merely falling within the source duration is insufficient.
-Downstream loaders must reconstruct/validate domain values and derive status; never trust a report's
-editable JSON `status` field as authorization to execute cuts. A general frame-map loader is pending.
+The frame-map loader reconstructs domain values and derives status, rejecting inconsistent summaries;
+an editable JSON `status` field cannot authorize cuts. Cache reuse runs this validation again.
 
 ## Proxy/sample coordinate mapping
 

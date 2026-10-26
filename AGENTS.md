@@ -15,6 +15,8 @@
   a provenance/license entry. Record third-party code, checkpoint and dataset conditions separately.
 - Update the roadmap and user-facing capability table when a feature actually ships. Do not add
   placeholder CLI commands that report success without performing their advertised work.
+- Bump a stage's recipe version when analysis semantics change. Include all semantic inputs and
+  tool/model revisions in its key; never trust saved status flags instead of domain validation.
 - Run `python -m ruff check .`, `python -m ruff format --check .`, `python -m pytest`, and
   `python -m build` for changes affecting the package. Use a virtual environment.
 - Keep architectural abstractions proportional to implemented use cases. Start in one process;

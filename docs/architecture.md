@@ -1,7 +1,8 @@
 # Architecture
 
 Status: accepted initial direction; most components below are planned. Current code includes
-source-time values, read-only metadata ingest, decoded frame maps and exact sample-coordinate mapping.
+source-time values, ingest, decoded maps, sample-coordinate mapping, versioned project registries,
+validated artifact loaders and preserved stage attempts/cache receipts.
 See ADRs for decisions and the roadmap for delivery.
 
 ## Product boundary
@@ -89,10 +90,16 @@ long-lived cache reuse, with an inexpensive metadata check for immediate changes
 source identity, extraction settings, code/model revisions and preprocessing. Never key solely on a
 filename. User edits are small override records applied to a plan; preserve the previous plan.
 
-Write to a temporary file and rename on success. A stage records complete/failed/cancelled status;
+Publish immutable artifacts without clobbering, and replace derived/current pointers atomically.
+A stage records completed/failed/cancelled status;
 partial output is not a cache hit. Limit concurrent work and stream frames instead of materializing
 the entire source. Start with sequential orchestration and bounded subprocesses. Introduce SQLite
 indexes or a worker process when measured project sizes or UI responsiveness justify them.
+
+The concrete registry/scan-stage implementation and crash/concurrency limits are in `projects.md`
+and ADR 0003. Registry snapshots and attempt artifacts are retained; only current/derived pointers
+advance. Sources are rehashed before reuse, and stage outputs require matching terminal receipts,
+checksums and domain-loader validation.
 
 ## Planning policy
 
