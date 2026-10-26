@@ -53,10 +53,14 @@ jobs:
         run: |
           if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
             # The Azure HTTP mirror has stalled downloads on hosted runners.
-            # Keep Ubuntu's signed packages, using the official HTTPS archive.
-            for source in /etc/apt/sources.list /etc/apt/sources.list.d/ubuntu.sources; do
+            # Hosted images also use mirror+file lists; rewrite their actual URLs.
+            # Keep Ubuntu's signed packages, using the official HTTPS archives.
+            for source in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources /etc/apt/apt-mirrors*.txt; do
               if [ -f "$source" ]; then
-                sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' "$source"
+                sudo sed -i \
+                  -e 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+                  -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+                  -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' "$source"
               fi
             done
             sudo apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 update
