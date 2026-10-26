@@ -11,7 +11,8 @@ deleting the most footage. No model quality or speed benchmark has been run for 
 4. Editor evaluation: inspectable multi-take drafts, alternatives, restore operations and elapsed work.
 
 Current tests cover layer 1 and metadata-only media integration with generated video/audio.
-Decoded frame mapping and render/alignment checks remain future work. The environment CLI checks
+Decoded maps are checked against known uniform/VFR/offset/B-frame schedules; render/audio alignment
+checks remain future work. The environment CLI checks
 paths, not FFmpeg codec support. Media and model suites report skipped capabilities explicitly.
 
 ## Data

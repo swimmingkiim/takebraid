@@ -9,6 +9,7 @@ from pathlib import Path
 
 from takebraid import __version__
 from takebraid.application.ingest import IngestError, ingest
+from takebraid.application.scan import ScanError, scan_asset
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,7 +21,26 @@ def main(argv: list[str] | None = None) -> int:
     register = commands.add_parser("ingest", help="Inspect a local video and save asset metadata.")
     register.add_argument("source", type=Path)
     register.add_argument("--project", type=Path, required=True, help="Project output directory.")
+    scan = commands.add_parser("scan", help="Decode a registered video's frame timestamps.")
+    scan.add_argument("asset", type=Path, help="Path to asset.json created by ingest.")
+    scan.add_argument("--stream", type=int, required=True, help="Absolute video stream index.")
+    scan.add_argument("--timeout", type=float, default=300, help="FFprobe timeout in seconds.")
+    scan.add_argument("--max-frames", type=int, default=250000)
     args = parser.parse_args(argv)
+
+    if args.command == "scan":
+        try:
+            output, status = scan_asset(
+                args.asset, args.stream, timeout=args.timeout, max_frames=args.max_frames
+            )
+        except ScanError as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        print(output)
+        if status != "ready":
+            print(f"takebraid: timing is {status}; inspect the frame-map issues", file=sys.stderr)
+            return 2
+        return 0
 
     if args.command == "ingest":
         try:

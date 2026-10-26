@@ -1,8 +1,9 @@
 # Data contracts
 
 Status: draft v0.1. `TimeBase`, `SourceRange`, normalized probe metadata and the write-only asset
-document now exist in code. See [ingest](ingest.md) for the persisted v0.1 fields and limitations.
-Other records and persisted-document loaders remain design targets for their milestones.
+document now exist in code, together with decoded frame observations, timing diagnostics and boundary
+validation. See [ingest](ingest.md) and [frame maps](frame-maps.md) for persisted v0.1 fields and limits.
+The scanner reads/validates the asset fields it consumes; general artifact loaders remain TB-103.
 
 ## Identity and time
 
