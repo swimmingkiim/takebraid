@@ -13,7 +13,7 @@ license-files = ["LICENSE"]
 authors = [{name = "Takebraid contributors"}]
 dependencies = []
 classifiers = [
-  "Development Status :: 1 - Planning",
+  "Development Status :: 2 - Pre-Alpha",
   "Environment :: Console",
   "Programming Language :: Python :: 3 :: Only",
   "Topic :: Multimedia :: Video :: Non-Linear Editor",
