@@ -65,4 +65,18 @@ jobs:
           ffmpeg -version
           ffprobe -version
       - run: python -m pip install -e ".[dev]"
-      - run: python -m pytest -m integration --strict-markers
+      - run: python -m pytest -m integration --strict-markers --junitxml=workspace/media-validation-junit.xml
+      - name: Run independent synthetic media matrix
+        run: python -m tools.media_validation --output workspace/media-validation
+      - name: Publish media validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: media-validation-ubuntu-24.04
+          path: |
+            workspace/media-validation-junit.xml
+            workspace/media-validation/**/report.json
+            workspace/media-validation/**/expected.json
+            workspace/media-validation/**/result.json
+            workspace/media-validation/**/generator-commands.json
+          retention-days: 30

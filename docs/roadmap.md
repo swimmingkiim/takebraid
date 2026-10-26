@@ -1,6 +1,6 @@
 # Development roadmap
 
-Status as of 2026-10-26. Milestones are dependency ordered and judged by exit evidence, not dates.
+Status as of 2026-10-27. Milestones are dependency ordered and judged by exit evidence, not dates.
 Initial scope: dialogue-free process/product footage, chronological assembly and a reviewable first cut.
 
 ## M0 — Bootstrap (implemented; initial remote CI passed)
@@ -30,8 +30,8 @@ render a preview, and verify it against that range. This is the first implementa
 - [x] TB-104: saved/validated manual single-source timelines, frame-index trims, rational output
   clocks, explicit audio policy and decoded MOV preview verification; preserved render stages,
   cancellation/failure receipts and no source/output overwrites. See `previews.md`.
-- [ ] TB-105: generate small synthetic, redistributable CFR/VFR fixtures with visible frame indices
-  and audio impulses; document licenses and expected boundaries.
+- [x] TB-105: reusable synthetic source generator and independent 13-case media oracle, exact
+  boundaries/PCM impulses, provenance reports and CI evidence. See `media-validation.md`.
 
 Exit: fresh-checkout instructions work on a declared platform; CFR boundaries match intended frames;
 VFR mappings match known PTS; nonzero/negative PTS and rotation survive; output duration agrees with
@@ -74,13 +74,22 @@ Protect sources and existing renders, record stage receipts and validate actual 
 and audio alignment. Use synthetic frame indices/audio impulses to establish rounding tolerances.
 Do not infer cut positions from FPS or execute unvalidated saved timeline fields.
 
-### Next task: TB-105
+### Delivered slice: TB-105
 
 Expand the initial visible-index/impulse fixtures into a reusable, documented validation suite with
 expected source/output manifests: negative/nonzero starts, VFR, fractional FPS, rotation/SAR,
 missing/delayed/short audio, B-frame codecs and long repeated-cut rounding. Record supported tool
 versions/platforms and regression tolerances, including content checks beyond counts/clocks. M1
-sign-off requires that published evidence before broadening to quality analysis in M2.
+sign-off uses the clean full report and Ubuntu CI evidence described in `media-validation.md`.
+This closes only the synthetic manual-preview slice, not real-camera or editorial-quality validation.
+
+### Next task: TB-201
+
+Implement versioned focus/exposure observations on decoded source frames, with explicit sampling
+coordinates, analysis scale and optional ROI. Keep measurements separate from defect labels and
+exclusion policy. Save method/settings/tool provenance in checked stage keys. Establish synthetic
+sharp/blurred and brightness/clipping fixtures; report unknown for unsupported input rather than
+claiming a quality verdict. No automatic discard or model download in this slice.
 
 ## M2 — Quality analysis and reversible decisions
 

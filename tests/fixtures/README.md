@@ -18,4 +18,12 @@ PCM with an impulse 100 samples into each 25 fps frame. FFV1/Matroska sources ar
 previews; decoded picture levels and impulse locations are compared across reordered cuts and
 delayed audio. Other synthetic cases cover fractional FPS, VFR, start offsets and 44.1 kHz AAC.
 All data is generated in test temporary directories from project code, with no third-party media.
-This is the initial content/clock fixture set; the broader reusable TB-105 matrix is pending.
+The shared indexed signal generator lives in `tools/media_validation/fixtures.py`.
+
+TB-105 adds `tools/media_validation/cases.json`: an independent committed oracle for 13 generated
+scenarios, including actually encoded negative PTS, rotation/SAR, B-frames and repeated-cut rounding.
+Run `python -m tools.media_validation --output workspace/media-validation` from a development checkout.
+Sources and previews remain in that ignored output directory for inspection/reuse; JSON reports bind
+observations to source hashes, manifest digest, tool builds and code revision. No third-party datasets
+or checkpoints are used. The original patterns, recipes and manifest are Apache-2.0 project material.
+See `docs/media-validation.md` for the case matrix, tolerances and evidence scope.

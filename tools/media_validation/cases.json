@@ -1,0 +1,1250 @@
+{
+  "schema_version": "0.1",
+  "recipe": "indexed-signals/1",
+  "license": "Apache-2.0 (recipes and copyrightable generated test patterns)",
+  "tolerances": {
+    "gray_absolute": 5,
+    "pcm_peak_samples": 0,
+    "frame_pts_seconds": "0",
+    "sample_count": 0
+  },
+  "cases": [
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "cfr-reorder"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          2,
+          3,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          3
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "2/25",
+          "3/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          0,
+          2,
+          3,
+          3
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "vfr-hold"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "-2/25",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          5
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "-2/25",
+          "-1/25",
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5"
+        ],
+        "source_end": "6/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "negative-start"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "2",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          5
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "2",
+          "51/25",
+          "52/25",
+          "53/25",
+          "54/25",
+          "11/5",
+          "56/25",
+          "57/25"
+        ],
+        "source_end": "58/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "positive-start"
+    },
+    {
+      "source": {
+        "fps": "30000/1001",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          8
+        ]
+      ],
+      "output_fps": "30000/1001",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1001/30000",
+          "1001/15000",
+          "1001/10000",
+          "1001/7500",
+          "1001/6000",
+          "1001/5000",
+          "7007/30000"
+        ],
+        "source_end": "1001/3750",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 12813,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          4905,
+          6506,
+          8108,
+          9710,
+          11311
+        ]
+      },
+      "id": "ntsc"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 90,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 48,
+        "height": 64,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "rotation-90"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "2/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 128,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "sar-2"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 0,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "mute",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 0,
+        "audio_peaks": []
+      },
+      "id": "no-audio"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "2/25",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "delayed-audio"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 3,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          8
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 15360,
+        "audio_peaks": [
+          100,
+          2020,
+          3940
+        ]
+      },
+      "id": "short-audio"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mov",
+        "codec": "mpeg4",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 2
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "b-frames"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 8,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "output_fps": "30000/1001",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 123323,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          6506,
+          8108,
+          9710,
+          11311,
+          12913,
+          16116,
+          17718,
+          19319,
+          20921,
+          22522,
+          25726,
+          27327,
+          28929,
+          30530,
+          32132,
+          35335,
+          36937,
+          38538,
+          40140,
+          41742,
+          44945,
+          46546,
+          48148,
+          49750,
+          51351,
+          54554,
+          56156,
+          57758,
+          59359,
+          60961,
+          64164,
+          65766,
+          67367,
+          68969,
+          70570,
+          73774,
+          75375,
+          76977,
+          78578,
+          80180,
+          83383,
+          84985,
+          86586,
+          88188,
+          89790,
+          92993,
+          94594,
+          96196,
+          97798,
+          99399,
+          102602,
+          104204,
+          105806,
+          107407,
+          109009,
+          112212,
+          113814,
+          115415,
+          117017,
+          118618,
+          121822
+        ]
+      },
+      "id": "repeat-64"
+    },
+    {
+      "source": {
+        "fps": "25",
+        "format": "mkv",
+        "codec": "ffv1",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "offset": "0",
+        "rotation": 0,
+        "sar": "1/1",
+        "audio_frames": 0,
+        "audio_delay": "0",
+        "b_frames": 0
+      },
+      "cuts": [
+        [
+          3,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "output_fps": "25",
+      "audio_policy": "source",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "id": "missing-audio-rejected",
+      "expected_rejection": "existing source audio stream"
+    }
+  ]
+}

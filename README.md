@@ -22,14 +22,14 @@ to its source and evidence.
 | Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
-| Development and evaluation plan | Expanded media fixture validation |
+| Reproducible synthetic media matrix with independent timing/content expectations | Real-camera validation |
 
 The initial target is dialogue-free process/product footage, with chronological assembly and
 human review. Other genres follow evidence from that first use case.
 
 ## Development quick start
 
-Python 3.11+ is required. FFmpeg and ffprobe are external tools needed for future media processing;
+Python 3.11+ is required. FFmpeg and ffprobe are external tools needed for media processing;
 they are not bundled. Basic package tests require neither models nor media tools.
 
 ```bash
@@ -58,6 +58,9 @@ attempt. See [projects, relinking and cache rules](docs/projects.md).
 Create a manual draft with `takebraid plan <asset.json> --stream 0 --cut 0:5 --fps 25 --audio mute`,
 then `takebraid render <timeline.json> --project ./workspace/demo`. Cut indices are decoded source
 frames, with an exclusive end. See [preview/audio/rounding policies](docs/previews.md).
+
+Reproduce the [synthetic media validation matrix](docs/media-validation.md) with
+`python -m tools.media_validation --output workspace/media-validation`.
 
 ## Design commitments
 
