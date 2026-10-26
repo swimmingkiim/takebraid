@@ -3,7 +3,7 @@
 Status as of 2026-10-26. Milestones are dependency ordered and judged by exit evidence, not dates.
 Initial scope: dialogue-free process/product footage, chronological assembly and a reviewable first cut.
 
-## M0 — Bootstrap (implemented; remote CI to be checked on publication)
+## M0 — Bootstrap (implemented; initial remote CI passed)
 
 - [x] Apache-2.0 project, bilingual README, contribution/security guidance.
 - [x] Installable `src/` Python package; version and environment discovery CLI.
@@ -11,15 +11,16 @@ Initial scope: dialogue-free process/product footage, chronological assembly and
 - [x] CI for lint, format, unit tests, build and installed-wheel smoke check.
 - [x] Architecture, ADRs, contracts, research and evaluation plan.
 
-M0 is infrastructure only. No ingest, model, editing, export or rendering command is shipped.
+M0 delivered infrastructure only. Metadata ingest is delivered separately in TB-101 below.
 
 ## M1 — A trustworthy media slice
 
 Deliverable: inspect a short original, describe its frame timestamps, save a manually chosen range,
 render a preview, and verify it against that range. This is the first implementation priority.
 
-- [ ] TB-101: `ingest` reads ffprobe JSON into versioned asset metadata; handle rotation, missing
-  audio, fractional frame rates, nonzero starts and unsupported/discontinuous timestamps explicitly.
+- [x] TB-101: `ingest` reads ffprobe JSON into versioned asset metadata; preserves rotation, missing
+  audio, fractional frame rates and signed starts. Missing A/V time bases are rejected; frame
+  continuity is explicitly unverified until TB-102. See `ingest.md`.
 - [ ] TB-102: decode a source PTS map and proxy mapping; add source-boundary validation to contracts.
 - [ ] TB-103: persist project/plan artifacts atomically, fingerprint sources, detect changed media.
 - [ ] TB-104: execute a manual single-source timeline using argument-list FFmpeg calls; no shell;
@@ -32,7 +33,7 @@ VFR mappings match known PTS; nonzero/negative PTS and rotation survive; output 
 the timeline within the documented frame rounding policy; audio does not accumulate drift.
 Record tolerances before evaluating, including codec delay and final-frame duration handling.
 
-### Next task: TB-101
+### Delivered slice: TB-101
 
 Input: local media path and explicit project output directory. Output: validated `asset.json` with
 schema version, asset ID/fingerprint, source locator, per-stream time base, duration/start metadata,
@@ -42,6 +43,15 @@ Acceptance: malformed ffprobe output, missing executable, invalid media and mult
 actionable errors; missing audio is valid; fractional FPS is preserved as a rational; no average-FPS
 source-time conversion; synthetic fixtures verify the parser and one real subprocess integration.
 Implement the media adapter, parser, artifact writer and `ingest` CLI as one working change.
+
+### Next task: TB-102
+
+Build a decoded frame PTS map keyed by asset and stream index. Preserve signed PTS, variable frame
+intervals and final presentation end; distinguish missing/non-monotonic timestamps from supported
+input and define repair/unsupported outcomes. Do not infer frame positions from average FPS.
+Verify against generated CFR/VFR/nonzero-start cases before implementing proxy mapping.
+TB-101's full fingerprint and one-file publication support this slice; TB-103 still owns the project
+registry, multi-artifact cache reuse and general stage persistence.
 
 ## M2 — Quality analysis and reversible decisions
 

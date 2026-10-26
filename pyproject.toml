@@ -35,6 +35,7 @@ packages = ["src/takebraid"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
+markers = ["integration: requires external FFmpeg and ffprobe executables"]
 
 [tool.ruff]
 target-version = "py311"

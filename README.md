@@ -11,14 +11,15 @@ to its source and evidence.
 
 ## Current status
 
-**Repository bootstrap / pre-alpha. No footage analysis or automatic editing is implemented yet.**
+**Pre-alpha. Metadata ingest is available; footage analysis and automatic editing are not yet implemented.**
 
 | Available now | Planned |
 |---|---|
-| Installable Python package and `takebraid doctor` | Ingest, PTS mapping and media inspection |
-| Exact source-time values and invariant tests | Quality analysis and reversible exclusions |
-| CI, contribution guide and architecture decisions | Event selection and multi-take assembly |
-| Development and evaluation plan | Review UI, OTIO export and FFmpeg rendering |
+| `takebraid ingest`: read-only media metadata and full SHA-256 identity | Decoded PTS mapping and proxy generation |
+| Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
+| Exact source-time values and invariant tests | Event selection and multi-take assembly |
+| CI, contribution guide and architecture decisions | Review UI and timeline interchange |
+| Development and evaluation plan | Cut planning and FFmpeg rendering |
 
 The initial target is dialogue-free process/product footage, with chronological assembly and
 human review. Other genres follow evidence from that first use case.
@@ -42,6 +43,10 @@ python -m pytest
 On Windows use `python -m venv .venv` and `.venv\Scripts\Activate.ps1` in PowerShell.
 `doctor --json` emits machine-readable tool paths and exits 1 when either media tool is missing.
 It checks executable availability, not codecs or runtime compatibility.
+
+Inspect a video with `takebraid ingest ./raw/clip.mov --project ./workspace/demo`.
+This saves versioned metadata without modifying the source. It does not yet scan frame timestamps
+or edit video. See [ingest usage and limitations](docs/ingest.md).
 
 ## Design commitments
 
