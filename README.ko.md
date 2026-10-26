@@ -13,7 +13,8 @@
 메타데이터와 SHA-256 식별 정보를 저장할 수 있습니다. 원본은 수정하지 않습니다.
 `takebraid scan`은 프레임별 PTS와 종료 경계를 검사하고 시간 문제를 진단합니다.
 프로젝트 등록부와 경로 변경 이력을 관리하며, 검증된 스캔 결과를 재사용할 수 있습니다.
-내용·품질 분석, 프록시 생성, 자동 구성·렌더링은 아직 구현되지 않았습니다.
+수동 컷 목록 저장과 검증된 MOV 미리보기 렌더링도 지원합니다.
+내용·품질 분석, 프록시 생성, 자동 구간 선별·구성은 아직 구현되지 않았습니다.
 
 첫 목표는 **무대사 작업 과정·제품 촬영본 → 촬영 순서를 유지하는 편집 초안**입니다.
 원본은 보존하고, 선택·제외 이유와 대안 테이크를 검토할 수 있도록 개발합니다.
@@ -61,6 +62,17 @@ takebraid project relink ./workspace/demo sha256-<해시> ./moved/clip.mov
 경로를 바꿀 때는 원본과 SHA-256이 같아야 합니다. 반복 스캔은 결과 파일·실행 기록·원본을 검증해
 재사용하며, `scan --force`는 이전 결과를 보존하고 새 실행을 만듭니다.
 [프로젝트·캐시 규칙](docs/projects.md)을 확인해주세요.
+
+```bash
+takebraid plan ./workspace/demo/assets/sha256-<해시>/asset.json \
+  --stream 0 --cut 0:5 --cut 10:15 --fps 25 --audio mute
+takebraid render ./workspace/demo/plans/<id>/timeline.json --project ./workspace/demo
+```
+
+`--cut`은 원본을 디코딩한 프레임 번호이며 끝 번호는 포함하지 않습니다. 원본 오디오를 쓰려면
+`--audio source --audio-stream 1`처럼 트랙을 지정합니다. 미리보기는 최대 640×360 범위의 MOV이며,
+프레임·샘플 수와 타임스탬프를 디코딩해 검사합니다. [지원 범위와 시간 계산 규칙](docs/previews.md)을
+확인해주세요.
 
 ## 개발 방향
 

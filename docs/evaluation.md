@@ -10,13 +10,17 @@ deleting the most footage. No model quality or speed benchmark has been run for 
 3. Model/quality evaluation: opt-in, pinned checkpoints and device information, held-out labels.
 4. Editor evaluation: inspectable multi-take drafts, alternatives, restore operations and elapsed work.
 
-Current tests cover layer 1 and metadata-only media integration with generated video/audio.
+Current tests cover layer 1 and metadata, decoded timing and preview integration with generated media.
 Decoded maps are checked against known uniform/VFR/offset/B-frame schedules; render/audio alignment
-checks remain future work. The environment CLI checks
+checks now include manual preview clocks/counts, visible-index source-picture identity and impulse
+alignment across reordered cuts. The environment CLI checks
 paths, not FFmpeg codec support. Media and model suites report skipped capabilities explicitly.
 Registry/cache tests additionally cover source moves, revision snapshots, lock conflicts, failed
 publication, corrupted records, force reruns and cancellation. A real media integration checks
 ingest -> scan -> relink -> cached scan -> preserved force rerun.
+Preview integrations cover mute/source audio, CFR/VFR, fractional FPS, nonzero starts, delayed audio,
+44.1 kHz AAC input, forced failures and plans changed mid-render. Broader fixture publication and
+supported-tool/platform evidence remains TB-105; these tests do not establish automatic-editing quality.
 
 ## Data
 

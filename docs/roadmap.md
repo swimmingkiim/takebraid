@@ -27,8 +27,9 @@ render a preview, and verify it against that range. This is the first implementa
 - [x] TB-103: versioned project registry, content-verified relinking, validated asset/frame-map
   loaders and content-addressed scan attempts with checked cache reuse and terminal receipts.
   Future plan records will use the same publication primitives. See `projects.md`.
-- [ ] TB-104: execute a manual single-source timeline using argument-list FFmpeg calls; no shell;
-  protect originals/destinations; support cancellation and failure receipts.
+- [x] TB-104: saved/validated manual single-source timelines, frame-index trims, rational output
+  clocks, explicit audio policy and decoded MOV preview verification; preserved render stages,
+  cancellation/failure receipts and no source/output overwrites. See `previews.md`.
 - [ ] TB-105: generate small synthetic, redistributable CFR/VFR fixtures with visible frame indices
   and audio impulses; document licenses and expected boundaries.
 
@@ -65,13 +66,21 @@ user edits and prior artifacts; never reuse partial or stale outputs. Frame-map 
 domain validity instead of trusting a saved status. Proxy generation/rendering follows the trusted
 source-map and registry foundation in TB-104.
 
-### Next task: TB-104
+### Delivered slice: TB-104
 
 Persist and validate a manual single-source timeline using a ready decoded map. Render selected
 half-open frame ranges into a low-resolution preview with an explicit output clock/audio policy.
 Protect sources and existing renders, record stage receipts and validate actual duration/frames
 and audio alignment. Use synthetic frame indices/audio impulses to establish rounding tolerances.
 Do not infer cut positions from FPS or execute unvalidated saved timeline fields.
+
+### Next task: TB-105
+
+Expand the initial visible-index/impulse fixtures into a reusable, documented validation suite with
+expected source/output manifests: negative/nonzero starts, VFR, fractional FPS, rotation/SAR,
+missing/delayed/short audio, B-frame codecs and long repeated-cut rounding. Record supported tool
+versions/platforms and regression tolerances, including content checks beyond counts/clocks. M1
+sign-off requires that published evidence before broadening to quality analysis in M2.
 
 ## M2 — Quality analysis and reversible decisions
 

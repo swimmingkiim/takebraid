@@ -11,17 +11,18 @@ to its source and evidence.
 
 ## Current status
 
-**Pre-alpha. Metadata ingest and decoded timing inspection are available; automatic editing is not yet implemented.**
+**Pre-alpha. Ingest, timing inspection and manual cut previews are available; automatic selection is not yet implemented.**
 
 | Available now | Planned |
 |---|---|
-| `takebraid ingest`: read-only metadata and SHA-256 identity | Manual timeline and proxy generation |
-| Versioned project registry, relinking and checked scan cache | Preview rendering and audio alignment |
+| `takebraid ingest`: read-only metadata and SHA-256 identity | Quality/content analysis |
+| Versioned project registry, relinking and checked scan cache | Automatic event selection and assembly |
+| `takebraid plan` / `render`: saved manual cuts and verified MOV previews | Multi-source timelines, MP4 delivery presets |
 | `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Quality/content analysis |
 | Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
-| Development and evaluation plan | Cut planning and FFmpeg rendering |
+| Development and evaluation plan | Expanded media fixture validation |
 
 The initial target is dialogue-free process/product footage, with chronological assembly and
 human review. Other genres follow evidence from that first use case.
@@ -53,6 +54,10 @@ See [ingest](docs/ingest.md) and [frame-map usage and limitations](docs/frame-ma
 Use `takebraid project show ./workspace/demo` to inspect the registry and `project verify` to
 check source content. Repeated scans reuse validated results; `scan --force` preserves a fresh
 attempt. See [projects, relinking and cache rules](docs/projects.md).
+
+Create a manual draft with `takebraid plan <asset.json> --stream 0 --cut 0:5 --fps 25 --audio mute`,
+then `takebraid render <timeline.json> --project ./workspace/demo`. Cut indices are decoded source
+frames, with an exclusive end. See [preview/audio/rounding policies](docs/previews.md).
 
 ## Design commitments
 
