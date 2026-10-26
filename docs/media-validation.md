@@ -73,8 +73,8 @@ sample count. Rotation checks display matrix and geometry, not a general image-o
 
 ## Evidence and supported scope
 
-The local macOS arm64 full report is published in `docs/validation/macos-arm64.json` after a clean
-run. CI runs the full matrix on Ubuntu 24.04/Python 3.11, alongside integration tests, and publishes
+The local macOS arm64 full report is published in `docs/validation/macos-arm64.json` from a clean
+run of commit `46ef0f9` (Python 3.14.4, FFmpeg/ffprobe 8.1; 13/13 passed). CI runs the full matrix on Ubuntu 24.04/Python 3.11, alongside integration tests, and publishes
 JSON evidence/argument logs plus JUnit under the `media-validation-ubuntu-24.04` artifact (30 days).
 Use the report's exact Git commit, manifest digest and tool versions when comparing results.
 A passing run applies to that tool build and these synthetic cases; it is not a minimum-version
