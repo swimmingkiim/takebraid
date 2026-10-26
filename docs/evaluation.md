@@ -10,8 +10,9 @@ deleting the most footage. No model quality or speed benchmark has been run for 
 3. Model/quality evaluation: opt-in, pinned checkpoints and device information, held-out labels.
 4. Editor evaluation: inspectable multi-take drafts, alternatives, restore operations and elapsed work.
 
-Current tests cover layer 1 only. The environment CLI checks paths, not FFmpeg codec support.
-Media and model suites must report skipped capabilities explicitly.
+Current tests cover layer 1 and metadata-only media integration with generated video/audio.
+Decoded frame mapping and render/alignment checks remain future work. The environment CLI checks
+paths, not FFmpeg codec support. Media and model suites report skipped capabilities explicitly.
 
 ## Data
 

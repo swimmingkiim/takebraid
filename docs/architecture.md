@@ -1,7 +1,8 @@
 # Architecture
 
-Status: accepted initial direction; most components below are planned. Current code is limited
-to source-time values and the environment CLI. See ADRs for decisions and the roadmap for delivery.
+Status: accepted initial direction; most components below are planned. Current code includes
+source-time values, the environment CLI and read-only metadata ingest with atomic asset publication.
+See ADRs for decisions and the roadmap for delivery.
 
 ## Product boundary
 

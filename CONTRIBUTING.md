@@ -18,7 +18,8 @@ python -m build
 ```
 
 CI runs unit tests on Linux, macOS and Windows with the minimum and latest tested Python versions.
-Media integration tests will be added in M1 with explicitly installed FFmpeg and licensed fixtures.
+Media integration tests run separately with `python -m pytest -m integration`; CI explicitly installs
+FFmpeg for this job. Use `python -m pytest -m "not integration"` for the fast offline suite.
 Model evaluations belong in a separate opt-in suite, not the basic unit-test job.
 
 ## Evidence and review

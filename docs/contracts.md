@@ -1,7 +1,8 @@
 # Data contracts
 
-Status: draft v0.1. Only `TimeBase` and `SourceRange` exist in code. Remaining records below are
-design targets and must gain parsers, versioned schemas and tests in their delivery milestones.
+Status: draft v0.1. `TimeBase`, `SourceRange`, normalized probe metadata and the write-only asset
+document now exist in code. See [ingest](ingest.md) for the persisted v0.1 fields and limitations.
+Other records and persisted-document loaders remain design targets for their milestones.
 
 ## Identity and time
 
