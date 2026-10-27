@@ -6,7 +6,8 @@ validated artifact loaders and preserved stage attempts/cache receipts.
 Manual single-source timelines and decoded-verified MOV previews are implemented; see `previews.md`.
 Versioned focus/exposure observations and a bounded grayscale adapter are implemented; see `quality.md`
 and ADR 0005. Bounded background translation candidates and source-time path residuals share the
-verified analysis preparation/decoder; see `motion.md` and ADR 0006. Interpretation/exclusion remains planned. See ADRs and the roadmap for delivery.
+verified analysis preparation/decoder; see `motion.md` and ADR 0006. Explicit temporal interpretation policies now produce review candidates with preserved unknown coverage;
+see `interpretation.md` and ADR 0007. Exclusion decisions remain planned. See the roadmap for delivery.
 
 ## Product boundary
 

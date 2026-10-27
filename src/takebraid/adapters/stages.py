@@ -98,3 +98,25 @@ class StageAttempt:
                 },
             )
         return False
+
+
+def completed_artifact(root: Path, output: Path) -> dict:
+    """Validate a specific preserved attempt, even after a force run advances the pointer."""
+    root, output = root.resolve(strict=True), output.resolve(strict=True)
+    if not output.is_relative_to(root):
+        raise RecordError("Observation must belong to this project")
+    receipt = read_json(output.parent / "receipt.json")
+    inputs = receipt["inputs"]
+    key, identity = stage_key(inputs), receipt["attempt_id"]
+    if (
+        not isinstance(identity, str)
+        or len(identity) != 32
+        or any(c not in "0123456789abcdef" for c in identity)
+        or output.parent != root / "stages" / key / "attempts" / identity
+        or receipt["stage_key"] != key
+        or receipt["status"] != "completed"
+        or receipt["output"]["path"] != output.relative_to(root).as_posix()
+        or receipt["output"]["sha256"] != file_digest(output)
+    ):
+        raise RecordError("Invalid completed observation artifact/receipt")
+    return inputs
