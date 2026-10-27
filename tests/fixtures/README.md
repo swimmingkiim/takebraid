@@ -27,3 +27,10 @@ Sources and previews remain in that ignored output directory for inspection/reus
 observations to source hashes, manifest digest, tool builds and code revision. No third-party datasets
 or checkpoints are used. The original patterns, recipes and manifest are Apache-2.0 project material.
 See `docs/media-validation.md` for the case matrix, tolerances and evidence scope.
+
+
+`tests/test_quality_integration.py` generates original checker and 5×5 box-blur patterns plus
+black/white/mid-gray frames as FFV1/Matroska. The Apache-2.0 stdlib recipe has no external image
+assets. Hand-calculated point-impulse/constant metrics live in `test_quality.py`; TB-105 sources
+also exercise quality sampling on signed, offset, VFR and fractional clocks. These establish
+measurement behavior, not camera-focus or exposure classification accuracy.

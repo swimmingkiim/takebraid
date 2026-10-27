@@ -19,7 +19,9 @@ from takebraid.adapters.projects import (
 )
 from takebraid.application.ingest import IngestError, ingest
 from takebraid.application.preview import create_plan, render_plan
+from takebraid.application.quality import observe_quality
 from takebraid.application.scan import ScanError, scan_asset
+from takebraid.domain.quality import QualitySettings
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -37,6 +39,18 @@ def main(argv: list[str] | None = None) -> int:
     scan.add_argument("--timeout", type=float, default=300, help="FFprobe timeout in seconds.")
     scan.add_argument("--max-frames", type=int, default=250000)
     scan.add_argument("--force", action="store_true", help="Recompute as a new preserved attempt.")
+    quality = commands.add_parser(
+        "quality", help="Measure focus/exposure without excluding footage."
+    )
+    quality.add_argument("asset", type=Path)
+    quality.add_argument("--stream", type=int, required=True)
+    quality.add_argument("--size", type=int, default=160, help="Maximum analysis edge, no upscale.")
+    quality.add_argument(
+        "--every", type=int, default=1, help="Decoded source-frame sampling stride."
+    )
+    quality.add_argument("--roi", help="X:Y:WIDTH:HEIGHT on the unrotated analysis pixel grid.")
+    quality.add_argument("--timeout", type=float, default=300)
+    quality.add_argument("--force", action="store_true")
     plan = commands.add_parser("plan", help="Save manual cuts using decoded frame indices.")
     plan.add_argument("asset", type=Path)
     plan.add_argument("--stream", type=int, required=True)
@@ -62,6 +76,28 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "quality":
+        try:
+            roi = tuple(int(v) for v in args.roi.split(":")) if args.roi else None
+            output, status = observe_quality(
+                args.asset,
+                args.stream,
+                QualitySettings(args.size, args.every, roi),
+                timeout=args.timeout,
+                force=args.force,
+            )
+            print(output)
+            if status == "unknown":
+                print("takebraid: quality is unknown; inspect the report reasons", file=sys.stderr)
+                return 2
+            return 0
+        except (OSError, ValueError, TypeError, KeyError, subprocess.SubprocessError) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: quality analysis cancelled", file=sys.stderr)
+            return 130
 
     if args.command in {"plan", "render"}:
         try:

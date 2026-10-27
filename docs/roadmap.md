@@ -83,7 +83,7 @@ versions/platforms and regression tolerances, including content checks beyond co
 sign-off uses the clean full report and Ubuntu CI evidence described in `media-validation.md`.
 This closes only the synthetic manual-preview slice, not real-camera or editorial-quality validation.
 
-### Next task: TB-201
+### Delivered slice: TB-201
 
 Implement versioned focus/exposure observations on decoded source frames, with explicit sampling
 coordinates, analysis scale and optional ROI. Keep measurements separate from defect labels and
@@ -91,9 +91,16 @@ exclusion policy. Save method/settings/tool provenance in checked stage keys. Es
 sharp/blurred and brightness/clipping fixtures; report unknown for unsupported input rather than
 claiming a quality verdict. No automatic discard or model download in this slice.
 
+### Next task: TB-202
+
+Add background-motion estimation with explicit sampling/scale and tracking diagnostics. Distinguish
+subject motion from camera motion where the evidence permits; unreliable/insufficient tracks must
+yield unknown. Preserve measurement/policy separation and source-clock provenance.
+
 ## M2 — Quality analysis and reversible decisions
 
-- [ ] TB-201: focus/exposure time series with consistent scale and ROI support.
+- [x] TB-201: exact source-PTS focus/exposure observations, bounded analysis scale/ROI, checked
+  cache and synthetic blur/brightness evidence. See `quality.md`; no exclusion verdicts.
 - [ ] TB-202: background motion estimation and camera-path residuals; unknown on unreliable tracks.
 - [ ] TB-203: temporal hysteresis, minimum defect duration, boundary padding and evidence.
 - [ ] TB-204: output keep/exclude/review/unknown intervals; restoration overrides and preview.
