@@ -21,6 +21,7 @@ to its source and evidence.
 | `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Motion/defect interpretation |
 | `takebraid quality`: focus/exposure observations with ROI and exact source PTS | Defect calibration and reversible exclusions |
 | `takebraid motion`: background translation candidates, diagnostics and path residuals | General camera motion, segmentation and shake classification |
+| `takebraid interpret`: explicit temporal review policies with unknown coverage | Reversible decision records and calibrated exclusions |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -70,6 +71,10 @@ not automatic exclusion decisions.
 
 Measure [background motion candidates](docs/motion.md) with
 `takebraid motion <asset.json> --stream 0 --size 96 --every 1`. Tracking uncertainty remains explicit.
+
+Apply an explicit [temporal candidate policy](docs/interpretation.md) with
+`takebraid interpret <quality.json> --asset <asset.json> --policy ./policy.json`.
+Candidates retain evidence and unknown coverage; they do not change a timeline.
 
 ## Design commitments
 

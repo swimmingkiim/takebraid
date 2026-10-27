@@ -42,3 +42,9 @@ independently moving patches, a declared background region, flat/periodic signal
 VFR and NTSC clocks; committed test expectations specify displacements and unknown outcomes.
 These Apache-2.0 project recipes contain no third-party media. They validate the bounded translation
 method and exact path arithmetic, not camera/subject segmentation or shake classification accuracy.
+
+
+TB-203 fixtures in `tests/test_interpretation*.py` use hand-calculated source-time cells, generated
+bright/mid-gray FFV1 signals and original TB-202 jitter textures. MPEG-4/MOV checks VFR and NTSC
+final presentation ends. The synthetic example policy is not camera calibrated. These Apache-2.0
+project recipes test temporal logic and preserved evidence; no external footage/dataset is used.

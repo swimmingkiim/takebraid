@@ -18,6 +18,7 @@ from takebraid.adapters.projects import (
     verify_project,
 )
 from takebraid.application.ingest import IngestError, ingest
+from takebraid.application.interpretation import interpret_observation
 from takebraid.application.motion import observe_motion
 from takebraid.application.preview import create_plan, render_plan
 from takebraid.application.quality import observe_quality
@@ -64,6 +65,13 @@ def main(argv: list[str] | None = None) -> int:
     motion.add_argument("--background", help="X:Y:WIDTH:HEIGHT on the analysis grid.")
     motion.add_argument("--timeout", type=float, default=300)
     motion.add_argument("--force", action="store_true")
+    interpretation = commands.add_parser(
+        "interpret", help="Apply an explicit temporal candidate policy."
+    )
+    interpretation.add_argument("observation", type=Path)
+    interpretation.add_argument("--asset", type=Path, required=True)
+    interpretation.add_argument("--policy", type=Path, required=True)
+    interpretation.add_argument("--force", action="store_true")
     plan = commands.add_parser("plan", help="Save manual cuts using decoded frame indices.")
     plan.add_argument("asset", type=Path)
     plan.add_argument("--stream", type=int, required=True)
@@ -89,6 +97,36 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "interpret":
+        try:
+            output, status = interpret_observation(
+                args.asset,
+                args.observation,
+                args.policy,
+                force=args.force,
+            )
+            print(output)
+            if status != "interpreted":
+                print(
+                    f"takebraid: interpretation coverage is {status}; inspect unknown cells",
+                    file=sys.stderr,
+                )
+                return 2
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: interpretation cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "motion":
         try:

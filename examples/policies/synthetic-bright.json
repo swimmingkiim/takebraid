@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1",
+  "name": "synthetic-bright",
+  "calibration": "Synthetic 8-bit FFV1 gray full-frame fixture only; not calibrated for camera footage.",
+  "metric": "bright_fraction",
+  "enter": "9/10",
+  "exit": "4/5",
+  "minimum_seconds": "2/25",
+  "pad_before_seconds": "1/50",
+  "pad_after_seconds": "1/50"
+}
