@@ -4,7 +4,8 @@ Status: accepted initial direction; most components below are planned. Current c
 source-time values, ingest, decoded maps, sample-coordinate mapping, versioned project registries,
 validated artifact loaders and preserved stage attempts/cache receipts.
 Manual single-source timelines and decoded-verified MOV previews are implemented; see `previews.md`.
-See ADRs for decisions and the roadmap for delivery.
+Versioned focus/exposure observations and a bounded grayscale adapter are implemented; see `quality.md`
+and ADR 0005. Interpretation/exclusion remains planned. See ADRs and the roadmap for delivery.
 
 ## Product boundary
 

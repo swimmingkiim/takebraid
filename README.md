@@ -11,15 +11,16 @@ to its source and evidence.
 
 ## Current status
 
-**Pre-alpha. Ingest, timing inspection and manual cut previews are available; automatic selection is not yet implemented.**
+**Pre-alpha. Ingest, timing inspection, manual cut previews and focus/exposure measurements are available; automatic selection is not yet implemented.**
 
 | Available now | Planned |
 |---|---|
-| `takebraid ingest`: read-only metadata and SHA-256 identity | Quality/content analysis |
+| `takebraid ingest`: read-only metadata and SHA-256 identity | Event/content interpretation |
 | Versioned project registry, relinking and checked scan cache | Automatic event selection and assembly |
 | `takebraid plan` / `render`: saved manual cuts and verified MOV previews | Multi-source timelines, MP4 delivery presets |
-| `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Quality/content analysis |
-| Installable Python package and `takebraid doctor` | Quality analysis and reversible exclusions |
+| `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Motion/defect interpretation |
+| `takebraid quality`: focus/exposure observations with ROI and exact source PTS | Defect calibration and reversible exclusions |
+| Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
 | Reproducible synthetic media matrix with independent timing/content expectations | Real-camera validation |
@@ -61,6 +62,10 @@ frames, with an exclusive end. See [preview/audio/rounding policies](docs/previe
 
 Reproduce the [synthetic media validation matrix](docs/media-validation.md) with
 `python -m tools.media_validation --output workspace/media-validation`.
+
+Measure [focus/exposure observations](docs/quality.md) with
+`takebraid quality <asset.json> --stream 0 --size 160 --every 5`. These are measurements,
+not automatic exclusion decisions.
 
 ## Design commitments
 
