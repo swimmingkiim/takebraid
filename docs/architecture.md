@@ -7,7 +7,8 @@ Manual single-source timelines and decoded-verified MOV previews are implemented
 Versioned focus/exposure observations and a bounded grayscale adapter are implemented; see `quality.md`
 and ADR 0005. Bounded background translation candidates and source-time path residuals share the
 verified analysis preparation/decoder; see `motion.md` and ADR 0006. Explicit temporal interpretation policies now produce review candidates with preserved unknown coverage;
-see `interpretation.md` and ADR 0007. Exclusion decisions remain planned. See the roadmap for delivery.
+see `interpretation.md` and ADR 0007. Immutable explicit editing decisions, restoration and bound single-source preview plans are implemented;
+see `decisions.md` and ADR 0008. Calibrated automatic exclusion remains planned. See the roadmap.
 
 ## Product boundary
 

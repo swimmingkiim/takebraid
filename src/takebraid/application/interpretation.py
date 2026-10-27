@@ -109,26 +109,7 @@ def interpret_observation(
             raise ValueError("Policy/observation changed during interpretation")
 
     def expected_document():
-        if frame_map.status == "ready":
-            result = interpret_cells(
-                evidence_cells(document, frame_map, policy), frame_map.time_base, policy
-            )
-            reasons = []
-        else:
-            result = {"status": "unknown", "cells": [], "candidates": [], "short_runs": []}
-            reasons = ["untrusted_source_timing"]
-        expected = to_json_value(
-            {
-                "schema_version": "0.1",
-                "artifact_kind": "interpretation",
-                "decision_effect": "none",
-                "observation_reasons": document["reasons"],
-                "inputs": inputs,
-                "reasons": reasons,
-                "interpretation": result,
-            }
-        )
-        return expected, result["status"]
+        return interpretation_document(inputs, document, frame_map, policy)
 
     cached = None if force else cached_output(context.root, inputs)
     if cached is not None:
@@ -146,3 +127,26 @@ def interpret_observation(
             raise ValueError("Interpretation publication mismatch")
         attempt.complete(target)
         return target, status
+
+
+def interpretation_document(inputs, document, frame_map, policy):
+    if frame_map.status == "ready":
+        result = interpret_cells(
+            evidence_cells(document, frame_map, policy), frame_map.time_base, policy
+        )
+        reasons = []
+    else:
+        result = {"status": "unknown", "cells": [], "candidates": [], "short_runs": []}
+        reasons = ["untrusted_source_timing"]
+    expected = to_json_value(
+        {
+            "schema_version": "0.1",
+            "artifact_kind": "interpretation",
+            "decision_effect": "none",
+            "observation_reasons": document["reasons"],
+            "inputs": inputs,
+            "reasons": reasons,
+            "interpretation": result,
+        }
+    )
+    return expected, result["status"]
