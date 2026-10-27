@@ -4,7 +4,6 @@ import json
 import shutil
 import subprocess
 import sys
-import wave
 from fractions import Fraction
 
 import pytest
@@ -13,6 +12,7 @@ from takebraid.adapters.media.probe import ProbeError
 from takebraid.application.ingest import ingest
 from takebraid.application.preview import create_plan, render_plan
 from takebraid.cli import main
+from tools.media_validation.fixtures import write_indexed_inputs
 
 pytestmark = [
     pytest.mark.integration,
@@ -24,45 +24,7 @@ pytestmark = [
 
 @pytest.fixture
 def indexed_source(tmp_path):
-    width, height, count = 64, 48, 8
-    raw = tmp_path / "indexed.gray"
-    segments = {
-        0: "abcdef",
-        1: "bc",
-        2: "abdeg",
-        3: "abcdg",
-        4: "bcfg",
-        5: "acdfg",
-        6: "acdefg",
-        7: "abc",
-    }
-    rectangles = {
-        "a": (16, 6, 34, 9),
-        "b": (31, 8, 34, 23),
-        "c": (31, 23, 34, 38),
-        "d": (16, 36, 34, 39),
-        "e": (16, 23, 19, 38),
-        "f": (16, 8, 19, 23),
-        "g": (16, 21, 34, 24),
-    }
-    with raw.open("wb") as handle:
-        for index in range(count):
-            pixels = bytearray([16 + index * 16]) * (width * height)
-            for segment in segments[index]:
-                x0, y0, x1, y1 = rectangles[segment]
-                for y in range(y0, y1):
-                    pixels[y * width + x0 : y * width + x1] = b"\xff" * (x1 - x0)
-            handle.write(pixels)
-    audio = tmp_path / "impulses.wav"
-    samples = array.array("h", [0]) * (count * 1920)
-    for index in range(count):
-        samples[index * 1920 + 100] = 24000
-    if sys.byteorder != "little":
-        samples.byteswap()
-    with wave.open(str(audio), "wb") as output:
-        output.setparams((1, 2, 48000, 0, "NONE", "not compressed"))
-        output.writeframes(samples.tobytes())
-    return raw, audio
+    return write_indexed_inputs(tmp_path)
 
 
 def make_indexed_media(tmp_path, indexed_source, *, delay=False):

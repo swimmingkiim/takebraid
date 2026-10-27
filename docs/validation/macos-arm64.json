@@ -1,0 +1,1093 @@
+{
+  "schema_version": "0.1",
+  "started_at": "2026-10-26T22:08:03.668758+00:00",
+  "manifest_sha256": "b7fbe16d0580ec771a4ee96fc8e4a85127590a40ac1a52f6f2208381beca7f39",
+  "recipe": "indexed-signals/1",
+  "full_manifest": true,
+  "platform": "macOS-26.6.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "python": "3.14.4",
+  "tools": {
+    "ffmpeg": "ffmpeg version 8.1 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n\nExiting with exit code 0\n",
+    "ffprobe": "ffprobe version 8.1 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n"
+  },
+  "cases": [
+    {
+      "id": "cfr-reorder",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "01223d045f890b79c61f33bfcb856b72e32dcb7c62e24bdb4dac6480aa37b981",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.816
+    },
+    {
+      "id": "vfr-hold",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "2/25",
+          "3/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          0,
+          2,
+          3,
+          3
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "94917fe0469ff7328268709c7dfaa865718087650fc7b127844f680489bb0f8b",
+        "pts_seconds": [
+          "0",
+          "2/25",
+          "3/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "mpeg4",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 0,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.748
+    },
+    {
+      "id": "negative-start",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "-2/25",
+          "-1/25",
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5"
+        ],
+        "source_end": "6/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "d2f80b4d09d2d23989fc82d52ea50405c4373465cf0349617523824ec35cf832",
+        "pts_seconds": [
+          "-2/25",
+          "-1/25",
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5"
+        ],
+        "end_seconds": "6/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.706
+    },
+    {
+      "id": "positive-start",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "2",
+          "51/25",
+          "52/25",
+          "53/25",
+          "54/25",
+          "11/5",
+          "56/25",
+          "57/25"
+        ],
+        "source_end": "58/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "da9a3c2f466a5effcb6706081f4977784e6d5bb2b53075a7300545e51793a53a",
+        "pts_seconds": [
+          "2",
+          "51/25",
+          "52/25",
+          "53/25",
+          "54/25",
+          "11/5",
+          "56/25",
+          "57/25"
+        ],
+        "end_seconds": "58/25",
+        "codec": "mpeg4",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.717
+    },
+    {
+      "id": "ntsc",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1001/30000",
+          "1001/15000",
+          "1001/10000",
+          "1001/7500",
+          "1001/6000",
+          "1001/5000",
+          "7007/30000"
+        ],
+        "source_end": "1001/3750",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 12813,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          4905,
+          6506,
+          8108,
+          9710,
+          11311
+        ]
+      },
+      "source": {
+        "sha256": "eb27adcd9c8a75af1747193674a04e8e6c10d2a663e7dcffd403f92a07403b59",
+        "pts_seconds": [
+          "0",
+          "1001/30000",
+          "1001/15000",
+          "1001/10000",
+          "1001/7500",
+          "1001/6000",
+          "1001/5000",
+          "7007/30000"
+        ],
+        "end_seconds": "1001/3750",
+        "codec": "mpeg4",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 8,
+        "audio_samples": 12813,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          4905,
+          6506,
+          8108,
+          9710,
+          11311
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1001,
+          "denominator": 3750
+        }
+      },
+      "elapsed_seconds": 0.716
+    },
+    {
+      "id": "rotation-90",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 48,
+        "height": 64,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "365c245292645c6dd629c159f78e81bc59e2d297025c4a0be4c24ccc90d1f9e7",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "mpeg4",
+        "sar": "1",
+        "rotation": 90
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 48,
+        "height": 64,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.843
+    },
+    {
+      "id": "sar-2",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 128,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "f388989e20d175ecfee080814434fda7fd276e19c635d7452b21899eead3b995",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "mpeg4",
+        "sar": "2",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 128,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.808
+    },
+    {
+      "id": "no-audio",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 0,
+        "audio_peaks": []
+      },
+      "source": {
+        "sha256": "e6eacadd3086571b624efd8ba47f787dde9ca04298e9c04614d259048d3d78cd",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 0,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.712
+    },
+    {
+      "id": "delayed-audio",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "18c7c34a77002fbc8283ca4060e6fd8877ab9b8cbab91ff52e66da41c6fb0ece",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.891
+    },
+    {
+      "id": "short-audio",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 15360,
+        "audio_peaks": [
+          100,
+          2020,
+          3940
+        ]
+      },
+      "source": {
+        "sha256": "c7d85121d3c14453f9d1671b6f6064b2341d2d08754bcc7ffb6fb4c63c4bd09f",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 8,
+        "audio_samples": 15360,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 8,
+          "denominator": 25
+        }
+      },
+      "elapsed_seconds": 0.709
+    },
+    {
+      "id": "b-frames",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "9051f80a41eb6626af6682b1399053e8221de967c09c630ae185af9a437732f3",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "mpeg4",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 5,
+        "audio_samples": 9600,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ],
+        "max_gray_error": 1,
+        "duration_seconds": {
+          "numerator": 1,
+          "denominator": 5
+        }
+      },
+      "elapsed_seconds": 0.803
+    },
+    {
+      "id": "repeat-64",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 123323,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          6506,
+          8108,
+          9710,
+          11311,
+          12913,
+          16116,
+          17718,
+          19319,
+          20921,
+          22522,
+          25726,
+          27327,
+          28929,
+          30530,
+          32132,
+          35335,
+          36937,
+          38538,
+          40140,
+          41742,
+          44945,
+          46546,
+          48148,
+          49750,
+          51351,
+          54554,
+          56156,
+          57758,
+          59359,
+          60961,
+          64164,
+          65766,
+          67367,
+          68969,
+          70570,
+          73774,
+          75375,
+          76977,
+          78578,
+          80180,
+          83383,
+          84985,
+          86586,
+          88188,
+          89790,
+          92993,
+          94594,
+          96196,
+          97798,
+          99399,
+          102602,
+          104204,
+          105806,
+          107407,
+          109009,
+          112212,
+          113814,
+          115415,
+          117017,
+          118618,
+          121822
+        ]
+      },
+      "source": {
+        "sha256": "f7e6b24a26cf2d7fcf3bfcb3fbd336b916b2eee79657a549478a79d085b2d11f",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "output": {
+        "video_frames": 77,
+        "audio_samples": 123323,
+        "width": 64,
+        "height": 48,
+        "audio_peaks": [
+          100,
+          1702,
+          3303,
+          6506,
+          8108,
+          9710,
+          11311,
+          12913,
+          16116,
+          17718,
+          19319,
+          20921,
+          22522,
+          25726,
+          27327,
+          28929,
+          30530,
+          32132,
+          35335,
+          36937,
+          38538,
+          40140,
+          41742,
+          44945,
+          46546,
+          48148,
+          49750,
+          51351,
+          54554,
+          56156,
+          57758,
+          59359,
+          60961,
+          64164,
+          65766,
+          67367,
+          68969,
+          70570,
+          73774,
+          75375,
+          76977,
+          78578,
+          80180,
+          83383,
+          84985,
+          86586,
+          88188,
+          89790,
+          92993,
+          94594,
+          96196,
+          97798,
+          99399,
+          102602,
+          104204,
+          105806,
+          107407,
+          109009,
+          112212,
+          113814,
+          115415,
+          117017,
+          118618,
+          121822
+        ],
+        "max_gray_error": 0,
+        "duration_seconds": {
+          "numerator": 77077,
+          "denominator": 30000
+        }
+      },
+      "elapsed_seconds": 3.716
+    },
+    {
+      "id": "missing-audio-rejected",
+      "status": "passed",
+      "expected": {
+        "source_pts": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "source_end": "8/25",
+        "frame_ids": [
+          3,
+          4,
+          0,
+          1,
+          5
+        ],
+        "width": 64,
+        "height": 48,
+        "audio_samples": 9600,
+        "audio_peaks": [
+          100,
+          2020,
+          3940,
+          5860,
+          7780
+        ]
+      },
+      "source": {
+        "sha256": "adb24d4fcdb84da088cbd1d87186ecfe133b6529685c387528e325d8b523bc1b",
+        "pts_seconds": [
+          "0",
+          "1/25",
+          "2/25",
+          "3/25",
+          "4/25",
+          "1/5",
+          "6/25",
+          "7/25"
+        ],
+        "end_seconds": "8/25",
+        "codec": "ffv1",
+        "sar": "1",
+        "rotation": 0
+      },
+      "expected_rejection_observed": "Select an existing source audio stream",
+      "elapsed_seconds": 0.264
+    }
+  ],
+  "commit": "46ef0f982f1718fb40f20d68a2e13245cc9e0684",
+  "worktree_dirty": false,
+  "passed": 13,
+  "failed": 0,
+  "worktree_dirty_at_end": false,
+  "matrix_gate_passed": true
+}
