@@ -20,6 +20,7 @@ to its source and evidence.
 | `takebraid plan` / `render`: saved manual cuts and verified MOV previews | Multi-source timelines, MP4 delivery presets |
 | `takebraid scan`: decoded PTS maps, timing diagnostics and boundary validation | Motion/defect interpretation |
 | `takebraid quality`: focus/exposure observations with ROI and exact source PTS | Defect calibration and reversible exclusions |
+| `takebraid motion`: background translation candidates, diagnostics and path residuals | General camera motion, segmentation and shake classification |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -66,6 +67,9 @@ Reproduce the [synthetic media validation matrix](docs/media-validation.md) with
 Measure [focus/exposure observations](docs/quality.md) with
 `takebraid quality <asset.json> --stream 0 --size 160 --every 5`. These are measurements,
 not automatic exclusion decisions.
+
+Measure [background motion candidates](docs/motion.md) with
+`takebraid motion <asset.json> --stream 0 --size 96 --every 1`. Tracking uncertainty remains explicit.
 
 ## Design commitments
 

@@ -34,3 +34,11 @@ black/white/mid-gray frames as FFV1/Matroska. The Apache-2.0 stdlib recipe has n
 assets. Hand-calculated point-impulse/constant metrics live in `test_quality.py`; TB-105 sources
 also exercise quality sampling on signed, offset, VFR and fractional clocks. These establish
 measurement behavior, not camera-focus or exposure classification accuracy.
+
+
+`tools/motion_fixtures.py` generates seeded grayscale textures with known integer translations,
+independently moving patches, a declared background region, flat/periodic signals and occlusion.
+`tests/test_motion_integration.py` encodes FFV1/Matroska and MPEG-4/MOV cases with signed/nonzero,
+VFR and NTSC clocks; committed test expectations specify displacements and unknown outcomes.
+These Apache-2.0 project recipes contain no third-party media. They validate the bounded translation
+method and exact path arithmetic, not camera/subject segmentation or shake classification accuracy.

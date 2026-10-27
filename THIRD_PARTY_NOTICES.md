@@ -9,7 +9,7 @@ No model weights, datasets or FFmpeg binaries are distributed by this bootstrap 
 | pytest | Development / tests | MIT, https://github.com/pytest-dev/pytest |
 | Ruff | Development / lint and format | MIT, https://github.com/astral-sh/ruff |
 | build | Development / packaging | MIT, https://github.com/pypa/build |
-| FFmpeg / ffprobe | External inspection, decoded timing and manual preview rendering; not bundled | Build-dependent LGPL/GPL; https://www.ffmpeg.org/legal.html |
+| FFmpeg / ffprobe | External inspection, decoded timing, quality/motion observations and manual previews; not bundled | Build-dependent LGPL/GPL; https://www.ffmpeg.org/legal.html |
 
 Transitive dependency terms also apply. Before adding a runtime dependency, checkpoint or dataset,
 record its version/revision, origin, license and redistribution scope. Generate a resolved inventory
