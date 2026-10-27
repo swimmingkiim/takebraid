@@ -3,6 +3,7 @@
 import re
 import subprocess
 import tempfile
+from contextlib import contextmanager
 from fractions import Fraction
 from pathlib import Path
 
@@ -45,23 +46,20 @@ def check_decode_log(lines, frame_map: FrameMap, source_geometry: tuple[int, int
         raise ValueError("Decoded analysis frame count differs from source map")
 
 
-def decode_measurements(
+@contextmanager
+def decoded_gray(
     source: Path,
     frame_map: FrameMap,
     source_geometry: tuple[int, int],
     geometry: tuple[int, int],
-    settings: QualitySettings,
     *,
     timeout: float,
-) -> list[dict]:
+):
+    """Yield a verified disk spool; close it on success, failure or cancellation."""
     width, height = geometry
     expected_bytes = len(frame_map.frames) * width * height
     if expected_bytes > MAX_DECODE_BYTES:
-        raise ValueError(
-            "Decoded analysis exceeds 256 MiB budget; use a smaller --size or shorter source"
-        )
-    if len(range(0, len(frame_map.frames), settings.every)) > MAX_SAMPLES:
-        raise ValueError("Analysis exceeds 10000 sample limit; increase --every")
+        raise ValueError("Decoded analysis exceeds 256 MiB budget")
     command = [
         "ffmpeg",
         "-hide_banner",
@@ -112,6 +110,22 @@ def decode_measurements(
         check_decode_log(log, frame_map, source_geometry)
         if raw.seek(0, 2) != expected_bytes:
             raise ValueError("Decoded grayscale length differs from source map")
+        yield raw
+
+
+def decode_measurements(
+    source: Path,
+    frame_map: FrameMap,
+    source_geometry: tuple[int, int],
+    geometry: tuple[int, int],
+    settings: QualitySettings,
+    *,
+    timeout: float,
+) -> list[dict]:
+    width, height = geometry
+    if len(range(0, len(frame_map.frames), settings.every)) > MAX_SAMPLES:
+        raise ValueError("Analysis exceeds 10000 sample limit; increase --every")
+    with decoded_gray(source, frame_map, source_geometry, geometry, timeout=timeout) as raw:
         observations = []
         for index in range(0, len(frame_map.frames), settings.every):
             raw.seek(index * width * height)

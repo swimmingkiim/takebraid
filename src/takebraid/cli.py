@@ -18,9 +18,11 @@ from takebraid.adapters.projects import (
     verify_project,
 )
 from takebraid.application.ingest import IngestError, ingest
+from takebraid.application.motion import observe_motion
 from takebraid.application.preview import create_plan, render_plan
 from takebraid.application.quality import observe_quality
 from takebraid.application.scan import ScanError, scan_asset
+from takebraid.domain.motion import MotionSettings
 from takebraid.domain.quality import QualitySettings
 
 
@@ -51,6 +53,17 @@ def main(argv: list[str] | None = None) -> int:
     quality.add_argument("--roi", help="X:Y:WIDTH:HEIGHT on the unrotated analysis pixel grid.")
     quality.add_argument("--timeout", type=float, default=300)
     quality.add_argument("--force", action="store_true")
+    motion = commands.add_parser(
+        "motion", help="Measure bounded background translation candidates."
+    )
+    motion.add_argument("asset", type=Path)
+    motion.add_argument("--stream", type=int, required=True)
+    motion.add_argument("--size", type=int, default=96)
+    motion.add_argument("--every", type=int, default=1)
+    motion.add_argument("--radius", type=int, default=4)
+    motion.add_argument("--background", help="X:Y:WIDTH:HEIGHT on the analysis grid.")
+    motion.add_argument("--timeout", type=float, default=300)
+    motion.add_argument("--force", action="store_true")
     plan = commands.add_parser("plan", help="Save manual cuts using decoded frame indices.")
     plan.add_argument("asset", type=Path)
     plan.add_argument("--stream", type=int, required=True)
@@ -76,6 +89,30 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "motion":
+        try:
+            region = tuple(int(v) for v in args.background.split(":")) if args.background else None
+            output, status = observe_motion(
+                args.asset,
+                args.stream,
+                MotionSettings(args.size, args.every, args.radius, region),
+                timeout=args.timeout,
+                force=args.force,
+            )
+            print(output)
+            if status != "observed":
+                print(
+                    f"takebraid: motion is {status}; inspect tracking diagnostics", file=sys.stderr
+                )
+                return 2
+            return 0
+        except (OSError, ValueError, TypeError, KeyError, subprocess.SubprocessError) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: motion analysis cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "quality":
         try:

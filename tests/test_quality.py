@@ -104,7 +104,7 @@ def registered(tmp_path, monkeypatch, probe_metadata):
             ),
         ),
     )
-    for module in ("ingest", "scan", "quality"):
+    for module in ("ingest", "scan", "analysis"):
         monkeypatch.setattr(f"takebraid.application.{module}.probe_media", lambda _: metadata)
     monkeypatch.setattr(
         "takebraid.application.scan.decode_frames",
@@ -113,7 +113,7 @@ def registered(tmp_path, monkeypatch, probe_metadata):
             FrameObservation(0, 40),
         ),
     )
-    monkeypatch.setattr("takebraid.application.quality.analysis_tools", lambda: {"ffmpeg": "fake"})
+    monkeypatch.setattr("takebraid.application.analysis.analysis_tools", lambda: {"ffmpeg": "fake"})
 
     def decode(source, frame_map, source_geometry, geometry, settings, **kwargs):
         return [
@@ -152,7 +152,7 @@ def test_unsupported_declared_color_is_unknown_not_good(registered, monkeypatch)
     metadata = replace(
         metadata, streams=(replace(metadata.streams[0], color_transfer="smpte2084"),)
     )
-    monkeypatch.setattr("takebraid.application.quality.probe_media", lambda _: metadata)
+    monkeypatch.setattr("takebraid.application.analysis.probe_media", lambda _: metadata)
     output, status = observe_quality(asset, 0)
     assert status == "unknown"
     data = json.loads(output.read_text())

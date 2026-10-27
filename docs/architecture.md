@@ -5,7 +5,8 @@ source-time values, ingest, decoded maps, sample-coordinate mapping, versioned p
 validated artifact loaders and preserved stage attempts/cache receipts.
 Manual single-source timelines and decoded-verified MOV previews are implemented; see `previews.md`.
 Versioned focus/exposure observations and a bounded grayscale adapter are implemented; see `quality.md`
-and ADR 0005. Interpretation/exclusion remains planned. See ADRs and the roadmap for delivery.
+and ADR 0005. Bounded background translation candidates and source-time path residuals share the
+verified analysis preparation/decoder; see `motion.md` and ADR 0006. Interpretation/exclusion remains planned. See ADRs and the roadmap for delivery.
 
 ## Product boundary
 

@@ -91,17 +91,25 @@ exclusion policy. Save method/settings/tool provenance in checked stage keys. Es
 sharp/blurred and brightness/clipping fixtures; report unknown for unsupported input rather than
 claiming a quality verdict. No automatic discard or model download in this slice.
 
-### Next task: TB-202
+### Delivered slice: TB-202
 
 Add background-motion estimation with explicit sampling/scale and tracking diagnostics. Distinguish
 subject motion from camera motion where the evidence permits; unreliable/insufficient tracks must
 yield unknown. Preserve measurement/policy separation and source-clock provenance.
 
+### Next task: TB-203
+
+Introduce explicit, versioned interpretation policies for measured defect candidates, temporal
+hysteresis, minimum duration and boundary padding. Preserve unknown/unsampled coverage and source
+clocks; do not turn low texture, darkness or movement alone into automatic exclusions. Require
+synthetic temporal boundary evidence before reversible decision records in TB-204.
+
 ## M2 — Quality analysis and reversible decisions
 
 - [x] TB-201: exact source-PTS focus/exposure observations, bounded analysis scale/ROI, checked
   cache and synthetic blur/brightness evidence. See `quality.md`; no exclusion verdicts.
-- [ ] TB-202: background motion estimation and camera-path residuals; unknown on unreliable tracks.
+- [x] TB-202: bounded background translation candidates, local track evidence, source-time path
+  residuals and unknown/partial coverage. See `motion.md`; broader camera models remain future work.
 - [ ] TB-203: temporal hysteresis, minimum defect duration, boundary padding and evidence.
 - [ ] TB-204: output keep/exclude/review/unknown intervals; restoration overrides and preview.
 - [ ] TB-205: evaluate static product shots, deliberate pans, night scenes and actual focus failures.
