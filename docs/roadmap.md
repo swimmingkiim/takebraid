@@ -104,11 +104,18 @@ hysteresis, minimum duration and boundary padding. Preserve unknown/unsampled co
 clocks; do not turn low texture, darkness or movement alone into automatic exclusions. Require
 synthetic temporal boundary evidence before reversible decision records in TB-204.
 
-### Next task: TB-204
+### Delivered slice: TB-204
 
 Persist explicit keep/exclude/review/unknown decision intervals and restoration overrides, preserving
 interpretation provenance and exact source coverage. Apply validated user decisions to a manual
 preview without source modification; never silently promote review candidates to automatic exclusion.
+
+### Next task: TB-205
+
+Build a reproducible evaluation harness and rights/provenance inventory for labeled defect/normal
+footage, split by shoot/project. Measure per-defect precision/recall, intentional-scene false positives
+and excluded normal time. Publish unsupported cases and only claim accuracy supported by actual
+licensed held-out annotations; synthetic regressions remain separate from camera/editorial evidence.
 
 ## M2 — Quality analysis and reversible decisions
 
@@ -118,7 +125,8 @@ preview without source modification; never silently promote review candidates to
   residuals and unknown/partial coverage. See `motion.md`; broader camera models remain future work.
 - [x] TB-203: explicit calibration-scoped review policies, exact temporal hysteresis/minimum
   duration, evidence-bounded padding and unknown coverage. See `interpretation.md`; no exclusions.
-- [ ] TB-204: output keep/exclude/review/unknown intervals; restoration overrides and preview.
+- [x] TB-204: immutable keep/exclude/review/unknown snapshots, reasoned user overrides/restoration,
+  checked parent history and bound chronological preview plans. See `decisions.md`.
 - [ ] TB-205: evaluate static product shots, deliberate pans, night scenes and actual focus failures.
 
 Exit: measured per-defect precision/recall and normal-footage exclusion time; all exclusions can be

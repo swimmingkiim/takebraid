@@ -11,7 +11,7 @@ from takebraid.adapters.identity import file_digest, signature, verify_source
 from takebraid.adapters.media.probe import probe_media
 from takebraid.adapters.media.render import ffmpeg_version, render_preview, verify_preview
 from takebraid.adapters.projects import asset_source, load_project
-from takebraid.adapters.records import load_asset, load_frame_map
+from takebraid.adapters.records import load_asset, load_frame_map, read_json
 from takebraid.adapters.stages import StageAttempt, cached_output
 from takebraid.adapters.timelines import load_timeline
 from takebraid.application.scan import scan_asset
@@ -26,6 +26,8 @@ def create_plan(
     frame_rate: Fraction,
     audio_policy: str,
     audio_stream_index: int | None,
+    *,
+    decision_reference: dict | None = None,
 ) -> Path:
     asset_path = asset_path.expanduser().resolve(strict=True)
     asset = load_asset(asset_path)
@@ -75,6 +77,9 @@ def create_plan(
             "asset_metadata_path": asset_path.relative_to(root).as_posix(),
             "frame_map_path": map_path.relative_to(root).as_posix(),
             "frame_map_sha256": file_digest(map_path),
+            **(
+                {"decision_reference": decision_reference} if decision_reference is not None else {}
+            ),
         },
     )
     return path
@@ -114,9 +119,17 @@ def render_plan(root: Path, plan_path: Path, *, timeout: float = 300, force: boo
         s.index == timeline.audio_stream_index and s.kind == "audio" for s in metadata.streams
     ):
         raise ValueError("Select an existing source audio stream")
+    decision_check = None
+    plan_document = read_json(plan_path)
+    if "decision_reference" in plan_document:
+        from takebraid.application.decisions import validate_decision_plan
+
+        decision_check = validate_decision_plan(
+            root, plan_document, asset_path, frame_map, timeline
+        )
     clips = compile_timeline(timeline, frame_map)
     inputs = {
-        "recipe": "manual-preview/1",
+        "recipe": "decision-preview/1" if decision_check else "manual-preview/1",
         "plan_sha256": plan_digest,
         "source_sha256": asset["source"]["fingerprint"]["digest"],
         "ffmpeg_version": ffmpeg_version(),
@@ -127,6 +140,8 @@ def render_plan(root: Path, plan_path: Path, *, timeout: float = 300, force: boo
     cached = None if force else cached_output(root, inputs)
     if cached is not None:
         verify_preview(cached, timeline, clips)
+        if decision_check:
+            decision_check()
         if signature(source) != before or file_digest(plan_path) != plan_digest:
             raise ValueError("Source or timeline changed during preview cache validation")
         return cached
@@ -139,6 +154,8 @@ def render_plan(root: Path, plan_path: Path, *, timeout: float = 300, force: boo
         verification = verify_preview(output, timeline, clips)
         if signature(source) != before or file_digest(plan_path) != plan_digest:
             raise ValueError("Source or timeline changed during rendering; preview not certified")
+        if decision_check:
+            decision_check()
         write_new_json(attempt.directory / "verification.json", verification)
         attempt.complete(output)
         return output

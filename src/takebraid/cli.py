@@ -17,12 +17,19 @@ from takebraid.adapters.projects import (
     relink_asset,
     verify_project,
 )
+from takebraid.application.decisions import (
+    create_decisions,
+    decision_plan,
+    load_decisions,
+    update_decisions,
+)
 from takebraid.application.ingest import IngestError, ingest
 from takebraid.application.interpretation import interpret_observation
 from takebraid.application.motion import observe_motion
 from takebraid.application.preview import create_plan, render_plan
 from takebraid.application.quality import observe_quality
 from takebraid.application.scan import ScanError, scan_asset
+from takebraid.domain.decisions import DecisionOverride
 from takebraid.domain.motion import MotionSettings
 from takebraid.domain.quality import QualitySettings
 
@@ -72,6 +79,27 @@ def main(argv: list[str] | None = None) -> int:
     interpretation.add_argument("--asset", type=Path, required=True)
     interpretation.add_argument("--policy", type=Path, required=True)
     interpretation.add_argument("--force", action="store_true")
+    decisions = commands.add_parser("decisions", help="Save reversible editing decisions.")
+    edits = decisions.add_subparsers(dest="decision_command", required=True)
+    for name in ("create", "show", "set", "restore", "plan"):
+        edit = edits.add_parser(name)
+        edit.add_argument(
+            "record", type=Path, help="Interpretation for create; decision otherwise."
+        )
+        edit.add_argument("--asset", type=Path, required=True)
+        if name == "create":
+            edit.add_argument("--observation", type=Path, required=True)
+        elif name in {"set", "restore"}:
+            edit.add_argument("--frames", required=True, help="FIRST:END decoded frame indices.")
+            edit.add_argument("--reason", required=True)
+            if name == "set":
+                edit.add_argument(
+                    "--state", choices=("keep", "exclude", "review", "unknown"), required=True
+                )
+        elif name == "plan":
+            edit.add_argument("--fps", default="25")
+            edit.add_argument("--audio", choices=("mute", "source"), required=True)
+            edit.add_argument("--audio-stream", type=int)
     plan = commands.add_parser("plan", help="Save manual cuts using decoded frame indices.")
     plan.add_argument("asset", type=Path)
     plan.add_argument("--stream", type=int, required=True)
@@ -97,6 +125,46 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "decisions":
+        try:
+            if args.decision_command == "create":
+                result = create_decisions(args.asset, args.observation, args.record)
+            elif args.decision_command == "show":
+                result, _, _ = load_decisions(args.asset, args.record)
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+                return 0
+            elif args.decision_command in {"set", "restore"}:
+                parts = args.frames.split(":")
+                if len(parts) != 2:
+                    raise ValueError("--frames must be FIRST:END decoded frame indices")
+                override = DecisionOverride(
+                    args.decision_command,
+                    args.state if args.decision_command == "set" else None,
+                    int(parts[0]),
+                    int(parts[1]),
+                    args.reason,
+                )
+                result = update_decisions(args.asset, args.record, override)
+            else:
+                result = decision_plan(
+                    args.asset, args.record, Fraction(args.fps), args.audio, args.audio_stream
+                )
+            print(result)
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: decision operation cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "interpret":
         try:

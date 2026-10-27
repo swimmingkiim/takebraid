@@ -48,3 +48,9 @@ TB-203 fixtures in `tests/test_interpretation*.py` use hand-calculated source-ti
 bright/mid-gray FFV1 signals and original TB-202 jitter textures. MPEG-4/MOV checks VFR and NTSC
 final presentation ends. The synthetic example policy is not camera calibrated. These Apache-2.0
 project recipes test temporal logic and preserved evidence; no external footage/dataset is used.
+
+
+TB-204 reuses the original visible-index/PCM fixtures to verify explicit exclusion and restoration
+through actual decoded previews. Pure source partitions cover baseline review/unknown and ordered
+overrides; integration checks picture order, PCM impulse positions, snapshot/parent provenance and
+render dependency mutation. No new third-party footage or licensing dependency is introduced.
