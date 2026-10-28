@@ -13,6 +13,10 @@ From a development checkout with FFmpeg/ffprobe:
 python -m tools.evaluation_fixture --output workspace/quality-controls
 ```
 
+A clean macOS run of commit `11c8c5e` is preserved in
+`docs/validation/quality-controls-macos.json`, including exact tools and expected false-positive
+controls. CI reruns the four controls and publishes its report with media evidence.
+
 Use a new output directory. The recipe creates original Apache-2.0 signals, pinned policies, real
 quality/motion/interpretation artifacts, constructed labels and an evaluation report. It asserts
 independent expected outcomes: low-texture static and intentionally dark controls produce false

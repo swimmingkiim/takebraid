@@ -1,0 +1,1989 @@
+{
+  "schema_version": "0.1",
+  "source_commit": "11c8c5e97010098a16acaa227869628ce1402707",
+  "worktree_clean_after_run": true,
+  "report": {
+    "schema_version": "0.1",
+    "inputs": {
+      "recipe": "quality-evaluation/1",
+      "takebraid_version": "0.1.0.dev0",
+      "manifest_sha256": "b59fd4d7f66010c9eeac973a821cb4a2f9b823eecf48800258ec91727e023882",
+      "dataset_id": "synthetic-negative-controls",
+      "label_version": "constructed-v1",
+      "split": "test",
+      "policy_registry": {
+        "focus_failure": "dca4210c3d626dd5756709a25fe847cec4348174a81b0b08d65fa381a5d6d983",
+        "exposure_failure": "7a9c8cd4a4da4a06fac6000259b233439941f30486d61b0976df3da68f94b1f3",
+        "unwanted_camera_motion": "5f7ea51e672ac9d619e1bc82d83c7db322859d3249f52e7b1149e52e061c680e"
+      },
+      "declared_inventory": {
+        "calibration": 0,
+        "test": 4
+      },
+      "evidence": [
+        {
+          "id": "static-product-control",
+          "observation_sha256": "11b4aad25e21205c992aa19dde91623e7038fa2446336455ebb894ffd208c3bc",
+          "interpretation_sha256": "10615269fc3215fa2887cf7fff65ba122ac56082ea9474c4cab272620bc5dbf2",
+          "decision_sha256": null,
+          "observation_inputs": {
+            "recipe": "focus-exposure/1",
+            "takebraid_version": "0.1.0.dev0",
+            "source_sha256": "2783a36111385e7d41d6445da32069776a1e3ebbde1e77cbdd5b1c29406363dd",
+            "asset_id": "sha256-2783a36111385e7d41d6445da32069776a1e3ebbde1e77cbdd5b1c29406363dd",
+            "stream_index": 0,
+            "frame_map_sha256": "dadf5930161a67e7364393de04d12307c348361cd7c14ff699079cdb4b605974",
+            "time_base": {
+              "numerator": 1,
+              "denominator": 1000
+            },
+            "tools": {
+              "ffmpeg": "ffmpeg version 8.1 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n\nExiting with exit code 0\n",
+              "ffprobe": "ffprobe version 8.1 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n"
+            },
+            "settings": {
+              "size": 160,
+              "every": 1,
+              "roi": null,
+              "timeout": 300.0
+            },
+            "source_geometry": [
+              64,
+              48
+            ],
+            "pixel_grid": "unrotated-coded-pixels; sample aspect ratio is not normalized",
+            "color": {
+              "pixel_format": "gray",
+              "range": "pc",
+              "space": null,
+              "transfer": null,
+              "primaries": null
+            }
+          },
+          "policy": {
+            "name": "synthetic-focus_failure",
+            "calibration": "Constructed regression signals only; not camera calibrated",
+            "metric": "laplacian_variance",
+            "enter": {
+              "numerator": 1,
+              "denominator": 10
+            },
+            "exit": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "minimum_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "pad_before_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "pad_after_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "policy_sha256": "dca4210c3d626dd5756709a25fe847cec4348174a81b0b08d65fa381a5d6d983"
+        },
+        {
+          "id": "intentional-night-control",
+          "observation_sha256": "6dd132612f96c6f3be54a46e833a80cf604265e3f0d6c0983add10947b2ef562",
+          "interpretation_sha256": "2f4a86ee2bd6c942f432cfe87a3118e3e03166ac73c07ab1a94692ee59a76b21",
+          "decision_sha256": null,
+          "observation_inputs": {
+            "recipe": "focus-exposure/1",
+            "takebraid_version": "0.1.0.dev0",
+            "source_sha256": "5f5b68e99b556b7aec7a2e17856d1cd449ac585d102ba5aa696ce6f445082f8e",
+            "asset_id": "sha256-5f5b68e99b556b7aec7a2e17856d1cd449ac585d102ba5aa696ce6f445082f8e",
+            "stream_index": 0,
+            "frame_map_sha256": "de73b363b366ab303734fc17cfe0ab53afa6ee0dec316aa3136fd58333d12b36",
+            "time_base": {
+              "numerator": 1,
+              "denominator": 1000
+            },
+            "tools": {
+              "ffmpeg": "ffmpeg version 8.1 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n\nExiting with exit code 0\n",
+              "ffprobe": "ffprobe version 8.1 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n"
+            },
+            "settings": {
+              "size": 160,
+              "every": 1,
+              "roi": null,
+              "timeout": 300.0
+            },
+            "source_geometry": [
+              64,
+              48
+            ],
+            "pixel_grid": "unrotated-coded-pixels; sample aspect ratio is not normalized",
+            "color": {
+              "pixel_format": "gray",
+              "range": "pc",
+              "space": null,
+              "transfer": null,
+              "primaries": null
+            }
+          },
+          "policy": {
+            "name": "synthetic-exposure_failure",
+            "calibration": "Constructed regression signals only; not camera calibrated",
+            "metric": "dark_fraction",
+            "enter": {
+              "numerator": 9,
+              "denominator": 10
+            },
+            "exit": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "minimum_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "pad_before_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "pad_after_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "policy_sha256": "7a9c8cd4a4da4a06fac6000259b233439941f30486d61b0976df3da68f94b1f3"
+        },
+        {
+          "id": "constructed-blur",
+          "observation_sha256": "2d9d2e3adc1e202d020c21bc42e60c700f9d6121df19645f56eccc0e4ad5ffff",
+          "interpretation_sha256": "c012b5cce38d107167bde13c7643e1b68691012c67847030bc4f0fd096e10f7c",
+          "decision_sha256": null,
+          "observation_inputs": {
+            "recipe": "focus-exposure/1",
+            "takebraid_version": "0.1.0.dev0",
+            "source_sha256": "646b124c15247f9de833a145f86948c93e784eb29783eba9cc829c93e8dcdeb7",
+            "asset_id": "sha256-646b124c15247f9de833a145f86948c93e784eb29783eba9cc829c93e8dcdeb7",
+            "stream_index": 0,
+            "frame_map_sha256": "9f615c62e0df0289eefd54820bc6ed058da32874426a8ee44e16a9e141610d13",
+            "time_base": {
+              "numerator": 1,
+              "denominator": 1000
+            },
+            "tools": {
+              "ffmpeg": "ffmpeg version 8.1 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n\nExiting with exit code 0\n",
+              "ffprobe": "ffprobe version 8.1 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n"
+            },
+            "settings": {
+              "size": 160,
+              "every": 1,
+              "roi": null,
+              "timeout": 300.0
+            },
+            "source_geometry": [
+              64,
+              48
+            ],
+            "pixel_grid": "unrotated-coded-pixels; sample aspect ratio is not normalized",
+            "color": {
+              "pixel_format": "gray",
+              "range": "pc",
+              "space": null,
+              "transfer": null,
+              "primaries": null
+            }
+          },
+          "policy": {
+            "name": "synthetic-focus_failure",
+            "calibration": "Constructed regression signals only; not camera calibrated",
+            "metric": "laplacian_variance",
+            "enter": {
+              "numerator": 1,
+              "denominator": 10
+            },
+            "exit": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "minimum_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "pad_before_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "pad_after_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "policy_sha256": "dca4210c3d626dd5756709a25fe847cec4348174a81b0b08d65fa381a5d6d983"
+        },
+        {
+          "id": "intentional-pan-control",
+          "observation_sha256": "5f67fecdeb395aa5a38a7dff122ac7b774a35dffac2ebe8610a9c432b7f109a2",
+          "interpretation_sha256": "09f3b6b2c6443c53ef5a2946888a7f9620206459514fa20062f4ebdf8de3e029",
+          "decision_sha256": null,
+          "observation_inputs": {
+            "recipe": "background-translation/1",
+            "takebraid_version": "0.1.0.dev0",
+            "source_sha256": "14fe2427d25b5236944d6d73cbd9cc14c086f6b50ced78c8a753bca82155de14",
+            "asset_id": "sha256-14fe2427d25b5236944d6d73cbd9cc14c086f6b50ced78c8a753bca82155de14",
+            "stream_index": 0,
+            "frame_map_sha256": "d06ffc6431c195d6f828ea877735a346f0491def789496c1a03d9367ca8301bc",
+            "time_base": {
+              "numerator": 1,
+              "denominator": 1000
+            },
+            "tools": {
+              "ffmpeg": "ffmpeg version 8.1 Copyright (c) 2000-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n\nExiting with exit code 0\n",
+              "ffprobe": "ffprobe version 8.1 Copyright (c) 2007-2026 the FFmpeg developers\nbuilt with Apple clang version 21.0.0 (clang-2100.0.123.102)\nconfiguration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1_1 --enable-shared --enable-pthreads --enable-version3 --cc=clang --host-cflags= --host-ldflags= --enable-ffplay --enable-gpl --enable-libsvtav1 --enable-libopus --enable-libx264 --enable-libmp3lame --enable-libdav1d --enable-libvmaf --enable-libvpx --enable-libx265 --enable-openssl --enable-videotoolbox --enable-audiotoolbox --enable-neon\nlibavutil      60. 26.100 / 60. 26.100\nlibavcodec     62. 28.100 / 62. 28.100\nlibavformat    62. 12.100 / 62. 12.100\nlibavdevice    62.  3.100 / 62.  3.100\nlibavfilter    11. 14.100 / 11. 14.100\nlibswscale      9.  5.100 /  9.  5.100\nlibswresample   6.  3.100 /  6.  3.100\n"
+            },
+            "settings": {
+              "size": 96,
+              "every": 1,
+              "radius": 4,
+              "background": [
+                0,
+                0,
+                96,
+                64
+              ],
+              "timeout": 300.0
+            },
+            "source_geometry": [
+              96,
+              64
+            ],
+            "pixel_grid": "unrotated-coded-pixels; sample aspect ratio is not normalized",
+            "color": {
+              "pixel_format": "gray",
+              "range": "pc",
+              "space": null,
+              "transfer": null,
+              "primaries": null
+            }
+          },
+          "policy": {
+            "name": "synthetic-unwanted_camera_motion",
+            "calibration": "Constructed regression signals only; not camera calibrated",
+            "metric": "path_residual_squared",
+            "enter": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "exit": {
+              "numerator": 1,
+              "denominator": 4
+            },
+            "minimum_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "pad_before_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "pad_after_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "policy_sha256": "5f7ea51e672ac9d619e1bc82d83c7db322859d3249f52e7b1149e52e061c680e"
+        }
+      ],
+      "environment": {
+        "python": "3.14.4",
+        "platform": "macOS-26.6.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64"
+      }
+    },
+    "prediction_scope": "candidate_core",
+    "aggregation": "source_duration_micro",
+    "exclusion_source": "explicit_user_decisions",
+    "evidence_scope": "synthetic_only",
+    "automatic_exclusion_validated": false,
+    "entries": [
+      {
+        "id": "static-product-control",
+        "kind": "synthetic",
+        "defect": "focus_failure",
+        "project_id": "static-product-control",
+        "shoot_id": "static-product-control",
+        "scene": "static-product-control",
+        "annotators": [
+          "oracle-a",
+          "oracle-b"
+        ],
+        "annotation_protocol": "Independent constructed labels in tools/evaluation_fixture.py; IDs are two oracle votes, not human editors",
+        "label_method": "constructed",
+        "rights": {
+          "source": "Original Takebraid signal recipes",
+          "license": "Apache-2.0",
+          "permission_evidence": "Generated solely from project code",
+          "evaluation_permitted": true
+        },
+        "score": {
+          "durations": {
+            "source_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "candidate_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          },
+          "frames": 5,
+          "disagreement_frames": 0,
+          "decision_evaluated": false
+        }
+      },
+      {
+        "id": "intentional-night-control",
+        "kind": "synthetic",
+        "defect": "exposure_failure",
+        "project_id": "intentional-night-control",
+        "shoot_id": "intentional-night-control",
+        "scene": "intentional-night-control",
+        "annotators": [
+          "oracle-a",
+          "oracle-b"
+        ],
+        "annotation_protocol": "Independent constructed labels in tools/evaluation_fixture.py; IDs are two oracle votes, not human editors",
+        "label_method": "constructed",
+        "rights": {
+          "source": "Original Takebraid signal recipes",
+          "license": "Apache-2.0",
+          "permission_evidence": "Generated solely from project code",
+          "evaluation_permitted": true
+        },
+        "score": {
+          "durations": {
+            "source_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "candidate_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          },
+          "frames": 5,
+          "disagreement_frames": 0,
+          "decision_evaluated": false
+        }
+      },
+      {
+        "id": "constructed-blur",
+        "kind": "synthetic",
+        "defect": "focus_failure",
+        "project_id": "constructed-blur",
+        "shoot_id": "constructed-blur",
+        "scene": "constructed-blur",
+        "annotators": [
+          "oracle-a",
+          "oracle-b"
+        ],
+        "annotation_protocol": "Independent constructed labels in tools/evaluation_fixture.py; IDs are two oracle votes, not human editors",
+        "label_method": "constructed",
+        "rights": {
+          "source": "Original Takebraid signal recipes",
+          "license": "Apache-2.0",
+          "permission_evidence": "Generated solely from project code",
+          "evaluation_permitted": true
+        },
+        "score": {
+          "durations": {
+            "source_seconds": {
+              "numerator": 1,
+              "denominator": 5
+            },
+            "candidate_seconds": {
+              "numerator": 3,
+              "denominator": 25
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 3,
+              "denominator": 25
+            },
+            "label_normal_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 3,
+              "denominator": 25
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_observed_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          },
+          "frames": 5,
+          "disagreement_frames": 0,
+          "decision_evaluated": false
+        }
+      },
+      {
+        "id": "intentional-pan-control",
+        "kind": "synthetic",
+        "defect": "unwanted_camera_motion",
+        "project_id": "intentional-pan-control",
+        "shoot_id": "intentional-pan-control",
+        "scene": "intentional-pan-control",
+        "annotators": [
+          "oracle-a",
+          "oracle-b"
+        ],
+        "annotation_protocol": "Independent constructed labels in tools/evaluation_fixture.py; IDs are two oracle votes, not human editors",
+        "label_method": "constructed",
+        "rights": {
+          "source": "Original Takebraid signal recipes",
+          "license": "Apache-2.0",
+          "permission_evidence": "Generated solely from project code",
+          "evaluation_permitted": true
+        },
+        "score": {
+          "durations": {
+            "source_seconds": {
+              "numerator": 4,
+              "denominator": 25
+            },
+            "candidate_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 4,
+              "denominator": 25
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 2,
+              "denominator": 25
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": null,
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 1,
+              "denominator": 2
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          },
+          "frames": 4,
+          "disagreement_frames": 0,
+          "decision_evaluated": false
+        }
+      }
+    ],
+    "cohorts": [
+      {
+        "kind": "synthetic",
+        "defect": "exposure_failure",
+        "entries": 1,
+        "projects": {
+          "intentional-night-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        },
+        "shoots": 1,
+        "decision_entries": 0,
+        "durations": {
+          "source_seconds": {
+            "numerator": 1,
+            "denominator": 5
+          },
+          "candidate_seconds": {
+            "numerator": 1,
+            "denominator": 5
+          },
+          "candidate_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_coverage_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_labeled_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_normal_seconds": {
+            "numerator": 1,
+            "denominator": 5
+          },
+          "label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "disagreement_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "prediction_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "unknown_on_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "unknown_on_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "true_positive_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "false_positive_seconds": {
+            "numerator": 1,
+            "denominator": 5
+          },
+          "false_negative_observed_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "true_negative_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          }
+        },
+        "ratios": {
+          "precision": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "recall_all_labeled_defect": null,
+          "recall_observed_defect": null,
+          "observed_normal_false_positive_rate": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "prediction_unknown_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_unknown_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "normal_exclusion_rate": null
+        },
+        "scenes": {
+          "intentional-night-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        }
+      },
+      {
+        "kind": "synthetic",
+        "defect": "focus_failure",
+        "entries": 2,
+        "projects": {
+          "constructed-blur": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "label_normal_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "false_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "recall_observed_defect": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "observed_normal_false_positive_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          },
+          "static-product-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        },
+        "shoots": 2,
+        "decision_entries": 0,
+        "durations": {
+          "source_seconds": {
+            "numerator": 2,
+            "denominator": 5
+          },
+          "candidate_seconds": {
+            "numerator": 8,
+            "denominator": 25
+          },
+          "candidate_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_coverage_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_labeled_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_defect_seconds": {
+            "numerator": 3,
+            "denominator": 25
+          },
+          "label_normal_seconds": {
+            "numerator": 7,
+            "denominator": 25
+          },
+          "label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "disagreement_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "prediction_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "unknown_on_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "unknown_on_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "true_positive_seconds": {
+            "numerator": 3,
+            "denominator": 25
+          },
+          "false_positive_seconds": {
+            "numerator": 1,
+            "denominator": 5
+          },
+          "false_negative_observed_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "true_negative_seconds": {
+            "numerator": 2,
+            "denominator": 25
+          },
+          "excluded_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          }
+        },
+        "ratios": {
+          "precision": {
+            "numerator": 3,
+            "denominator": 8
+          },
+          "recall_all_labeled_defect": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "recall_observed_defect": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "observed_normal_false_positive_rate": {
+            "numerator": 5,
+            "denominator": 7
+          },
+          "prediction_unknown_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_unknown_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "normal_exclusion_rate": null
+        },
+        "scenes": {
+          "constructed-blur": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "label_normal_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 3,
+                "denominator": 25
+              },
+              "false_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "recall_observed_defect": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "observed_normal_false_positive_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          },
+          "static-product-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 1,
+                "denominator": 5
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        }
+      },
+      {
+        "kind": "synthetic",
+        "defect": "unwanted_camera_motion",
+        "entries": 1,
+        "projects": {
+          "intentional-pan-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 4,
+                "denominator": 25
+              },
+              "candidate_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 4,
+                "denominator": 25
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": null,
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        },
+        "shoots": 1,
+        "decision_entries": 0,
+        "durations": {
+          "source_seconds": {
+            "numerator": 4,
+            "denominator": 25
+          },
+          "candidate_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "candidate_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_coverage_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "decision_labeled_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "label_normal_seconds": {
+            "numerator": 4,
+            "denominator": 25
+          },
+          "label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "disagreement_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "prediction_unknown_seconds": {
+            "numerator": 2,
+            "denominator": 25
+          },
+          "unknown_on_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "unknown_on_normal_seconds": {
+            "numerator": 2,
+            "denominator": 25
+          },
+          "true_positive_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "false_positive_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "false_negative_observed_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "true_negative_seconds": {
+            "numerator": 2,
+            "denominator": 25
+          },
+          "excluded_normal_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_defect_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "excluded_label_unknown_seconds": {
+            "numerator": 0,
+            "denominator": 1
+          }
+        },
+        "ratios": {
+          "precision": null,
+          "recall_all_labeled_defect": null,
+          "recall_observed_defect": null,
+          "observed_normal_false_positive_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "prediction_unknown_rate": {
+            "numerator": 1,
+            "denominator": 2
+          },
+          "label_unknown_rate": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "normal_exclusion_rate": null
+        },
+        "scenes": {
+          "intentional-pan-control": {
+            "entries": 1,
+            "projects": 1,
+            "shoots": 1,
+            "decision_entries": 0,
+            "durations": {
+              "source_seconds": {
+                "numerator": 4,
+                "denominator": 25
+              },
+              "candidate_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "candidate_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_coverage_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "decision_labeled_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "label_normal_seconds": {
+                "numerator": 4,
+                "denominator": 25
+              },
+              "label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "disagreement_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "unknown_on_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "unknown_on_normal_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "true_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_positive_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "false_negative_observed_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "true_negative_seconds": {
+                "numerator": 2,
+                "denominator": 25
+              },
+              "excluded_normal_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_defect_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "excluded_label_unknown_seconds": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            "ratios": {
+              "precision": null,
+              "recall_all_labeled_defect": null,
+              "recall_observed_defect": null,
+              "observed_normal_false_positive_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "prediction_unknown_rate": {
+                "numerator": 1,
+                "denominator": 2
+              },
+              "label_unknown_rate": {
+                "numerator": 0,
+                "denominator": 1
+              },
+              "normal_exclusion_rate": null
+            }
+          }
+        }
+      }
+    ]
+  }
+}
