@@ -23,6 +23,7 @@ to its source and evidence.
 | `takebraid motion`: background translation candidates, diagnostics and path residuals | General camera motion, segmentation and shake classification |
 | `takebraid interpret`: explicit temporal review policies with unknown coverage | Calibrated defect interpretation |
 | `takebraid decisions`: reversible user exclusions/restoration and bound preview plans | Review UI and calibrated automatic exclusions |
+| `takebraid evaluate`: duration-weighted labeled evaluation and split audits | Held-out camera accuracy validation |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -79,6 +80,10 @@ Candidates retain evidence and unknown coverage; they do not change a timeline.
 
 Record [reversible decisions](docs/decisions.md), explicitly exclude/restore frame ranges, and
 create a preview plan. Review and unknown footage stays included until a user excludes it.
+
+Run the [labeled evaluation harness](docs/quality-evaluation.md) with
+`takebraid evaluate <manifest.json> --output workspace/evaluation`. Synthetic controls are separate
+from camera evidence; M2 camera validation remains pending.
 
 ## Design commitments
 

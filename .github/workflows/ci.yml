@@ -70,6 +70,8 @@ jobs:
           ffprobe -version
       - run: python -m pip install -e ".[dev]"
       - run: python -m pytest -m integration --strict-markers --junitxml=workspace/media-validation-junit.xml
+      - name: Run synthetic quality evaluation controls
+        run: python -m tools.evaluation_fixture --output workspace/quality-controls
       - name: Run independent synthetic media matrix
         run: python -m tools.media_validation --output workspace/media-validation
       - name: Publish media validation evidence
@@ -79,6 +81,8 @@ jobs:
           name: media-validation-ubuntu-24.04
           path: |
             workspace/media-validation-junit.xml
+            workspace/quality-controls/evaluation/**/evaluation.json
+            workspace/quality-controls/manifest.json
             workspace/media-validation/**/report.json
             workspace/media-validation/**/expected.json
             workspace/media-validation/**/result.json

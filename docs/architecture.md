@@ -8,7 +8,9 @@ Versioned focus/exposure observations and a bounded grayscale adapter are implem
 and ADR 0005. Bounded background translation candidates and source-time path residuals share the
 verified analysis preparation/decoder; see `motion.md` and ADR 0006. Explicit temporal interpretation policies now produce review candidates with preserved unknown coverage;
 see `interpretation.md` and ADR 0007. Immutable explicit editing decisions, restoration and bound single-source preview plans are implemented;
-see `decisions.md` and ADR 0008. Calibrated automatic exclusion remains planned. See the roadmap.
+see `decisions.md` and ADR 0008. An exact-duration evaluation harness preserves rights/labels/splits and separates synthetic/camera
+evidence; see `quality-evaluation.md` and ADR 0009. Camera validation and calibrated automatic
+exclusion remain pending. See the roadmap.
 
 ## Product boundary
 

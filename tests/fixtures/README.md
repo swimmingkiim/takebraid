@@ -54,3 +54,10 @@ TB-204 reuses the original visible-index/PCM fixtures to verify explicit exclusi
 through actual decoded previews. Pure source partitions cover baseline review/unknown and ordered
 overrides; integration checks picture order, PCM impulse positions, snapshot/parent provenance and
 render dependency mutation. No new third-party footage or licensing dependency is introduced.
+
+
+TB-205a uses hand-calculated duration tables and generated FFV1 signals with independent constructed
+scoring labels, including deliberate label disagreement and intentional-scene false positives.
+`tools/evaluation_fixture.py` reproduces static-product, intentional-dark, box-blur and pan controls.
+Oracle IDs are constructed votes, not human annotators. All recipes/labels are original Apache-2.0
+project material; no external camera dataset or model pseudo-label is distributed.

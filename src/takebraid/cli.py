@@ -23,6 +23,7 @@ from takebraid.application.decisions import (
     load_decisions,
     update_decisions,
 )
+from takebraid.application.evaluation import evaluate_manifest
 from takebraid.application.ingest import IngestError, ingest
 from takebraid.application.interpretation import interpret_observation
 from takebraid.application.motion import observe_motion
@@ -100,6 +101,13 @@ def main(argv: list[str] | None = None) -> int:
             edit.add_argument("--fps", default="25")
             edit.add_argument("--audio", choices=("mute", "source"), required=True)
             edit.add_argument("--audio-stream", type=int)
+    evaluation = commands.add_parser(
+        "evaluate", help="Score frozen policies against rights-declared labels."
+    )
+    evaluation.add_argument("manifest", type=Path)
+    evaluation.add_argument("--output", type=Path, required=True)
+    evaluation.add_argument("--split", choices=("calibration", "test"), default="test")
+    evaluation.add_argument("--force", action="store_true")
     plan = commands.add_parser("plan", help="Save manual cuts using decoded frame indices.")
     plan.add_argument("asset", type=Path)
     plan.add_argument("--stream", type=int, required=True)
@@ -125,6 +133,27 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "evaluate":
+        try:
+            result = evaluate_manifest(
+                args.manifest, args.output, split=args.split, force=args.force
+            )
+            print(result)
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: evaluation cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "decisions":
         try:

@@ -1,7 +1,8 @@
 # Evaluation plan
 
 Success means preserving the right material and reducing actual correction work, not simply
-deleting the most footage. No model quality or speed benchmark has been run for Takebraid yet.
+deleting the most footage. The TB-205a duration-weighted harness is implemented; see `quality-evaluation.md`. No labeled
+held-out camera accuracy or editor-effort benchmark has been completed.
 
 ## Test layers
 
@@ -20,7 +21,8 @@ publication, corrupted records, force reruns and cancellation. A real media inte
 ingest -> scan -> relink -> cached scan -> preserved force rerun.
 Preview integrations cover mute/source audio, CFR/VFR, fractional FPS, nonzero starts, delayed audio,
 44.1 kHz AAC input, forced failures and plans changed mid-render. Broader fixture publication and
-supported-tool/platform evidence remains TB-105; these tests do not establish automatic-editing quality.
+supported-tool/platform evidence is published in TB-105 (`media-validation.md`); these tests do not
+establish automatic-editing quality.
 
 ## Data
 
