@@ -54,8 +54,11 @@ def load_manifest(path: Path) -> dict:
             )
         if entry["defect"] not in registry:
             raise ValueError("Entry defect lacks a pinned policy")
-        if entry["label_method"] != ("constructed" if entry["kind"] == "synthetic" else "human"):
-            raise ValueError("Camera labels must be human; synthetic labels must be constructed")
+        method = entry["label_method"]
+        if (entry["kind"] == "synthetic" and method != "constructed") or (
+            entry["kind"] == "camera" and method not in {"human", "assistant_review"}
+        ):
+            raise ValueError("Camera labels require human or explicit assistant_review provenance")
         if (
             not isinstance(entry["annotation_protocol"], str)
             or not entry["annotation_protocol"].strip()
@@ -65,14 +68,18 @@ def load_manifest(path: Path) -> dict:
         raters = entry["annotators"]
         if (
             not isinstance(raters, list)
-            or not 2 <= len(raters) <= 10
+            or not 1 <= len(raters) <= 10
             or len(set(raters)) != len(raters)
             or any(
                 not isinstance(r, str) or not re.fullmatch(r"[a-zA-Z0-9_-]{1,80}", r)
                 for r in raters
             )
         ):
-            raise ValueError("Entry requires 2..10 distinct annotator identifiers")
+            raise ValueError("Entry requires 1..10 distinct annotator identifiers")
+        if method == "human" and len(raters) < 2:
+            raise ValueError("Independent human validation requires at least two annotators")
+        if method == "assistant_review" and len(raters) != 1:
+            raise ValueError("Assistant review is an explicitly single-reviewer pilot")
         if not isinstance(entry["scene"], str) or not re.fullmatch(
             r"[a-zA-Z0-9_-]{1,80}", entry["scene"]
         ):

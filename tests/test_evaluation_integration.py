@@ -200,3 +200,59 @@ def test_label_mutation_and_cache_corruption_are_rejected(dataset, tmp_path, mon
     monkeypatch.setattr(evaluation, "score_labels", mutate)
     with pytest.raises(ValueError, match="changed during"):
         evaluate_manifest(path, output, force=True)
+
+
+@pytest.mark.parametrize(
+    "method,count,accepted",
+    [
+        ("human", 1, False),
+        ("human", 2, True),
+        ("assistant_review", 1, True),
+        ("assistant_review", 2, False),
+    ],
+)
+def test_declared_review_levels_preserve_human_validation_requirements(
+    dataset, tmp_path, method, count, accepted
+):
+    # Generated signals simulate metadata contracts here; this is not camera evidence.
+    path, manifest, _ = dataset
+    entry = manifest["entries"][0]
+    entry.update(
+        kind="camera",
+        label_method=method,
+        annotators=[f"review-{i}" for i in range(count)],
+        annotation_protocol="Generated signal contract test; not real camera annotation",
+    )
+    for label in entry["labels"]:
+        original = set(label["votes"].values())
+        value = next(iter(original)) if len(original) == 1 else "unknown"
+        label["votes"] = {rater: value for rater in entry["annotators"]}
+    path.write_text(json.dumps(manifest))
+    if not accepted:
+        with pytest.raises(ValueError):
+            evaluate_manifest(path, tmp_path / "review-evaluation")
+    else:
+        output = evaluate_manifest(path, tmp_path / "review-evaluation")
+        report = json.loads(output.read_text())
+        assert report["review_levels"] == [method]
+        assert all(c["label_method"] == method for c in report["cohorts"])
+        assert report["automatic_exclusion_validated"] is False
+        assert report["evidence_scope"] == (
+            "camera_assistant_review_only" if method == "assistant_review" else "camera_only"
+        )
+
+
+def test_one_constructed_oracle_is_not_mislabeled_as_two_humans(dataset, tmp_path):
+    path, manifest, _ = dataset
+    entry = manifest["entries"][0]
+    entry["annotators"] = ["single-constructed-oracle"]
+    for label in entry["labels"]:
+        values = set(label["votes"].values())
+        label["votes"] = {
+            "single-constructed-oracle": next(iter(values)) if len(values) == 1 else "unknown"
+        }
+    path.write_text(json.dumps(manifest))
+    output = evaluate_manifest(path, tmp_path / "one-oracle")
+    report = json.loads(output.read_text())
+    assert report["evidence_scope"] == "synthetic_only"
+    assert report["review_levels"] == ["constructed"]

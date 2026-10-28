@@ -1,0 +1,16 @@
+{
+  "schema_version":"0.1",
+  "label_version":"assistant-pilot-v1",
+  "reviewer":"codex-visual-review",
+  "method":"assistant_review",
+  "review_protocol":"One AI reviewer inspected all 50 selected frames in contact sheets plus full-resolution source examples before observing predictor outputs. Not independent human annotation. Frame coordinates apply to the normalized 25 fps, 50-frame grayscale samples.",
+  "originals":{
+    "mma":{"focus_failure":"normal","exposure_failure":"normal","rationale":"Rock/vegetation detail remains visible throughout; moving water is not itself defocus. Letterbox bars are part of the source and are not a whole-frame exposure defect. Title animation is excluded by the predeclared 10-second selection."},
+    "flow":{"focus_failure":"normal","exposure_failure":"normal","rationale":"Grass/rock edges remain visible across the sample. Water/specular motion and source compression are not labeled focus failure. Scene is visibly lit; this does not label every highlight or local shadow as acceptable exposure."},
+    "mist":{"focus_failure":"unknown","exposure_failure":"normal","rationale":"Atmospheric haze and background softness cannot be reliably separated from optical focus error by this review. Do not convert that uncertainty to a defect or a normal-focus judgment. Foreground/terrain remain visible; no global underexposure is apparent."}
+  },
+  "controlled_variants":{
+    "blur":{"defect":"focus_failure","operator":"gblur sigma=6 on normalized frames 15..34 inclusive","first_frame":15,"end_frame":35,"rationale":"Known synthetic blur interval, visually checked after generation; not an actual camera focus failure. Outside that interval inherit the original label, including unknown haze."},
+    "dark":{"defect":"exposure_failure","operator":"lutyuv y=val*0.04 on normalized frames 15..34 inclusive","first_frame":15,"end_frame":35,"rationale":"Known synthetic darkening interval, visually checked after generation; not a natural camera exposure failure. Outside that interval inherit the original label."}
+  }
+}

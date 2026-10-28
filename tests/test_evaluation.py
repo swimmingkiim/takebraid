@@ -137,3 +137,16 @@ def test_cohort_aggregation_uses_duration_totals_not_average_ratios():
     assert r["ratios"]["recall_all_labeled_defect"] == F(11, 13)
     assert r["projects"] == r["shoots"] == 2
     assert r["decision_entries"] == 0 and r["ratios"]["normal_exclusion_rate"] is None
+
+
+def test_single_review_vote_is_representable_without_fabricated_consensus():
+    label = LabelInterval(0, 1, ("unknown",))
+    assert label.consensus == "unknown"
+    source = FrameMap("pilot", 0, TimeBase(1, 25), (FrameObservation(0, 1),))
+    r = score_labels(
+        source,
+        (label,),
+        {"cells": [{"in_pts": 0, "out_pts": 1, "state": "no_trigger"}], "candidates": []},
+    )
+    assert r["ratios"]["label_unknown_rate"] == 1
+    assert r["ratios"]["precision"] is None

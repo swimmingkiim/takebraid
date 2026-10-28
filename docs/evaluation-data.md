@@ -1,7 +1,8 @@
 # Evaluation data inventory
 
-Review date: 2026-10-29. No external media/annotations were downloaded, redistributed or used in the
-published synthetic controls. This inventory records candidate sources and remaining annotation
+Review date: 2026-10-29. The original synthetic controls used no external media. The later labeled pilot downloads three
+CC0 camera sources listed in `../examples/labeled-pilot/sources.json`; excerpts and controlled
+derivatives are packaged locally, with source hashes and attribution. This inventory records candidate sources and remaining annotation
 work; it is not a grant of rights or a substitute for checking the exact supplied files/terms.
 
 | Source | Official information | Fit and remaining work |
@@ -13,8 +14,8 @@ work; it is not a grant of rights or a substitute for checking the exact supplie
 
 For each acquired asset, retain exact origin, version/hash, applicable license/permission evidence,
 annotation protocol/version and disagreement. Keep original media and restricted labels outside Git;
-only publish artifacts allowed by their specific conditions. No model-generated pseudo-label is
-accepted as independent human camera truth by the initial manifest schema.
+only publish artifacts allowed by their specific conditions. AI review labels are explicitly marked assistant_review and are not counted as independent human
+camera validation. Human validation still requires at least two annotators.
 
 The original project signal recipes in `tools/evaluation_fixture.py` are Apache-2.0. Their labels
 are constructed oracle data; the synthetic kind is mandatory and separate from camera evidence.

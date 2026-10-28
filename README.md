@@ -85,6 +85,10 @@ Run the [labeled evaluation harness](docs/quality-evaluation.md) with
 `takebraid evaluate <manifest.json> --output workspace/evaluation`. Synthetic controls are separate
 from camera evidence; M2 camera validation remains pending.
 
+A [labeled camera-derived pilot](docs/labeled-pilot.md) includes CC0 source provenance, single-AI
+review labels, controlled distortions and reproducible split-separated evaluation. It is not a
+substitute for independent human validation.
+
 ## Design commitments
 
 - An editable first cut with evidence and uncertainty attached to each decision.

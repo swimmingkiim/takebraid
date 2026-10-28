@@ -61,3 +61,9 @@ scoring labels, including deliberate label disagreement and intentional-scene fa
 `tools/evaluation_fixture.py` reproduces static-product, intentional-dark, box-blur and pan controls.
 Oracle IDs are constructed votes, not human annotators. All recipes/labels are original Apache-2.0
 project material; no external camera dataset or model pseudo-label is distributed.
+
+
+The licensed pilot in `examples/labeled-pilot/` records CC0 camera source hashes and one AI review,
+with constructed blur/darkness variants kept separate. Runtime videos/contact sheets are generated
+under ignored workspace data, not committed. Metadata-contract tests use generated signals and do
+not count as real camera evidence. Human review still requires two raters; assistant review uses one.

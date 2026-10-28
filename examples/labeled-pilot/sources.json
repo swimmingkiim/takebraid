@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.1",
+  "sources": [
+    {"id":"mma","filename":"mma-legage.webm","sha256":"222f494d38ea920f12f1755229b4c8046297269500b37096418f0b3219eb2810","url":"https://upload.wikimedia.org/wikipedia/commons/f/f5/Mma_Legage_Waterfall_video.webm","page":"https://commons.wikimedia.org/wiki/File:Mma_Legage_Waterfall_video.webm","author":"Kbmotswagole","license":"CC0-1.0","split":"calibration","start_seconds":"10","selection":"Skip edited title animation; inspect real waterfall/rock detail at 10..12 seconds."},
+    {"id":"flow","filename":"flowing-water.webm","sha256":"26e471fdcd86dc91d4aa2a9a1eca0733b1761cad3c86d94196e3c6b60de4e96f","url":"https://upload.wikimedia.org/wikipedia/commons/e/e0/StreamOfFlowingWater.webm","page":"https://commons.wikimedia.org/wiki/File:StreamOfFlowingWater.webm","author":"Patjos.scot","license":"CC0-1.0","split":"test","start_seconds":"0","selection":"Visible foreground grass/rock detail and moving water; no title transition in 0..2 seconds."},
+    {"id":"mist","filename":"stream.webm","sha256":"5652e6490bea85dfb7a1da05e00fc7f3d8cc2cbd54790c03a48223f2256bc3d1","url":"https://upload.wikimedia.org/wikipedia/commons/c/c9/Water_flowing_strem.webm","page":"https://commons.wikimedia.org/wiki/File:Water_flowing_strem.webm","author":"BhotaRohit","license":"CC0-1.0","split":"test","start_seconds":"0","selection":"Retain atmospheric haze as an uncertain-focus control instead of calling it defocus."}
+  ]
+}

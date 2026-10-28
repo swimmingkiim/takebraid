@@ -12,7 +12,7 @@ from takebraid.adapters.stages import StageAttempt, cached_output
 from takebraid.application.decisions import _interpretation, load_decisions
 from takebraid.domain.evaluation import LabelInterval, duration_ratios, score_labels
 
-RECIPE = "quality-evaluation/1"
+RECIPE = "quality-evaluation/2"
 METRIC_DEFECTS = {
     "laplacian_variance": "focus_failure",
     "dark_fraction": "exposure_failure",
@@ -159,8 +159,14 @@ def evaluate_manifest(
             for row in prepared_rows
         ]
         cohorts = []
-        for kind, defect in sorted({(row["kind"], row["defect"]) for row in rows}):
-            group = [row for row in rows if (row["kind"], row["defect"]) == (kind, defect)]
+        for kind, method, defect in sorted(
+            {(row["kind"], row["label_method"], row["defect"]) for row in rows}
+        ):
+            group = [
+                row
+                for row in rows
+                if (row["kind"], row["label_method"], row["defect"]) == (kind, method, defect)
+            ]
             scenes = {
                 scene: _aggregate([row for row in group if row["scene"] == scene])
                 for scene in sorted({r["scene"] for r in group})
@@ -172,6 +178,7 @@ def evaluate_manifest(
             cohorts.append(
                 {
                     "kind": kind,
+                    "label_method": method,
                     "defect": defect,
                     **_aggregate(group),
                     "scenes": scenes,
@@ -179,6 +186,7 @@ def evaluate_manifest(
                 }
             )
         kinds = {row["kind"] for row in rows}
+        methods = {row["label_method"] for row in rows}
         report = to_json_value(
             {
                 "schema_version": "0.1",
@@ -186,7 +194,12 @@ def evaluate_manifest(
                 "prediction_scope": "candidate_core",
                 "aggregation": "source_duration_micro",
                 "exclusion_source": "explicit_user_decisions",
-                "evidence_scope": "synthetic_only"
+                "review_levels": sorted(methods),
+                "evidence_scope": "camera_assistant_review_only"
+                if kinds == {"camera"} and methods == {"assistant_review"}
+                else "mixed_review_levels"
+                if "assistant_review" in methods
+                else "synthetic_only"
                 if kinds == {"synthetic"}
                 else "camera_only"
                 if kinds == {"camera"}
