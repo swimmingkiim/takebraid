@@ -1,6 +1,6 @@
 # Development roadmap
 
-Status as of 2026-10-27. Milestones are dependency ordered and judged by exit evidence, not dates.
+Status as of 2026-10-29. Milestones are dependency ordered and judged by exit evidence, not dates.
 Initial scope: dialogue-free process/product footage, chronological assembly and a reviewable first cut.
 
 ## M0 — Bootstrap (implemented; initial remote CI passed)
@@ -110,7 +110,7 @@ Persist explicit keep/exclude/review/unknown decision intervals and restoration 
 interpretation provenance and exact source coverage. Apply validated user decisions to a manual
 preview without source modification; never silently promote review candidates to automatic exclusion.
 
-### Next task: TB-205
+### Current task: TB-205
 
 Build a reproducible evaluation harness and rights/provenance inventory for labeled defect/normal
 footage, split by shoot/project. Measure per-defect precision/recall, intentional-scene false positives
@@ -127,7 +127,10 @@ licensed held-out annotations; synthetic regressions remain separate from camera
   duration, evidence-bounded padding and unknown coverage. See `interpretation.md`; no exclusions.
 - [x] TB-204: immutable keep/exclude/review/unknown snapshots, reasoned user overrides/restoration,
   checked parent history and bound chronological preview plans. See `decisions.md`.
-- [ ] TB-205: evaluate static product shots, deliberate pans, night scenes and actual focus failures.
+- [x] TB-205a: versioned duration-weighted evaluation harness, rights/label/split validation,
+  unknown/disagreement accounting and synthetic negative controls. See `quality-evaluation.md`.
+- [ ] TB-205b: obtain rights-cleared held-out camera labels and evaluate static product shots,
+  deliberate pans, night scenes and actual focus failures. M2 accuracy gate remains open.
 
 Exit: measured per-defect precision/recall and normal-footage exclusion time; all exclusions can be
 restored; no deletion/source modification; movement and staticness alone cannot force an exclusion.
