@@ -23,6 +23,7 @@ from takebraid.application.decisions import (
     load_decisions,
     update_decisions,
 )
+from takebraid.application.embedding_search import search_embeddings
 from takebraid.application.embeddings import observe_embeddings
 from takebraid.application.evaluation import evaluate_manifest
 from takebraid.application.ingest import IngestError, ingest
@@ -52,6 +53,23 @@ def main(argv: list[str] | None = None) -> int:
     scan.add_argument("--timeout", type=float, default=300, help="FFprobe timeout in seconds.")
     scan.add_argument("--max-frames", type=int, default=250000)
     scan.add_argument("--force", action="store_true", help="Recompute as a new preserved attempt.")
+    search = commands.add_parser(
+        "embedding-search", help="Search checked saved embeddings without a model runtime."
+    )
+    search.add_argument(
+        "--input",
+        nargs=2,
+        action="append",
+        type=Path,
+        required=True,
+        metavar=("ASSET", "EMBEDDINGS"),
+    )
+    search.add_argument("--output", type=Path, required=True)
+    search.add_argument(
+        "--min-cosine", type=float, required=True, help="Explicit similarity threshold -1..1."
+    )
+    search.add_argument("--limit", type=int, default=20)
+    search.add_argument("--force", action="store_true")
     embed = commands.add_parser(
         "embed", help="Run an explicitly selected local ONNX image encoder."
     )
@@ -171,6 +189,31 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "embedding-search":
+        try:
+            result = search_embeddings(
+                args.input,
+                args.output,
+                min_cosine=args.min_cosine,
+                limit=args.limit,
+                force=args.force,
+            )
+            print(result)
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: embedding search cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "embed":
         try:

@@ -1,14 +1,19 @@
 """Local model inference with checked source clocks, numerical coverage and cache identity."""
 
 import math
+import re
 from pathlib import Path
 
 from takebraid.adapters.artifacts import write_new_json
 from takebraid.adapters.identity import file_digest
 from takebraid.adapters.media.quality import MAX_DECODE_BYTES, decoded_rgb
-from takebraid.adapters.models.onnx import LocalOnnxEncoder, load_model_manifest
+from takebraid.adapters.models.onnx import (
+    LocalOnnxEncoder,
+    load_model_manifest,
+    validate_model_spec,
+)
 from takebraid.adapters.records import read_json
-from takebraid.adapters.stages import StageAttempt, cached_output
+from takebraid.adapters.stages import StageAttempt, cached_output, completed_artifact
 from takebraid.application.analysis import prepare_analysis
 from takebraid.domain.embeddings import validate_unit_vector
 from takebraid.domain.quality import QualitySettings
@@ -58,6 +63,94 @@ def validate_embeddings(path, context, every, dimensions):
     return document
 
 
+def prepare_saved_embedding(asset, stream_index, settings):
+    if set(settings) != {
+        "every",
+        "timeout",
+        "inference_timeout",
+        "model_manifest_sha256",
+        "model_spec",
+        "runtime",
+    }:
+        raise ValueError("Unsupported embedding settings")
+    validate_model_spec(settings["model_spec"])
+    if (
+        type(settings["inference_timeout"]) not in (int, float)
+        or not math.isfinite(settings["inference_timeout"])
+        or not 0 < settings["inference_timeout"] <= 300
+        or not isinstance(settings["model_manifest_sha256"], str)
+        or not re.fullmatch(r"[a-f0-9]{64}", settings["model_manifest_sha256"])
+    ):
+        raise ValueError("Invalid saved model manifest hash/inference settings")
+    runtime = settings["runtime"]
+    strings = {"onnxruntime", "numpy", "build", "platform", "machine"}
+    if (
+        not isinstance(runtime, dict)
+        or set(runtime)
+        != strings
+        | {
+            "provider",
+            "telemetry",
+            "initialization_guard",
+            "threads",
+            "execution",
+            "graph_optimization",
+        }
+        or any(
+            not isinstance(runtime[key], str) or not runtime[key] or len(runtime[key]) > 16384
+            for key in strings
+        )
+        or runtime["provider"] != "CPUExecutionProvider"
+        or runtime["telemetry"] != "disabled"
+        or runtime["initialization_guard"] != "ORT_DISABLE_TELEMETRY=1-before-owned-import"
+        or type(runtime["threads"]) is not int
+        or runtime["threads"] != 1
+        or runtime["execution"] != "sequential"
+        or runtime["graph_optimization"] != "disabled"
+    ):
+        raise ValueError("Unsupported saved embedding runtime provenance")
+    image = settings["model_spec"]["input"]
+    geometry = (image["width"], image["height"])
+    context = prepare_analysis(
+        asset,
+        stream_index,
+        QualitySettings(size=max(geometry), every=settings["every"]),
+        timeout=settings["timeout"],
+        recipe=RECIPE,
+        semantic_settings=settings,
+        max_samples=MAX_SAMPLES,
+    )
+    context.geometry = geometry
+    if len(context.frame_map.frames) * image["width"] * image["height"] * 3 > MAX_DECODE_BYTES:
+        context.reasons.append("rgb_decoded_byte_budget_exceeded")
+    return context
+
+
+def load_saved_embeddings(asset: Path, artifact: Path):
+    """Read a checked preserved attempt; no weights, model session or optional imports required."""
+    artifact = artifact.expanduser().resolve(strict=True)
+    digest = file_digest(artifact)
+    raw = read_json(artifact, limit=64 * 1024 * 1024)
+    inputs = raw["inputs"]
+    if inputs["recipe"] != RECIPE:
+        raise ValueError("Unsupported saved embedding recipe")
+    settings = inputs["settings"]
+    context = prepare_saved_embedding(asset, inputs["stream_index"], settings)
+    if completed_artifact(context.root, artifact) != context.inputs:
+        raise ValueError("Saved embedding inputs differ from completed receipt")
+    document = validate_embeddings(
+        artifact, context, settings["every"], settings["model_spec"]["output"]["dimensions"]
+    )
+
+    def stable():
+        context.assert_stable()
+        if file_digest(artifact) != digest:
+            raise ValueError("Saved embedding changed while loading/searching")
+
+    stable()
+    return context, document, digest, stable
+
+
 def observe_embeddings(
     asset: Path,
     stream_index: int,
@@ -86,18 +179,7 @@ def observe_embeddings(
         "model_spec": spec,
         "runtime": encoder.runtime,
     }
-    context = prepare_analysis(
-        asset,
-        stream_index,
-        QualitySettings(size=max(geometry), every=every),
-        timeout=timeout,
-        recipe=RECIPE,
-        semantic_settings=settings,
-        max_samples=MAX_SAMPLES,
-    )
-    context.geometry = geometry
-    if len(context.frame_map.frames) * image["width"] * image["height"] * 3 > MAX_DECODE_BYTES:
-        context.reasons.append("rgb_decoded_byte_budget_exceeded")
+    context = prepare_saved_embedding(asset, stream_index, settings)
 
     def stable():
         context.assert_stable()
