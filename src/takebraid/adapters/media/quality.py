@@ -47,17 +47,19 @@ def check_decode_log(lines, frame_map: FrameMap, source_geometry: tuple[int, int
 
 
 @contextmanager
-def decoded_gray(
+def _decoded_pixels(
     source: Path,
     frame_map: FrameMap,
     source_geometry: tuple[int, int],
     geometry: tuple[int, int],
     *,
     timeout: float,
+    pixel_format: str = "gray",
 ):
     """Yield a verified disk spool; close it on success, failure or cancellation."""
     width, height = geometry
-    expected_bytes = len(frame_map.frames) * width * height
+    channels = {"gray": 1, "rgb24": 3}[pixel_format]
+    expected_bytes = len(frame_map.frames) * width * height * channels
     if expected_bytes > MAX_DECODE_BYTES:
         raise ValueError("Decoded analysis exceeds 256 MiB budget")
     command = [
@@ -79,7 +81,7 @@ def decoded_gray(
         "-sn",
         "-dn",
         "-vf",
-        f"showinfo,scale={width}:{height}:flags=area,format=gray",
+        f"showinfo,scale={width}:{height}:flags=area,format={pixel_format}",
         "-fps_mode",
         "passthrough",
         "-frames:v",
@@ -89,7 +91,7 @@ def decoded_gray(
         "-f",
         "rawvideo",
         "-pix_fmt",
-        "gray",
+        pixel_format,
         "-",
     ]
     with (
@@ -109,7 +111,21 @@ def decoded_gray(
             raise ValueError(f"Analysis decode failed: {log.read(4000)}")
         check_decode_log(log, frame_map, source_geometry)
         if raw.seek(0, 2) != expected_bytes:
-            raise ValueError("Decoded grayscale length differs from source map")
+            raise ValueError("Decoded pixel length differs from source map")
+        yield raw
+
+
+@contextmanager
+def decoded_gray(source, frame_map, source_geometry, geometry, *, timeout):
+    with _decoded_pixels(source, frame_map, source_geometry, geometry, timeout=timeout) as raw:
+        yield raw
+
+
+@contextmanager
+def decoded_rgb(source, frame_map, source_geometry, geometry, *, timeout):
+    with _decoded_pixels(
+        source, frame_map, source_geometry, geometry, timeout=timeout, pixel_format="rgb24"
+    ) as raw:
         yield raw
 
 
