@@ -24,7 +24,7 @@ and call the disable API as well. Do not claim a network-trace guarantee for nat
 
 A caller with a permitted compatible model can execute and cache actual local inference. The project
 ships no pretrained checkpoint or unsupported relevance guarantee. Synthetic generated ONNX graphs
-verify numerical contracts in a separate optional CI job; they are not semantic models. Default
-CI/core installs work without NumPy, ONNX Runtime, graph-generation tools or media downloads.
+verify numerical contracts in a separate optional CI job; they are not semantic models. Core
+CI jobs and default installs work without NumPy, ONNX Runtime, graph-generation tools or media downloads.
 Different embedding spaces cannot be mixed with grayscale visual descriptors. Learned checkpoint
 qualification, cosine retrieval, duplicate-take labels and M2/M3 study gates remain open.

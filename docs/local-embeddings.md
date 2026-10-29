@@ -127,4 +127,5 @@ Three existing CC0 original excerpts also have a local numerical run at
 `workspace/embedding-pilot/runs-v2.json`: six sampled frames, using the synthetic channel-mean graph.
 Grayscale inputs intentionally give equal RGB-channel directions; this demonstrates no semantic
 separation. No natural duplicate/event labels, learned checkpoint or human accuracy claim follows.
-The validation summary records hashes, settings/runtime and numerical coverage for this run.
+The [validation summary](validation/local-onnx-summary.json) records hashes, settings/runtime and
+numerical coverage for this run.
