@@ -104,3 +104,70 @@ def test_sample_coordinates_match_independent_source_oracle(tmp_path, case_id):
         Fraction(p) for p in case["expected"]["source_pts"][::2]
     ]
     assert max(document["analysis_geometry"]) == 32
+
+
+@pytest.mark.parametrize("case_id", ["negative-start", "vfr-hold"])
+def test_review_images_retain_source_indices_and_exact_variable_or_signed_clock(tmp_path, case_id):
+    """Synthetic camera-metadata contract simulation, not human evaluation evidence."""
+    from pathlib import Path
+
+    from takebraid.adapters.identity import file_digest
+    from takebraid.application.interpretation import interpret_observation
+    from tools.blind_review import export_packet
+
+    case = next(c for c in load_cases()["cases"] if c["id"] == case_id)
+    source = generate_case(tmp_path, case, [])
+    asset = ingest(source, tmp_path / "project")
+    observation, _ = observe_quality(asset, 0)
+    policy = Path(__file__).resolve().parents[1] / "examples/policies/synthetic-bright.json"
+    interpretation, _ = interpret_observation(asset, observation, policy)
+    count = len(case["expected"]["source_pts"])
+    manifest = tmp_path / "review-source.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "schema_version": "0.1",
+                "dataset_id": "simulated-clock-contract",
+                "label_version": "fixture",
+                "policy_registry": {"exposure_failure": file_digest(policy)},
+                "entries": [
+                    {
+                        "id": "simulated-camera",
+                        "kind": "camera",
+                        "label_method": "assistant_review",
+                        "split": "test",
+                        "project_id": "clock",
+                        "shoot_id": "clock",
+                        "scene": case_id,
+                        "defect": "exposure_failure",
+                        "asset": str(asset),
+                        "observation": str(observation),
+                        "interpretation": str(interpretation),
+                        "annotators": ["simulated"],
+                        "annotation_protocol": "Synthetic workflow test only",
+                        "rights": {
+                            "source": "Project synthetic recipe",
+                            "license": "Apache-2.0",
+                            "permission_evidence": "Created by test",
+                            "evaluation_permitted": True,
+                        },
+                        "labels": [
+                            {
+                                "first_frame": 0,
+                                "end_frame": count,
+                                "votes": {"simulated": "unknown"},
+                            }
+                        ],
+                    }
+                ],
+            }
+        )
+    )
+    html = export_packet(manifest, tmp_path / "packet")
+    packet = json.loads((html.parent / "packet.json").read_text())
+    medium = next(iter(packet["media"].values()))
+    clock = ratio(medium["time_base"])
+    assert [p * clock for p in medium["boundaries_pts"][:-1]] == [
+        Fraction(p) for p in case["expected"]["source_pts"]
+    ]
+    assert len(list(html.parent.rglob("*.png"))) == count

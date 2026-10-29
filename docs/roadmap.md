@@ -131,6 +131,9 @@ licensed held-out annotations; synthetic regressions remain separate from camera
   unknown/disagreement accounting and synthetic negative controls. See `quality-evaluation.md`.
 - [x] TB-205b pilot: three CC0 sources, nine labeled excerpts/controlled variants, frozen calibration
   and separate AI-review/constructed test results. See `labeled-pilot.md`.
+- [x] TB-205c: prediction-hidden offline frame review packets, independent-human attestations,
+  immutable vote collection and disagreement-preserving evaluation manifests. See `blind-review.md`.
+  Human study and actual browser visual QA remain pending.
 - [ ] TB-205b independent validation: obtain independent human-held-out labels and evaluate static product shots,
   deliberate pans, night scenes and actual focus failures. M2 accuracy gate remains open.
 

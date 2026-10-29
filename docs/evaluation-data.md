@@ -19,3 +19,8 @@ camera validation. Human validation still requires at least two annotators.
 
 The original project signal recipes in `tools/evaluation_fixture.py` are Apache-2.0. Their labels
 are constructed oracle data; the synthetic kind is mandatory and separate from camera evidence.
+
+Independent human review preparation is implemented in [blind-review.md](blind-review.md).
+Only the exported review directory is intended for reviewers; the original dataset/binding and
+model results stay with the operator. Reviewer identity/independence are self-attested, and no
+completed human annotations are bundled or claimed.

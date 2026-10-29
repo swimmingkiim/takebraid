@@ -256,3 +256,81 @@ def test_one_constructed_oracle_is_not_mislabeled_as_two_humans(dataset, tmp_pat
     report = json.loads(output.read_text())
     assert report["evidence_scope"] == "synthetic_only"
     assert report["review_levels"] == ["constructed"]
+
+
+def test_blind_review_export_collection_and_scoring_contract(dataset, tmp_path):
+    """Generated metadata simulates camera workflow only; these are not human accuracy labels."""
+    from tools.blind_review import collect, export_packet
+
+    path, manifest, _ = dataset
+    with pytest.raises(ValueError, match="camera entries"):
+        export_packet(path, tmp_path / "not-a-camera-packet")
+    entry = manifest["entries"][0]
+    entry.update(kind="camera", label_method="assistant_review", annotators=["old-ai"])
+    entry["labels"] = [{"first_frame": 0, "end_frame": 6, "votes": {"old-ai": "unknown"}}]
+    entry["annotation_protocol"] = "DO-NOT-EXPOSE-OLD-LABELS"
+    path.write_text(json.dumps(manifest))
+    before = path.read_bytes()
+    output = tmp_path / "packet"
+    html = export_packet(path, output)
+    public_text = "\n".join(p.read_text() for p in html.parent.iterdir() if p.is_file())
+    assert "DO-NOT-EXPOSE-OLD-LABELS" not in public_text
+    assert "old-ai" not in public_text
+    assert '"policy_registry"' not in public_text
+    assert str(path) not in public_text
+    packet = json.loads((html.parent / "packet.json").read_text())
+    assert len(list(html.parent.rglob("*.png"))) == 6
+    medium = next(iter(packet["media"].values()))
+    assert medium["boundaries_pts"] == [0, 40, 80, 120, 160, 200, 240]
+    binding = json.loads((output / "binding.json").read_text())
+    task_id = packet["tasks"][0]["id"]
+    reviews = []
+    for rater, intervals in (
+        ("simulated-a", [(0, 2, "normal"), (2, 6, "defect")]),
+        ("simulated-b", [(0, 3, "normal"), (3, 6, "defect")]),
+    ):
+        review = tmp_path / f"{rater}.json"
+        review.write_text(
+            json.dumps(
+                {
+                    "schema_version": "0.1",
+                    "packet_sha256": binding["packet_sha256"],
+                    "reviewer": rater,
+                    "reviewer_kind": "human",
+                    "independent_before_predictions": True,
+                    "tasks": [
+                        {
+                            "id": task_id,
+                            "intervals": [
+                                {"first_frame": a, "end_frame": b, "truth": truth}
+                                for a, b, truth in intervals
+                            ],
+                        }
+                    ],
+                }
+            )
+        )
+        reviews.append(review)
+    human_path = tmp_path / "collected" / "manifest.json"
+    collect(output, reviews, human_path, "simulated-review-contract")
+    human = load_manifest(human_path)
+    assert human["entries"][0]["label_method"] == "human"
+    assert human["entries"][0]["labels"][1]["votes"] == {
+        "simulated-a": "defect",
+        "simulated-b": "normal",
+    }
+    report = json.loads(evaluate_manifest(human_path, tmp_path / "scored").read_text())
+    assert report["cohorts"][0]["durations"]["disagreement_seconds"] == {
+        "numerator": 1,
+        "denominator": 25,
+    }
+    assert path.read_bytes() == before
+    with pytest.raises(FileExistsError):
+        collect(output, reviews, human_path, "simulated-review-contract")
+    with pytest.raises(ValueError, match="distinct"):
+        collect(output, [reviews[0], reviews[0]], tmp_path / "bad.json", "bad-review")
+    image = next(html.parent.rglob("*.png"))
+    image.write_bytes(b"changed image")
+    with pytest.raises(ValueError, match="image changed"):
+        collect(output, reviews, tmp_path / "bad-image.json", "bad-review")
+    assert not (tmp_path / "bad-image.json").exists()
