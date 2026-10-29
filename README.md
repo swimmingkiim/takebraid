@@ -26,6 +26,7 @@ to its source and evidence.
 | `takebraid evaluate`: duration-weighted labeled evaluation and split audits | Held-out camera accuracy validation |
 | Prediction-hidden offline annotation packets and disagreement-preserving vote collection | Independent human study and browser visual QA |
 | `takebraid visual`: cached spatial features and sampled frame-match proposals | Learned image embeddings and duplicate-take validation |
+| `takebraid embed`: explicit local ONNX image encoder and provenance-bound cache | Qualified learned checkpoints and embedding retrieval |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -98,6 +99,10 @@ validation and local-browser visual QA remain pending.
 Find [spatial visual-match candidates](docs/visual-matches.md) with `takebraid visual observe` and
 `visual compare`. This dependency-free baseline compares grayscale cell means, not semantic events
 or whole takes; it cannot automatically exclude footage.
+
+Run an explicitly selected [local ONNX image encoder](docs/local-embeddings.md) with
+`takebraid embed <asset.json> --stream 0 --model <model.json>`. Optional dependencies and a compatible
+local model are required; no model is downloaded and no semantic accuracy is yet validated.
 
 ## Design commitments
 

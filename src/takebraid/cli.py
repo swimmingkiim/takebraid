@@ -23,6 +23,7 @@ from takebraid.application.decisions import (
     load_decisions,
     update_decisions,
 )
+from takebraid.application.embeddings import observe_embeddings
 from takebraid.application.evaluation import evaluate_manifest
 from takebraid.application.ingest import IngestError, ingest
 from takebraid.application.interpretation import interpret_observation
@@ -51,6 +52,18 @@ def main(argv: list[str] | None = None) -> int:
     scan.add_argument("--timeout", type=float, default=300, help="FFprobe timeout in seconds.")
     scan.add_argument("--max-frames", type=int, default=250000)
     scan.add_argument("--force", action="store_true", help="Recompute as a new preserved attempt.")
+    embed = commands.add_parser(
+        "embed", help="Run an explicitly selected local ONNX image encoder."
+    )
+    embed.add_argument("asset", type=Path)
+    embed.add_argument("--stream", type=int, required=True)
+    embed.add_argument(
+        "--model", type=Path, required=True, help="Local hash/revision/license manifest."
+    )
+    embed.add_argument("--every", type=int, default=25)
+    embed.add_argument("--timeout", type=float, default=300)
+    embed.add_argument("--inference-timeout", type=float, default=30)
+    embed.add_argument("--force", action="store_true")
     visual = commands.add_parser(
         "visual", help="Observe spatial descriptors and compare visual candidates."
     )
@@ -158,6 +171,38 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "embed":
+        try:
+            result, status = observe_embeddings(
+                args.asset,
+                args.stream,
+                args.model,
+                every=args.every,
+                timeout=args.timeout,
+                inference_timeout=args.inference_timeout,
+                force=args.force,
+            )
+            print(result)
+            if status != "observed":
+                print(
+                    f"takebraid: embedding coverage is {status}; inspect reasons", file=sys.stderr
+                )
+                return 2
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: embedding operation cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "visual":
         try:

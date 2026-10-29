@@ -28,6 +28,8 @@ takebraid = "takebraid.cli:main"
 
 [project.optional-dependencies]
 dev = ["build==1.6.1", "pytest==9.1.1", "ruff==0.17.2"]
+onnx = ["numpy==2.3.5", "onnxruntime==1.31.1"]
+onnx-dev = ["onnx==1.23.2"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/takebraid"]
@@ -35,7 +37,8 @@ packages = ["src/takebraid"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
-markers = ["integration: requires external FFmpeg and ffprobe executables"]
+markers = ["integration: requires external FFmpeg and ffprobe executables",
+           "onnx: requires optional local ONNX runtime and graph-generation dependencies"]
 
 [tool.ruff]
 target-version = "py311"

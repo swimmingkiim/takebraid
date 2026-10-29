@@ -14,7 +14,9 @@ exclusion remain pending. An explicitly single-AI-reviewed public sample pilot i
 `labeled-pilot.md` and ADR 0010; independent human validation remains open. Offline prediction-hidden review and vote collection
 are checkout tooling; see `blind-review.md` and ADR 0011. Exact cached grayscale spatial features
 and review-only cross-source frame matches are available; see `visual-matches.md` and ADR 0012.
-These are a pre-model baseline, not semantic duplicate-take decisions. See the roadmap.
+These are a pre-model baseline, not semantic duplicate-take decisions. One optional, explicitly
+selected local ONNX CPU image encoder is implemented; see `local-embeddings.md` and ADR 0013.
+Learned-checkpoint and semantic validation remain pending. See the roadmap.
 
 ## Product boundary
 

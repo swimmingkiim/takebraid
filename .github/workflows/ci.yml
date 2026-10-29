@@ -90,3 +90,41 @@ jobs:
             workspace/media-validation/**/result.json
             workspace/media-validation/**/generator-commands.json
           retention-days: 30
+
+  onnx:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Ensure media tools are available
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            # The Azure HTTP mirror has stalled downloads on hosted runners.
+            # Hosted images also use mirror+file lists; rewrite their actual URLs.
+            # Keep Ubuntu's signed packages, using the official HTTPS archives.
+            for source in /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources /etc/apt/apt-mirrors*.txt; do
+              if [ -f "$source" ]; then
+                sudo sed -i \
+                  -e 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+                  -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+                  -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' "$source"
+              fi
+            done
+            sudo apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 update
+            sudo apt-get -o Acquire::Retries=2 -o Acquire::https::Timeout=30 install --no-install-recommends -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+      - run: python -m pip install -e ".[dev,onnx,onnx-dev]"
+      - name: Run generated ONNX oracle and source-clock integration tests
+        run: python -m pytest -m onnx --strict-markers --junitxml=workspace/onnx-validation-junit.xml
+      - name: Publish optional encoder validation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: onnx-validation-ubuntu-24.04
+          path: workspace/onnx-validation-junit.xml
+          retention-days: 30

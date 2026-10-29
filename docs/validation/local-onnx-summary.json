@@ -1,0 +1,207 @@
+{
+  "schema_version": "0.1",
+  "recipe": "local-onnx-image-embedding/1",
+  "source_commit": "b9d2c71b73afce71f38b5c86d6d21338a67a40b4",
+  "source_worktree_clean": true,
+  "model_manifest_sha256": "7edaaae80fb19b7a3c1d4f385d3d808c05d1cfcf22f5ef99ac9afff7ad790bbf",
+  "model": {
+    "schema_version": "0.1",
+    "provider": "onnx-cpu",
+    "model": {
+      "file": "oracle.onnx",
+      "sha256": "d65ff530e55b5f8fcf1e6681797f41c956faf546d71dfffa5255d59ab2875e52",
+      "id": "synthetic-channel-mean-oracle",
+      "revision": "oracle-1-mean",
+      "license": "Apache-2.0",
+      "source": "Original Takebraid graph recipe; not trained",
+      "usage_permitted": true
+    },
+    "input": {
+      "name": "image",
+      "width": 16,
+      "height": 16,
+      "layout": "NCHW",
+      "dtype": "float32",
+      "resize": "stretch-area",
+      "color": "RGB",
+      "mean": [
+        0,
+        0,
+        0
+      ],
+      "std": [
+        1,
+        1,
+        1
+      ]
+    },
+    "output": {
+      "name": "embedding",
+      "dimensions": 3,
+      "dtype": "float32"
+    }
+  },
+  "runtime": {
+    "onnxruntime": "1.31.1",
+    "numpy": "2.3.5",
+    "build": "ORT Build Info: git-branch=HEAD, git-commit-id=6af1a93, fp8-kv-cache=1, build type=Release",
+    "provider": "CPUExecutionProvider",
+    "telemetry": "disabled",
+    "initialization_guard": "ORT_DISABLE_TELEMETRY=1-before-owned-import",
+    "threads": 1,
+    "execution": "sequential",
+    "graph_optimization": "disabled",
+    "platform": "macOS-26.6.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "local_optional_packages": {
+    "numpy": "2.3.5",
+    "onnxruntime": "1.31.1",
+    "onnx": "1.23.2",
+    "protobuf": "7.36.2",
+    "flatbuffers": "25.12.19",
+    "ml_dtypes": "0.6.0",
+    "typing_extensions": "4.16.0"
+  },
+  "sample": {
+    "sources": 3,
+    "sampled_frames": 6,
+    "every": 25,
+    "data": "Existing CC0 pilot original grayscale excerpts",
+    "model_kind": "Original generated RGB channel-mean graph; not learned",
+    "semantic_accuracy_validated": false,
+    "automatic_exclusion_validated": false
+  },
+  "reports": [
+    {
+      "source_sha256": "14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+      "frame_map_sha256": "2a3a77e9ed0301ec08437f832df5060c2b927c9c9559c550ab960e4dacbc570e",
+      "artifact_sha256": "812bcfd6d8b51ec2dd3106443babb46aef4a16a0b59c69ae6c1aad1465dd7adc",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "status": "observed",
+      "rows": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896257,
+            0.5773502691896257,
+            0.5773502691896257
+          ],
+          "l2_norm": 0.9999999999999999
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896257,
+            0.5773502691896257,
+            0.5773502691896257
+          ],
+          "l2_norm": 0.9999999999999999
+        }
+      ]
+    },
+    {
+      "source_sha256": "acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+      "frame_map_sha256": "e4e3f24c8a4ac8c0850e468aedb04c203a25cc7f005265d3e7c710d21456d252",
+      "artifact_sha256": "c6a5ba2bd903d100b4dc36b2545fdceef92f6fb3a82c7cf35623e2ec4072c311",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "status": "observed",
+      "rows": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896257,
+            0.5773502691896257,
+            0.5773502691896257
+          ],
+          "l2_norm": 0.9999999999999999
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896257,
+            0.5773502691896257,
+            0.5773502691896257
+          ],
+          "l2_norm": 0.9999999999999999
+        }
+      ]
+    },
+    {
+      "source_sha256": "91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+      "frame_map_sha256": "f9b80e056cb734d840daf4a97b28543bfaf61123cb16f343efcde130953bcf3e",
+      "artifact_sha256": "af89f5eb5d125a0396b0f63c60669285cd2c732bc0704577dbf83fd467d6c970",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "status": "observed",
+      "rows": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896257,
+            0.5773502691896257,
+            0.5773502691896257
+          ],
+          "l2_norm": 0.9999999999999999
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed",
+          "reason": null,
+          "values": [
+            0.5773502691896258,
+            0.5773502691896258,
+            0.5773502691896258
+          ],
+          "l2_norm": 1.0000000000000002
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "pytest": "391 passed",
+    "optional_onnx_tests": 9,
+    "ruff": "passed",
+    "format": "139 files already formatted",
+    "build": "sdist and wheel passed",
+    "core_only_wheel": "fresh venv outside checkout: version passed; missing-extra error verified",
+    "optional_wheel": {
+      "core_only": "version passed; missing-extra error verified",
+      "optional_wheel_report_sha256": "812bcfd6d8b51ec2dd3106443babb46aef4a16a0b59c69ae6c1aad1465dd7adc",
+      "byte_identical": true
+    },
+    "provenance": "hash/revision/preprocessing/runtime keyed; mutable outputs rejected; VFR/signed oracle passed",
+    "runtime_privacy": "guard before owned import; prior external import rejected; later API-only suppression not relied on"
+  },
+  "limits": [
+    "Numerical oracle only; no trained checkpoint qualification",
+    "Grayscale channel-mean vectors have equal channel directions; no semantic separation",
+    "No embedding retrieval or duplicate/event accuracy claim",
+    "M2 independent human validation and M3 event gates remain open",
+    "Cooperative deadlines are not a sandbox or hard memory/time bound"
+  ]
+}
