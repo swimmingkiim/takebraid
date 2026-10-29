@@ -25,6 +25,7 @@ to its source and evidence.
 | `takebraid decisions`: reversible user exclusions/restoration and bound preview plans | Review UI and calibrated automatic exclusions |
 | `takebraid evaluate`: duration-weighted labeled evaluation and split audits | Held-out camera accuracy validation |
 | Prediction-hidden offline annotation packets and disagreement-preserving vote collection | Independent human study and browser visual QA |
+| `takebraid visual`: cached spatial features and sampled frame-match proposals | Learned image embeddings and duplicate-take validation |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -93,6 +94,10 @@ substitute for independent human validation.
 A [prediction-hidden offline annotation tool](docs/blind-review.md) prepares human review packets
 and collects distinct reviewer votes without erasing disagreement. Actual independent human
 validation and local-browser visual QA remain pending.
+
+Find [spatial visual-match candidates](docs/visual-matches.md) with `takebraid visual observe` and
+`visual compare`. This dependency-free baseline compares grayscale cell means, not semantic events
+or whole takes; it cannot automatically exclude footage.
 
 ## Design commitments
 

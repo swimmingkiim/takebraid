@@ -12,7 +12,9 @@ see `decisions.md` and ADR 0008. An exact-duration evaluation harness preserves 
 evidence; see `quality-evaluation.md` and ADR 0009. Camera validation and calibrated automatic
 exclusion remain pending. An explicitly single-AI-reviewed public sample pilot is documented in
 `labeled-pilot.md` and ADR 0010; independent human validation remains open. Offline prediction-hidden review and vote collection
-are checkout tooling; see `blind-review.md` and ADR 0011. See the roadmap.
+are checkout tooling; see `blind-review.md` and ADR 0011. Exact cached grayscale spatial features
+and review-only cross-source frame matches are available; see `visual-matches.md` and ADR 0012.
+These are a pre-model baseline, not semantic duplicate-take decisions. See the roadmap.
 
 ## Product boundary
 

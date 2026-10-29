@@ -30,6 +30,7 @@ from takebraid.application.motion import observe_motion
 from takebraid.application.preview import create_plan, render_plan
 from takebraid.application.quality import observe_quality
 from takebraid.application.scan import ScanError, scan_asset
+from takebraid.application.visual import compare_visual, observe_visual
 from takebraid.domain.decisions import DecisionOverride
 from takebraid.domain.motion import MotionSettings
 from takebraid.domain.quality import QualitySettings
@@ -50,6 +51,30 @@ def main(argv: list[str] | None = None) -> int:
     scan.add_argument("--timeout", type=float, default=300, help="FFprobe timeout in seconds.")
     scan.add_argument("--max-frames", type=int, default=250000)
     scan.add_argument("--force", action="store_true", help="Recompute as a new preserved attempt.")
+    visual = commands.add_parser(
+        "visual", help="Observe spatial descriptors and compare visual candidates."
+    )
+    visual_commands = visual.add_subparsers(dest="visual_command", required=True)
+    visual_observe = visual_commands.add_parser("observe")
+    visual_observe.add_argument("asset", type=Path)
+    visual_observe.add_argument("--stream", type=int, required=True)
+    visual_observe.add_argument("--size", type=int, default=64)
+    visual_observe.add_argument("--every", type=int, default=25)
+    visual_observe.add_argument("--timeout", type=float, default=300)
+    visual_observe.add_argument("--force", action="store_true")
+    visual_compare = visual_commands.add_parser("compare")
+    visual_compare.add_argument(
+        "--input", nargs=2, action="append", type=Path, required=True, metavar=("ASSET", "VISUAL")
+    )
+    visual_compare.add_argument("--output", type=Path, required=True)
+    visual_compare.add_argument(
+        "--max-distance", required=True, help="Exact mean squared distance 0..1."
+    )
+    visual_compare.add_argument(
+        "--min-variance", required=True, help="Positive spatial contrast floor <=1/4."
+    )
+    visual_compare.add_argument("--limit", type=int, default=20)
+    visual_compare.add_argument("--force", action="store_true")
     quality = commands.add_parser(
         "quality", help="Measure focus/exposure without excluding footage."
     )
@@ -133,6 +158,48 @@ def main(argv: list[str] | None = None) -> int:
             sub.add_argument("asset_id")
             sub.add_argument("source", type=Path)
     args = parser.parse_args(argv)
+
+    if args.command == "visual":
+        try:
+            if args.visual_command == "observe":
+                result, status = observe_visual(
+                    args.asset,
+                    args.stream,
+                    size=args.size,
+                    every=args.every,
+                    timeout=args.timeout,
+                    force=args.force,
+                )
+                print(result)
+                if status != "observed":
+                    print(
+                        "takebraid: visual observations unknown; inspect reasons", file=sys.stderr
+                    )
+                    return 2
+            else:
+                result = compare_visual(
+                    args.input,
+                    args.output,
+                    max_distance=Fraction(args.max_distance),
+                    min_variance=Fraction(args.min_variance),
+                    limit=args.limit,
+                    force=args.force,
+                )
+                print(result)
+            return 0
+        except (
+            OSError,
+            ValueError,
+            TypeError,
+            KeyError,
+            ZeroDivisionError,
+            subprocess.SubprocessError,
+        ) as exc:
+            print(f"takebraid: {exc}", file=sys.stderr)
+            return 1
+        except KeyboardInterrupt:
+            print("takebraid: visual operation cancelled", file=sys.stderr)
+            return 130
 
     if args.command == "evaluate":
         try:
