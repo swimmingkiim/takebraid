@@ -24,6 +24,7 @@ to its source and evidence.
 | `takebraid interpret`: explicit temporal review policies with unknown coverage | Calibrated defect interpretation |
 | `takebraid decisions`: reversible user exclusions/restoration and bound preview plans | Review UI and calibrated automatic exclusions |
 | `takebraid evaluate`: duration-weighted labeled evaluation and split audits | Held-out camera accuracy validation |
+| Prediction-hidden offline annotation packets and disagreement-preserving vote collection | Independent human study and browser visual QA |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -88,6 +89,10 @@ from camera evidence; M2 camera validation remains pending.
 A [labeled camera-derived pilot](docs/labeled-pilot.md) includes CC0 source provenance, single-AI
 review labels, controlled distortions and reproducible split-separated evaluation. It is not a
 substitute for independent human validation.
+
+A [prediction-hidden offline annotation tool](docs/blind-review.md) prepares human review packets
+and collects distinct reviewer votes without erasing disagreement. Actual independent human
+validation and local-browser visual QA remain pending.
 
 ## Design commitments
 

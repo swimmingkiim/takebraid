@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file: data:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'">
+<title>Takebraid 독립 구간 검토</title>
+<style>
+body{max-width:1000px;margin:24px auto;padding:0 20px;font:16px/1.6 system-ui;color:#1c2933;background:#f6f8fa}
+h1{font-size:26px}label{display:inline-block;margin:6px 16px 6px 0}input,select,button{font:inherit;padding:6px;max-width:100%}button{cursor:pointer;margin:4px}button:disabled{cursor:default}input[type=number]{width:90px}input[type=range]{width:100%}.card{background:white;border:1px solid #cdd5dd;border-radius:10px;padding:16px;margin:16px 0}#frame{display:block;max-width:100%;max-height:520px;margin:auto;image-rendering:auto}#status{white-space:pre-wrap;color:#8a2417}#ranges{white-space:pre-wrap}small{overflow-wrap:anywhere}#timing{font-variant-numeric:tabular-nums}
+</style>
+<h1>Takebraid 독립 구간 검토</h1>
+<p>이 화면에는 기존 라벨·측정값·예측 결과가 없습니다. 다른 검토자의 답과 예측을 보기 전에 모든 프레임을 확인하고, 확신이 없으면 <strong>unknown</strong>을 선택하세요. 최대 512픽셀 검토 영상에서의 판단이며 원본 해상도의 광학 결함을 보증하지 않습니다.</p>
+<div class="card">
+<label>검토자 ID <input id="reviewer" pattern="[a-zA-Z0-9_-]{1,80}" maxlength="80" placeholder="reviewer-a" autocomplete="off"></label>
+<label>검토 작업 <select id="task" aria-label="검토 작업"></select></label>
+<p id="progress"></p><p id="defect"></p>
+<img id="frame" alt="선택한 디코딩 프레임">
+<input type="range" id="slider" min="0" value="0" aria-label="프레임 번호">
+<div><button id="previous">이전 프레임</button><button id="next">다음 프레임</button><span id="timing"></span></div>
+<p>인덱스는 0부터 시작하며, 구간의 끝 프레임은 포함하지 않습니다. 모든 프레임을 빠짐없이 순서대로 라벨링하세요.</p>
+<label>시작 <input type="number" id="first" readonly aria-label="구간 시작"></label>
+<label>끝 <input type="number" id="end" min="1" aria-label="구간 끝"></label>
+<label>판정 <select id="truth"><option value="">선택하세요</option><option value="normal">normal — 해당 결함이 보이지 않음</option><option value="defect">defect — 해당 결함이 보임</option><option value="unknown">unknown — 판단 불가</option></select></label>
+<button id="add">구간 추가</button><button id="undo">마지막 구간 취소</button>
+<pre id="ranges"></pre>
+</div>
+<div class="card">
+<label><input type="checkbox" id="independent">저는 사람 검토자이며, 기존 라벨·예측 결과·다른 검토자의 답을 보기 전에 모든 작업을 독립적으로 검토했습니다.</label>
+<p>이 확인은 본인의 진술입니다. 소프트웨어가 사람의 신원이나 독립성을 검증하지 않습니다. 이미 파일럿의 정답을 본 검토는 독립 검증으로 제출하지 마세요.</p>
+<button id="draft">임시 저장 JSON</button><button id="download">완료 라벨 JSON 저장</button>
+<label>저장한 JSON 다시 열기 <input type="file" id="restore" accept="application/json,.json"></label>
+<p>저장 버튼으로 파일을 내려받으세요. 자동 저장·업로드·네트워크 요청은 없습니다. 검토 폴더를 옮기면 이미지 폴더도 함께 옮겨야 합니다.</p>
+</div>
+<p role="status" id="status" aria-live="polite"></p>
+<small id="packetid"></small>
+<script id="packet" type="application/json">__PACKET_JSON__</script>
+<script>
+'use strict';
+const packet=JSON.parse(document.getElementById('packet').textContent);
+const packetHash='__PACKET_SHA256__';
+const el=id=>document.getElementById(id);
+let state=Object.fromEntries(packet.tasks.map(t=>[t.id,[]]));
+const descriptions={focus_failure:'초점: 물체의 실제 움직임·안개·낮은 질감과 구분되는 초점 결함을 판단하세요. 구분할 근거가 부족하면 unknown.',exposure_failure:'노출: 장면의 의도된 어두움·밝음과 구분되는 전반적 노출 결함을 판단하세요. 의도를 알 수 없으면 unknown.',unwanted_camera_motion:'카메라 움직임: 의도된 이동과 원하지 않는 흔들림을 구분할 근거가 부족하면 unknown.'};
+packet.tasks.forEach((t,i)=>{const o=document.createElement('option');o.value=t.id;o.textContent=`작업 ${i+1} / ${packet.tasks.length}`;el('task').append(o)});
+const task=()=>packet.tasks.find(t=>t.id===el('task').value);
+const medium=()=>packet.media[task().media_id];
+const count=()=>medium().images.length;
+function status(text){el('status').textContent=text}
+function drawFrame(){const i=Number(el('slider').value),m=medium();el('frame').src=m.images[i].path;el('timing').textContent=`프레임 ${i} / ${count()-1} · PTS ${m.boundaries_pts[i]} · time base ${m.time_base.numerator}/${m.time_base.denominator}`;el('previous').disabled=i===0;el('next').disabled=i===count()-1;el('frame').alt=`작업 프레임 ${i}`}
+function show(){const rows=state[task().id],cursor=rows.length?rows[rows.length-1].end_frame:0;el('slider').max=count()-1;el('slider').value=0;el('first').value=cursor;el('end').min=cursor+1;el('end').max=count();el('end').value=count();el('truth').value='';el('defect').textContent=descriptions[task().defect];el('ranges').textContent=rows.map(r=>`[${r.first_frame}, ${r.end_frame}) ${r.truth}`).join('\n')||'아직 라벨이 없습니다.';el('add').disabled=cursor===count();el('undo').disabled=!rows.length;const done=packet.tasks.filter(t=>state[t.id].length && state[t.id].at(-1).end_frame===packet.media[t.media_id].images.length).length;el('progress').textContent=`구간 입력 완료 ${done} / ${packet.tasks.length} (전체 프레임 확인은 검토자 책임)`;drawFrame()}
+el('task').addEventListener('change',show);el('slider').addEventListener('input',drawFrame);
+el('previous').onclick=()=>{el('slider').value=Number(el('slider').value)-1;drawFrame()};el('next').onclick=()=>{el('slider').value=Number(el('slider').value)+1;drawFrame()};
+el('add').onclick=()=>{const a=Number(el('first').value),b=Number(el('end').value),truth=el('truth').value;if(!Number.isInteger(b)||b<=a||b>count()||!['normal','defect','unknown'].includes(truth)){status('끝 프레임과 판정을 확인하세요.');return}state[task().id].push({first_frame:a,end_frame:b,truth});status('구간을 추가했습니다. 저장 버튼으로 JSON을 보관하세요.');show()};
+el('undo').onclick=()=>{state[task().id].pop();show()};
+function documentFor(final){const reviewer=el('reviewer').value;if(!/^[a-zA-Z0-9_-]{1,80}$/.test(reviewer))throw Error('영문·숫자·밑줄·하이픈으로 검토자 ID를 입력하세요.');if(final&&(!el('independent').checked||packet.tasks.some(t=>!state[t.id].length||state[t.id].at(-1).end_frame!==packet.media[t.media_id].images.length)))throw Error('모든 작업의 구간 입력과 독립 검토 확인이 필요합니다.');return {schema_version:'0.1',packet_sha256:packetHash,reviewer,reviewer_kind:'human',independent_before_predictions:final&&el('independent').checked,tasks:packet.tasks.map(t=>({id:t.id,intervals:state[t.id]}))}}
+function save(final){try{const doc=documentFor(final),url=URL.createObjectURL(new Blob([JSON.stringify(doc,null,2)+'\n'],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`takebraid-${doc.reviewer}-${final?'review':'draft'}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);status(final?'라벨 JSON을 저장했습니다. 검토 담당자에게 전달하세요.':'임시 JSON을 저장했습니다. 수집 도구는 미완료 임시 파일을 거부합니다.')}catch(e){status(e.message)}}
+el('download').onclick=()=>save(true);el('draft').onclick=()=>save(false);
+el('restore').onchange=async()=>{try{const f=el('restore').files[0];if(!f)return;if(f.size>8*1024*1024)throw Error('파일이 너무 큽니다.');const doc=JSON.parse(await f.text());if(doc.schema_version!=='0.1'||doc.packet_sha256!==packetHash||!Array.isArray(doc.tasks)||doc.tasks.length!==packet.tasks.length)throw Error('같은 검토 패킷의 JSON이 아닙니다.');const next={};for(const row of doc.tasks){const t=packet.tasks.find(t=>t.id===row.id);if(!t||next[row.id]||!Array.isArray(row.intervals)||row.intervals.length>packet.media[t.media_id].images.length)throw Error('잘못된 작업입니다.');let cursor=0;for(const r of row.intervals){if(!Number.isInteger(r.first_frame)||!Number.isInteger(r.end_frame)||r.first_frame!==cursor||r.end_frame<=cursor||r.end_frame>packet.media[t.media_id].images.length||!['normal','defect','unknown'].includes(r.truth))throw Error('잘못된 구간입니다.');cursor=r.end_frame}next[row.id]=row.intervals}if(!/^[a-zA-Z0-9_-]{1,80}$/.test(doc.reviewer))throw Error('잘못된 검토자 ID입니다.');state=next;el('reviewer').value=doc.reviewer;el('independent').checked=false;show();status('JSON을 불러왔습니다. 독립 검토 확인은 다시 입력해야 합니다.')}catch(e){status(e.message)}};
+el('packetid').textContent=`Packet SHA-256: ${packetHash}`;show();
+</script>
+</html>

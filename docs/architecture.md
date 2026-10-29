@@ -11,7 +11,8 @@ see `interpretation.md` and ADR 0007. Immutable explicit editing decisions, rest
 see `decisions.md` and ADR 0008. An exact-duration evaluation harness preserves rights/labels/splits and separates synthetic/camera
 evidence; see `quality-evaluation.md` and ADR 0009. Camera validation and calibrated automatic
 exclusion remain pending. An explicitly single-AI-reviewed public sample pilot is documented in
-`labeled-pilot.md` and ADR 0010; independent human validation remains open. See the roadmap.
+`labeled-pilot.md` and ADR 0010; independent human validation remains open. Offline prediction-hidden review and vote collection
+are checkout tooling; see `blind-review.md` and ADR 0011. See the roadmap.
 
 ## Product boundary
 

@@ -129,3 +129,10 @@ source-frame defect/normal labels. Before M2 sign-off: acquire permitted materia
 editor votes, split by shoot, freeze calibrated policies/release targets before test evaluation, run
 the camera cohort, and publish sample sizes, uncertainty and failure cases. Do not promote this
 synthetic regression report to a real-camera or unattended-editing accuracy claim.
+
+## Prepare independent review
+
+The [offline review workflow](blind-review.md) exports camera frames without previous labels or
+predictions, then collects actual independently declared human votes into a new manifest. It does
+not invent additional raters or complete the M2 gate. Preserve the original calibration/policy and
+source splits; new naturally defective footage and an independently frozen protocol remain needed.
