@@ -75,6 +75,7 @@ not duplicate-take accuracy or semantic relevance.
 
 The existing nine CC0 pilot clips also have a local measurement run under `workspace/visual-pilot/`.
 They contain excerpts and controlled variants, not independent duplicate-take labels. The public
-validation summary records counts, source/descriptor/report hashes and search settings. No human
+[validation summary](validation/visual-baseline-summary.json) records counts,
+source/descriptor/report hashes and search settings. No human
 annotation is invented from the resulting matches. Learned providers, broader camera footage,
 held-out duplicate-take labels and end-to-end correction measurements remain future work.
