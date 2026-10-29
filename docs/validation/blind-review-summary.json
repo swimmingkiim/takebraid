@@ -1,0 +1,72 @@
+{
+  "schema_version": "0.1",
+  "recipe": "blind-frame-review/1",
+  "source_commit": "14938e67c5551b6de9756e99917d45d55e7c07d5",
+  "source_worktree_clean": true,
+  "packet_sha256": "437ea52e16aca472115c7b487be8b9a7881b1d62968790874e8ad46d3b36b40e",
+  "html_sha256": "088af0a73e9167c230053db5460b550aa1dd26a344f35c03875323875a73f02f",
+  "prepared": {
+    "sources": 3,
+    "tasks": 6,
+    "unique_decoded_frames": 150,
+    "human_reviews_collected": 0,
+    "human_accuracy_validated": false
+  },
+  "media": [
+    {
+      "source_sha256": "91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+      "frame_map_sha256": "f9b80e056cb734d840daf4a97b28543bfaf61123cb16f343efcde130953bcf3e",
+      "frame_count": 50,
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "first_pts": 0,
+      "end_pts": 2000
+    },
+    {
+      "source_sha256": "14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+      "frame_map_sha256": "2a3a77e9ed0301ec08437f832df5060c2b927c9c9559c550ab960e4dacbc570e",
+      "frame_count": 50,
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "first_pts": 0,
+      "end_pts": 2000
+    },
+    {
+      "source_sha256": "acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+      "frame_map_sha256": "e4e3f24c8a4ac8c0850e468aedb04c203a25cc7f005265d3e7c710d21456d252",
+      "frame_count": 50,
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "first_pts": 0,
+      "end_pts": 2000
+    }
+  ],
+  "archive": {
+    "filename": "takebraid-blind-review-pilot-v1.zip",
+    "sha256": "844f8a03c99fe953771011365a9137be07d29fa67eae235c3951745b9d83409d",
+    "bytes": 5973654,
+    "contains_private_binding": false
+  },
+  "validation": {
+    "pytest": "338 passed",
+    "ruff": "passed",
+    "format": "122 files already formatted",
+    "build": "sdist and wheel passed",
+    "ui_logic": "Node synthetic DOM handlers passed; no actual browser rendering test",
+    "integration": "Generated-signal export, simulated review collection and disagreement scoring; negative/VFR clock oracle passed",
+    "browser_visual_qa": "not performed; automation URL policy rejected file:// navigation"
+  },
+  "limitations": [
+    "No actual human labels collected",
+    "Reviewer identity and independence are self-attested",
+    "Pilot still lacks confirmed natural positive camera defects",
+    "No motion accuracy or M2 sign-off",
+    "No actual browser rendering/download QA"
+  ]
+}

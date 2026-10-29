@@ -90,6 +90,9 @@ No annotation operation changes exclusions, predictions or source content.
 The prepared local handoff is `workspace/blind-review-pilot-v2/review/index.html`: 3 CC0 source
 excerpts, 150 unique PNG frames, 6 camera/defect tasks. No human review has been collected. The
 operator who developed this pilot has already seen its AI labels and is not an independent rater.
+The reviewer-only archive is `workspace/takebraid-blind-review-pilot-v1.zip`; it excludes the private
+binding and evaluation artifacts. Checksums and measured limits are in
+[the validation summary](validation/blind-review-summary.json).
 
 Automated generated-signal tests exercise export → simulated JSON collection → actual evaluation,
 retain disagreement duration, reject changed images and duplicate raters, and verify negative-start
