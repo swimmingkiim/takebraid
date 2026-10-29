@@ -89,6 +89,7 @@ media oracle. These original constructed signals are numerical tests, not human 
 The three existing CC0 pilot excerpts have a separate local search under
 `workspace/embedding-search-pilot/`. Their synthetic RGB channel-mean model gives almost equal
 directions for grayscale inputs, so a high score on them is intentionally uninformative about
-semantics. The validation summary records actual counts/hashes. It is not an embedding-quality
+semantics. The [validation summary](validation/embedding-search-summary.json) records actual
+counts/hashes. It is not an embedding-quality
 benchmark. Learned checkpoint qualification, held-out duplicate-take/event labels and M2/M3 human
 validation remain open.

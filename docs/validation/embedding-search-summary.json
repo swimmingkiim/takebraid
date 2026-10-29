@@ -1,0 +1,400 @@
+{
+  "schema_version": "0.1",
+  "recipe": "saved-embedding-cosine-search/1",
+  "source_commit": "84bfd3bcf83f6d2f4bfdd63d0ac9d3e617b9e89c",
+  "source_worktree_clean": true,
+  "dataset": "Three existing CC0 grayscale excerpts encoded by original numerical channel-mean graph; no duplicate labels",
+  "sources": [
+    {
+      "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+      "artifact_sha256": "812bcfd6d8b51ec2dd3106443babb46aef4a16a0b59c69ae6c1aad1465dd7adc",
+      "frame_map_sha256": "2a3a77e9ed0301ec08437f832df5060c2b927c9c9559c550ab960e4dacbc570e",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed"
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed"
+        }
+      ]
+    },
+    {
+      "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+      "artifact_sha256": "c6a5ba2bd903d100b4dc36b2545fdceef92f6fb3a82c7cf35623e2ec4072c311",
+      "frame_map_sha256": "e4e3f24c8a4ac8c0850e468aedb04c203a25cc7f005265d3e7c710d21456d252",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed"
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed"
+        }
+      ]
+    },
+    {
+      "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+      "artifact_sha256": "af89f5eb5d125a0396b0f63c60669285cd2c732bc0704577dbf83fd467d6c970",
+      "frame_map_sha256": "f9b80e056cb734d840daf4a97b28543bfaf61123cb16f343efcde130953bcf3e",
+      "time_base": {
+        "numerator": 1,
+        "denominator": 1000
+      },
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "status": "observed"
+        },
+        {
+          "frame_index": 25,
+          "pts": 1000,
+          "status": "observed"
+        }
+      ]
+    }
+  ],
+  "embedding_space_sha256": "0e7af970ebbc20cf6976e25109c14bd7828d1f92ad30cd1300f056c4a51d1aad",
+  "math_environment": {
+    "python": "3.14.4",
+    "implementation": "CPython",
+    "platform": "macOS-26.6.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64"
+  },
+  "settings": {
+    "min_cosine": 0.99,
+    "limit": 20
+  },
+  "result_sha256": "9cd7742809b4c743fc0059fb3035b2eb9b1dd7b4694a72480c6f2df9d0a63d5e",
+  "results": {
+    "sampled_frames": 6,
+    "possible_pairs": 12,
+    "evaluated_pairs": 12,
+    "unknown_pairs": 0,
+    "unknown_samples": {
+      "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878": 0,
+      "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f": 0,
+      "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486": 0
+    },
+    "matching_pairs": 12,
+    "truncated_pairs": 0,
+    "semantic_accuracy_validated": false,
+    "automatic_exclusion_validated": false
+  },
+  "matches": [
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 0,
+        "pts": 0,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "cosine": 1.0,
+      "left": {
+        "asset_id": "sha256-91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      },
+      "right": {
+        "asset_id": "sha256-acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486",
+        "frame_index": 25,
+        "pts": 1000,
+        "stream_index": 0,
+        "time_base": {
+          "numerator": 1,
+          "denominator": 1000
+        }
+      }
+    }
+  ],
+  "validation": {
+    "pytest": "412 passed",
+    "optional_onnx_tests": 13,
+    "ruff": "passed",
+    "format": "144 files already formatted",
+    "build": "sdist and wheel passed",
+    "core_only_wheel": {
+      "result_sha256": "9cd7742809b4c743fc0059fb3035b2eb9b1dd7b4694a72480c6f2df9d0a63d5e",
+      "byte_identical": true,
+      "optional_packages_absent": true,
+      "outside_checkout": true
+    },
+    "constructed_color_oracle": "2 cross-order matching color pairs; zero outputs unknown; model folder archived; runtime imports forbidden",
+    "clocks": "Negative-start and VFR search positions match independent source oracle",
+    "provenance": "Mixed preprocessing, repeated source IDs, edited receipts and changed source media rejected"
+  },
+  "limitations": [
+    "High scores on channel-mean grayscale vectors are intentionally uninformative about semantics",
+    "No learned checkpoint or duplicate-take accuracy validation",
+    "Source/project and compatible media tools remain required",
+    "No continuous duplicate windows, automatic exclusions or timeline edits",
+    "M2 independent human and M3 semantic validation remain open"
+  ]
+}
