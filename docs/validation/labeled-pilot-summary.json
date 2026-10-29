@@ -1,0 +1,1086 @@
+{
+  "schema_version": "0.1",
+  "source_commit": "d8cf7bd1acca1777a9824c7b8df669f0249485c1",
+  "source_worktree_clean": true,
+  "review": {
+    "method": "assistant_review",
+    "reviewers": 1,
+    "clips": 9,
+    "reviewed_frames": 450,
+    "physical_media_seconds": 18,
+    "evaluation_entries": 12,
+    "calibration_sources": [
+      "mma"
+    ],
+    "test_sources": [
+      "flow",
+      "mist"
+    ],
+    "limitations": [
+      "No independent human validation",
+      "No confirmed natural camera defect positives",
+      "Controlled transformations are not natural camera accuracy",
+      "Mist focus remains unknown",
+      "No camera-motion evaluation"
+    ]
+  },
+  "sources": [
+    {
+      "id": "mma",
+      "filename": "mma-legage.webm",
+      "sha256": "222f494d38ea920f12f1755229b4c8046297269500b37096418f0b3219eb2810",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Mma_Legage_Waterfall_video.webm",
+      "page": "https://commons.wikimedia.org/wiki/File:Mma_Legage_Waterfall_video.webm",
+      "author": "Kbmotswagole",
+      "license": "CC0-1.0",
+      "split": "calibration",
+      "start_seconds": "10",
+      "selection": "Skip edited title animation; inspect real waterfall/rock detail at 10..12 seconds."
+    },
+    {
+      "id": "flow",
+      "filename": "flowing-water.webm",
+      "sha256": "26e471fdcd86dc91d4aa2a9a1eca0733b1761cad3c86d94196e3c6b60de4e96f",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/StreamOfFlowingWater.webm",
+      "page": "https://commons.wikimedia.org/wiki/File:StreamOfFlowingWater.webm",
+      "author": "Patjos.scot",
+      "license": "CC0-1.0",
+      "split": "test",
+      "start_seconds": "0",
+      "selection": "Visible foreground grass/rock detail and moving water; no title transition in 0..2 seconds."
+    },
+    {
+      "id": "mist",
+      "filename": "stream.webm",
+      "sha256": "5652e6490bea85dfb7a1da05e00fc7f3d8cc2cbd54790c03a48223f2256bc3d1",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Water_flowing_strem.webm",
+      "page": "https://commons.wikimedia.org/wiki/File:Water_flowing_strem.webm",
+      "author": "BhotaRohit",
+      "license": "CC0-1.0",
+      "split": "test",
+      "start_seconds": "0",
+      "selection": "Retain atmospheric haze as an uncertain-focus control instead of calling it defocus."
+    }
+  ],
+  "experiment_lock": {
+    "schema_version": "0.1",
+    "labels_sha256": "f48e415f58d9f87334e07ecdff0d89fc63a31f367a56c06f341457031b47e8a9",
+    "sources_sha256": "e6bdbee22828d11147c6f4a0aa3b14b718b25e702227222e898335eb871cae85",
+    "derivations_sha256": "2dc9ea38a5150fbf0aacc85a7f327673ea9fa1c02eb16392349a8d42ea49dff3",
+    "calibration_source_ids": [
+      "mma"
+    ],
+    "policy_registry": {
+      "focus_failure": "f6edaf98e5699e13765f38c00c63e2b78e856afc4319193c8ac27ba480e34847",
+      "exposure_failure": "4477fe4b7847de610b53caf5c17ed699b3deeb15805ae12fbd98ccacf01f4af8"
+    },
+    "thresholds": {
+      "focus_enter": "2180559/88599764",
+      "focus_exit": "203182/5519345",
+      "dark_enter": "2191/3600",
+      "dark_exit": "991/2400"
+    }
+  },
+  "manifest_lock": {
+    "schema_version": "0.1",
+    "manifest_sha256": "25beccc3960223d9afbfc8d152e5d3df7b46c02793685984df615f3a1a0dee97",
+    "experiment_lock_sha256": "2727688b6078970420e7321f4474a9c73e8146d360fa09db11d77a18cbc3963f"
+  },
+  "derived_clips": [
+    {
+      "id": "mma-original",
+      "source_id": "mma",
+      "variant": "original",
+      "clip": "cases/mma-original/clip.mkv",
+      "sha256": "91a788df1cdd33df486f9657f56ec176fd152353ef526a4f638eef69929e538f"
+    },
+    {
+      "id": "mma-blur",
+      "source_id": "mma",
+      "variant": "blur",
+      "clip": "cases/mma-blur/clip.mkv",
+      "sha256": "2777108bda1f9db7ffed10739ee58aeb3577372fd234b293147964814e6667e4"
+    },
+    {
+      "id": "mma-dark",
+      "source_id": "mma",
+      "variant": "dark",
+      "clip": "cases/mma-dark/clip.mkv",
+      "sha256": "9adba227c34ae4fdabc4e709c6a18e6e3806e1efd9e253a5dd63666709312889"
+    },
+    {
+      "id": "flow-original",
+      "source_id": "flow",
+      "variant": "original",
+      "clip": "cases/flow-original/clip.mkv",
+      "sha256": "14fdd6c68c68e661b598283598b11cec7a414e1c840dd1ed54ef0389b72b9878"
+    },
+    {
+      "id": "flow-blur",
+      "source_id": "flow",
+      "variant": "blur",
+      "clip": "cases/flow-blur/clip.mkv",
+      "sha256": "f325db218b87492dbca3e1a00e4c5e62adad35cb98dbd403ef784688eef4d487"
+    },
+    {
+      "id": "flow-dark",
+      "source_id": "flow",
+      "variant": "dark",
+      "clip": "cases/flow-dark/clip.mkv",
+      "sha256": "c6f3c29348a1d2300755e6ad714c0dcc5f89869aac1fe86b6501c1280a6e9568"
+    },
+    {
+      "id": "mist-original",
+      "source_id": "mist",
+      "variant": "original",
+      "clip": "cases/mist-original/clip.mkv",
+      "sha256": "acd2bebd111e3120a5ad01861d21afbd5cb4cee94329fc689cac770e15598486"
+    },
+    {
+      "id": "mist-blur",
+      "source_id": "mist",
+      "variant": "blur",
+      "clip": "cases/mist-blur/clip.mkv",
+      "sha256": "69425322093061f7ae4b2b296cf9a544eb7621c3d940e86893084f95d5e787fd"
+    },
+    {
+      "id": "mist-dark",
+      "source_id": "mist",
+      "variant": "dark",
+      "clip": "cases/mist-dark/clip.mkv",
+      "sha256": "dc6d8158262eaf013d56005aad1483966f3cfcf751bafe64ec124950992e5912"
+    }
+  ],
+  "review_frame_digests": [
+    {
+      "id": "mma-original",
+      "decoded_gray_sha256": "288c2cf1932deaa49b32a34ec17b9dc1929b12ab657b1fe7a407659297a9e201",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "mma-blur",
+      "decoded_gray_sha256": "d6a89b593274cf5eb41291cb285e33fd7d76511ac584310ab0a933fe40438e47",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "mma-dark",
+      "decoded_gray_sha256": "50dc49f54e775aa5b92b8fa787d63e857d71cea80461cf1781203d930ef6ffcc",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "flow-original",
+      "decoded_gray_sha256": "5a7b62d7b94001782fb3bcaddd80692517a01b052082655f386b9dc5f7d52211",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "flow-blur",
+      "decoded_gray_sha256": "5416425581f80a481b87aaa4820dbf17cc7891a1c263d64332925896fa404399",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "flow-dark",
+      "decoded_gray_sha256": "ba08cda3a779ec6216056b9ed82c80be352b6638494478e9626bb669064f3438",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "mist-original",
+      "decoded_gray_sha256": "270aec585a9ecba32149aee4785c098f2e8184d923ad43a1dadaab69b3b72059",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "mist-blur",
+      "decoded_gray_sha256": "1ea0156c059bd96c92a60d9ff75bcb725f8e57e800aa60904633337ebee4d78f",
+      "reviewed_frames": 50
+    },
+    {
+      "id": "mist-dark",
+      "decoded_gray_sha256": "4cbb7139b4f9202b1f526f5d0998e29233721fd793a77948b6ac5fcda7cc514e",
+      "reviewed_frames": 50
+    }
+  ],
+  "reports": {
+    "test": {
+      "sha256": "7ee149166c75afa165f53a4786716226b6209ea0e015d0212e39df4cb9b5bf19",
+      "recipe": "quality-evaluation/2",
+      "manifest_sha256": "25beccc3960223d9afbfc8d152e5d3df7b46c02793685984df615f3a1a0dee97",
+      "evidence_scope": "mixed_review_levels",
+      "automatic_exclusion_validated": false,
+      "cohorts": [
+        {
+          "kind": "camera",
+          "label_method": "assistant_review",
+          "defect": "exposure_failure",
+          "entries": 2,
+          "durations": {
+            "source_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": null,
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "camera",
+          "label_method": "assistant_review",
+          "defect": "focus_failure",
+          "entries": 2,
+          "durations": {
+            "source_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "label_unknown_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": null,
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 1,
+              "denominator": 2
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "synthetic",
+          "label_method": "constructed",
+          "defect": "exposure_failure",
+          "entries": 2,
+          "durations": {
+            "source_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 8,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 8,
+              "denominator": 5
+            },
+            "label_normal_seconds": {
+              "numerator": 12,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 8,
+              "denominator": 5
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 12,
+              "denominator": 5
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_observed_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "synthetic",
+          "label_method": "constructed",
+          "defect": "focus_failure",
+          "entries": 2,
+          "durations": {
+            "source_seconds": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 14,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 8,
+              "denominator": 5
+            },
+            "label_normal_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 8,
+              "denominator": 5
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_observed_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 3,
+              "denominator": 10
+            },
+            "normal_exclusion_rate": null
+          }
+        }
+      ]
+    },
+    "calibration": {
+      "sha256": "8cad6feb669156c45a3a6a40b519bb0225fe2866414a727a4869b5c9da24ca54",
+      "recipe": "quality-evaluation/2",
+      "manifest_sha256": "25beccc3960223d9afbfc8d152e5d3df7b46c02793685984df615f3a1a0dee97",
+      "evidence_scope": "mixed_review_levels",
+      "automatic_exclusion_validated": false,
+      "cohorts": [
+        {
+          "kind": "camera",
+          "label_method": "assistant_review",
+          "defect": "exposure_failure",
+          "entries": 1,
+          "durations": {
+            "source_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": null,
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "camera",
+          "label_method": "assistant_review",
+          "defect": "focus_failure",
+          "entries": 1,
+          "durations": {
+            "source_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_normal_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": null,
+            "recall_all_labeled_defect": null,
+            "recall_observed_defect": null,
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "synthetic",
+          "label_method": "constructed",
+          "defect": "exposure_failure",
+          "entries": 1,
+          "durations": {
+            "source_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "label_normal_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_observed_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        },
+        {
+          "kind": "synthetic",
+          "label_method": "constructed",
+          "defect": "focus_failure",
+          "entries": 1,
+          "durations": {
+            "source_seconds": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "candidate_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "candidate_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_coverage_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "decision_labeled_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_defect_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "label_normal_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "disagreement_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "unknown_on_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_positive_seconds": {
+              "numerator": 4,
+              "denominator": 5
+            },
+            "false_positive_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "false_negative_observed_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "true_negative_seconds": {
+              "numerator": 6,
+              "denominator": 5
+            },
+            "excluded_normal_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_defect_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "excluded_label_unknown_seconds": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          "ratios": {
+            "precision": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_all_labeled_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "recall_observed_defect": {
+              "numerator": 1,
+              "denominator": 1
+            },
+            "observed_normal_false_positive_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "prediction_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "label_unknown_rate": {
+              "numerator": 0,
+              "denominator": 1
+            },
+            "normal_exclusion_rate": null
+          }
+        }
+      ]
+    }
+  },
+  "validation": {
+    "pytest": "314 passed",
+    "ruff": "passed",
+    "format": "118 files already formatted",
+    "build": "sdist and wheel passed",
+    "relocated_archive": "extracted, verified, relinked and both splits replayed",
+    "installed_wheel": "test split replayed from outside checkout"
+  },
+  "archive": {
+    "filename": "takebraid-labeled-pilot-v1.zip",
+    "sha256": "cf0d68ec98397c046449712b8742348a2eb03f4f754505c6995f4481af3f0cf4",
+    "bytes": 13128700
+  }
+}

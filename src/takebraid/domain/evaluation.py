@@ -23,10 +23,10 @@ class LabelInterval:
             raise ValueError("Labels require 0 <= FIRST < END")
         if (
             not isinstance(self.votes, tuple)
-            or len(self.votes) < 2
+            or len(self.votes) < 1
             or any(v not in TRUTHS for v in self.votes)
         ):
-            raise ValueError("At least two explicit defect/normal/unknown votes are required")
+            raise ValueError("At least one explicit defect/normal/unknown vote is required")
 
     @property
     def consensus(self):

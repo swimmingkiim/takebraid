@@ -3,7 +3,8 @@
 `takebraid evaluate manifest.json --output workspace/evaluation --split test` scores fixed temporal
 candidate policies against explicit source-frame labels. It does not fit thresholds or validate an
 automatic exclusion policy. Rights-cleared, independently labeled camera footage is still needed to
-complete TB-205b; M2's camera-accuracy gate remains open.
+complete TB-205b; M2's camera-accuracy gate remains open. A small public camera-derived, single-AI
+review pilot is now available in `labeled-pilot.md`; it is not independent human validation.
 
 ## Reproduce the synthetic controls
 
@@ -68,8 +69,10 @@ target, not proof the feature identifies that defect. Each class pins one policy
 use separate experiments for alternative policies. Test labels are never used to select thresholds.
 A hash declaration is not cryptographic preregistration or proof that a person avoided test leakage.
 
-Every entry declares synthetic/constructed or camera/human. At least two distinct annotator IDs and
-all their votes are required for every interval. Votes are defect, normal or unknown. Only unanimous
+Every entry declares synthetic/constructed, camera/human, or camera/assistant_review. Human validation
+still requires at least two distinct annotators; assistant_review requires exactly one explicitly
+identified AI reviewer; constructed oracles may have one or more votes. All declared votes are required
+for every interval. A single vote is not independent consensus. Votes are defect, normal or unknown. Only unanimous
 normal/defect votes are determinate; disagreement or any unknown yields unknown truth. Labels must
 partition all decoded frames with exclusive ends. Annotate source intent as well as visible defects:
 static product views, deliberate pans and intentional darkness are essential normal controls.
@@ -82,7 +85,7 @@ Selected sources/artifacts and label partitions are fully verified; unselected e
 in metadata/split audits but are not scored. Limits are 200 entries, an 8 MiB manifest and 250,000
 selected frame evaluations in total.
 
-## Defined metrics (`quality-evaluation/1`)
+## Defined metrics (`quality-evaluation/2`)
 
 All accounting uses exact source-frame presentation durations, including signed PTS, VFR and final
 ends. These are **duration-weighted** precision/recall, not event matching or frame-count accuracy.
@@ -99,8 +102,7 @@ outside accepted cores are clear; unmeasured/unreliable cells remain prediction 
   Without decision coverage its denominator is zero and the ratio is null, not a perfect zero score.
 
 Zero denominators produce null. Cohorts sum duration counts before calculating ratios. Reports retain
-per-entry, per-project and per-scene results and sample/project/shoot counts. Synthetic and camera
-cohorts are never pooled into one score. An entry's declared kind is not authenticated camera origin.
+per-entry, per-project and per-scene results and sample/project/shoot counts. Synthetic/camera and human/assistant/constructed review levels are never pooled into one score. An entry's declared kind is not authenticated camera origin.
 No confidence interval or minimum sample-size release guarantee is claimed by this slice.
 
 ## Provenance and publication
@@ -119,7 +121,9 @@ rights/protocol text is retained. Sharing is a separate user action; this comman
 
 ## Camera evaluation still required (TB-205b)
 
-No rights-cleared, temporally defect-labeled camera corpus has been supplied for this run. Public
+A small CC0 camera-derived pilot has been labeled by one AI reviewer; its original camera clips
+contain no confirmed naturally captured positive focus/exposure failures. It does not supply the
+independent human-labeled camera corpus needed for M2 sign-off. Public
 quality datasets are cataloged in `evaluation-data.md`; global opinion scores do not establish our
 source-frame defect/normal labels. Before M2 sign-off: acquire permitted material, preserve independent
 editor votes, split by shoot, freeze calibrated policies/release targets before test evaluation, run

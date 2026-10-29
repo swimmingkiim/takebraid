@@ -129,7 +129,9 @@ licensed held-out annotations; synthetic regressions remain separate from camera
   checked parent history and bound chronological preview plans. See `decisions.md`.
 - [x] TB-205a: versioned duration-weighted evaluation harness, rights/label/split validation,
   unknown/disagreement accounting and synthetic negative controls. See `quality-evaluation.md`.
-- [ ] TB-205b: obtain rights-cleared held-out camera labels and evaluate static product shots,
+- [x] TB-205b pilot: three CC0 sources, nine labeled excerpts/controlled variants, frozen calibration
+  and separate AI-review/constructed test results. See `labeled-pilot.md`.
+- [ ] TB-205b independent validation: obtain independent human-held-out labels and evaluate static product shots,
   deliberate pans, night scenes and actual focus failures. M2 accuracy gate remains open.
 
 Exit: measured per-defect precision/recall and normal-footage exclusion time; all exclusions can be
