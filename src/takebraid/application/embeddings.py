@@ -12,6 +12,7 @@ from takebraid.adapters.models.onnx import (
     load_model_manifest,
     validate_model_spec,
 )
+from takebraid.adapters.models.preprocessing import CROP_RESIZE, crop_geometry
 from takebraid.adapters.records import read_json
 from takebraid.adapters.stages import StageAttempt, cached_output, completed_artifact
 from takebraid.application.analysis import prepare_analysis
@@ -19,7 +20,12 @@ from takebraid.domain.embeddings import validate_unit_vector
 from takebraid.domain.quality import QualitySettings
 
 RECIPE = "local-onnx-image-embedding/1"
+CROP_RECIPE = "local-onnx-image-embedding/2"
 MAX_SAMPLES = 1000
+
+
+def embedding_recipe(settings):
+    return CROP_RECIPE if settings["model_spec"]["input"]["resize"] == CROP_RESIZE else RECIPE
 
 
 def validate_embeddings(path, context, every, dimensions):
@@ -84,6 +90,8 @@ def prepare_saved_embedding(asset, stream_index, settings):
         raise ValueError("Invalid saved model manifest hash/inference settings")
     runtime = settings["runtime"]
     strings = {"onnxruntime", "numpy", "build", "platform", "machine"}
+    if embedding_recipe(settings) == CROP_RECIPE:
+        strings.add("pillow")
     if (
         not isinstance(runtime, dict)
         or set(runtime)
@@ -116,12 +124,25 @@ def prepare_saved_embedding(asset, stream_index, settings):
         stream_index,
         QualitySettings(size=max(geometry), every=settings["every"]),
         timeout=settings["timeout"],
-        recipe=RECIPE,
+        recipe=embedding_recipe(settings),
         semantic_settings=settings,
         max_samples=MAX_SAMPLES,
     )
     context.geometry = geometry
-    if len(context.frame_map.frames) * image["width"] * image["height"] * 3 > MAX_DECODE_BYTES:
+    decode_geometry = geometry
+    decoded_count = len(context.frame_map.frames)
+    if image["resize"] == CROP_RESIZE:
+        # The generic analysis preparation budgets an all-frame grayscale spool. This path
+        # creates only a selected-original-RGB spool, budgeted below instead.
+        context.reasons = [r for r in context.reasons if r != "decoded_byte_budget_exceeded"]
+        decode_geometry = context.source_geometry
+        decoded_count = len(range(0, decoded_count, settings["every"]))
+        try:
+            crop_geometry(decode_geometry, image)
+        except ValueError:
+            context.reasons.append("rgb_preprocessing_geometry_budget_exceeded")
+    width, height = decode_geometry
+    if width and height and decoded_count * width * height * 3 > MAX_DECODE_BYTES:
         context.reasons.append("rgb_decoded_byte_budget_exceeded")
     return context
 
@@ -132,7 +153,7 @@ def load_saved_embeddings(asset: Path, artifact: Path):
     digest = file_digest(artifact)
     raw = read_json(artifact, limit=64 * 1024 * 1024)
     inputs = raw["inputs"]
-    if inputs["recipe"] != RECIPE:
+    if inputs["recipe"] != embedding_recipe(inputs["settings"]):
         raise ValueError("Unsupported saved embedding recipe")
     settings = inputs["settings"]
     context = prepare_saved_embedding(asset, inputs["stream_index"], settings)
@@ -197,17 +218,24 @@ def observe_embeddings(
     with StageAttempt(context.root, context.inputs) as attempt:
         rows = []
         if not context.reasons:
-            frame_bytes = image["width"] * image["height"] * 3
+            decode_geometry = (
+                context.source_geometry if image["resize"] == CROP_RESIZE else geometry
+            )
+            frame_bytes = decode_geometry[0] * decode_geometry[1] * 3
+            decode_every = every if image["resize"] == CROP_RESIZE else 1
             with decoded_rgb(
                 context.source,
                 context.frame_map,
                 context.source_geometry,
-                geometry,
+                decode_geometry,
                 timeout=timeout,
+                every=decode_every,
             ) as raw:
                 for index in range(0, len(context.frame_map.frames), every):
-                    raw.seek(index * frame_bytes)
-                    values, reason = encoder.encode(raw.read(frame_bytes), inference_timeout)
+                    raw.seek((index // decode_every) * frame_bytes)
+                    values, reason = encoder.encode(
+                        raw.read(frame_bytes), inference_timeout, source_geometry=decode_geometry
+                    )
                     rows.append(
                         {
                             "frame_index": index,

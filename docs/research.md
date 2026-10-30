@@ -31,8 +31,10 @@ benchmarks alone do not establish better first cuts.
 
 Research only: no weights were downloaded, exported, executed, approved for redistribution or
 selected as the application's default. The optional adapter still accepts only static float32
-RGB NCHW inputs, `stretch-area` resizing, declared channel normalization, a single-file ONNX graph
+RGB NCHW inputs, declared channel normalization, a single-file ONNX graph
 up to 512 MiB, and one float32 `[1, dimensions]` output (1..4096). See `local-embeddings.md`.
+After this shortlist, the explicit Pillow bicubic short-edge/center-crop path was implemented
+and checked against torchvision; see ADR 0015. Checkpoint export/parity remains pending.
 
 | Candidate | Evidence and proposed role | Compatibility work remaining |
 |---|---|---|
@@ -60,5 +62,5 @@ Next verifiable slice:
    Compare the learned encoder with the spatial baseline under equal sample budgets; publish
    retrieval precision/recall, unknown coverage and failure cases without tuning on test labels.
 
-The shortlist is complete; checkpoint selection, export/parity, preprocessing support and held-out
+The shortlist and reference crop are complete; checkpoint selection, export/parity and held-out
 semantic evaluation are still pending. TB-301 and the human M2/M3 gates remain open.

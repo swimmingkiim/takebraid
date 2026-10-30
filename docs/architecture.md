@@ -18,6 +18,8 @@ These are a pre-model baseline, not semantic duplicate-take decisions. One optio
 selected local ONNX CPU image encoder is implemented; see `local-embeddings.md` and ADR 0013.
 Saved compatible embedding observations can be searched without a model/runtime; see
 `embedding-search.md` and ADR 0014. Learned-checkpoint and semantic validation remain pending.
+Optional original-RGB bicubic crop preprocessing has an independent torchvision reference check;
+see `local-embeddings.md` and ADR 0015. It does not qualify a pretrained checkpoint.
 See the roadmap.
 
 ## Product boundary

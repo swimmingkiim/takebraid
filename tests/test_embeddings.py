@@ -110,6 +110,7 @@ def test_basic_cli_does_not_import_model_runtimes_even_when_installed():
             "-c",
             "import sys; from takebraid.cli import main; "
             "assert 'numpy' not in sys.modules; assert 'onnxruntime' not in sys.modules; "
+            "assert 'PIL' not in sys.modules; "
             "main(['--version'])",
         ],
         check=True,
