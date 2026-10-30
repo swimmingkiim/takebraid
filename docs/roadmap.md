@@ -147,6 +147,8 @@ Automatic exclusions remain opt-in until held-out results justify a specific sup
   frame-match proposals. See `visual-matches.md`; this independent baseline does not close M2/M3 gates.
 - [x] TB-301b: explicit optional local ONNX CPU image encoder, pinned model/preprocessing/runtime
   cache identity and exact source coordinates. See `local-embeddings.md`; numerical oracle only.
+- [x] TB-301c: runtime-free cosine search over checked compatible saved embeddings, explicit unknown
+  coverage and source-clock-bound ranked frame candidates. See `embedding-search.md`.
 - [ ] TB-301: qualified learned image embeddings for relevance and labeled duplicate-take proposals.
 - [ ] TB-302: one optional local VLM adapter with structured output, revision/license manifest,
   sparse screening and dense event reinspection.

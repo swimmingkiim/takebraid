@@ -27,6 +27,7 @@ to its source and evidence.
 | Prediction-hidden offline annotation packets and disagreement-preserving vote collection | Independent human study and browser visual QA |
 | `takebraid visual`: cached spatial features and sampled frame-match proposals | Learned image embeddings and duplicate-take validation |
 | `takebraid embed`: explicit local ONNX image encoder and provenance-bound cache | Qualified learned checkpoints and embedding retrieval |
+| `takebraid embedding-search`: checked saved-vector cosine retrieval without model dependencies | Qualified semantic relevance and duplicate-take grouping |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |
 | CI, contribution guide and architecture decisions | Review UI and timeline interchange |
@@ -103,6 +104,10 @@ or whole takes; it cannot automatically exclude footage.
 Run an explicitly selected [local ONNX image encoder](docs/local-embeddings.md) with
 `takebraid embed <asset.json> --stream 0 --model <model.json>`. Optional dependencies and a compatible
 local model are required; no model is downloaded and no semantic accuracy is yet validated.
+
+Search [saved embedding frame candidates](docs/embedding-search.md) with `takebraid embedding-search`.
+It requires compatible checked records and source/media tools, but no model file or optional runtime.
+High cosine is a review candidate, not a validated duplicate-take decision.
 
 ## Design commitments
 

@@ -94,9 +94,10 @@ vector validity are checked; edited cache outputs are rejected. `--force` preser
 
 Numerical results can vary across hardware/runtime revisions. Stored outputs and their exact source
 coordinates are the evidence; the implementation does not promise bitwise cross-platform inference.
-A valid normalized vector does not prove useful semantics. Similarity search and actual learned
-checkpoint/held-out duplicate-take evaluation remain subsequent work; `visual compare` continues to
-accept only its grayscale descriptors, not these unrelated embedding spaces.
+A valid normalized vector does not prove useful semantics. Saved-vector
+[cosine search](embedding-search.md) is now implemented without a model/runtime; actual
+learned checkpoint/held-out duplicate-take evaluation remains subsequent work. `visual compare`
+continues to accept only its grayscale descriptors, not these unrelated embedding spaces.
 
 ## Runtime initialization and privacy
 

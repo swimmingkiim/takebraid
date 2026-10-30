@@ -16,7 +16,9 @@ are checkout tooling; see `blind-review.md` and ADR 0011. Exact cached grayscale
 and review-only cross-source frame matches are available; see `visual-matches.md` and ADR 0012.
 These are a pre-model baseline, not semantic duplicate-take decisions. One optional, explicitly
 selected local ONNX CPU image encoder is implemented; see `local-embeddings.md` and ADR 0013.
-Learned-checkpoint and semantic validation remain pending. See the roadmap.
+Saved compatible embedding observations can be searched without a model/runtime; see
+`embedding-search.md` and ADR 0014. Learned-checkpoint and semantic validation remain pending.
+See the roadmap.
 
 ## Product boundary
 

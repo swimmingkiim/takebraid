@@ -18,12 +18,11 @@ MAX_MODEL_BYTES = 512 * 1024 * 1024
 _OWN_RUNTIME = None
 
 
-def load_model_manifest(path: Path):
-    path = path.expanduser().resolve(strict=True)
-    digest = file_digest(path)
-    document = read_json(path, limit=64 * 1024)
+def validate_model_spec(document: dict):
+    """Validate declared metadata without opening weights or importing a runtime."""
     if (
         set(document) != {"schema_version", "provider", "model", "input", "output"}
+        or document["schema_version"] != "0.1"
         or document["provider"] != "onnx-cpu"
     ):
         raise ValueError("Expected an explicit onnx-cpu model manifest")
@@ -44,9 +43,6 @@ def load_model_manifest(path: Path):
         or not re.fullmatch(r"[a-f0-9]{64}", model["sha256"])
     ):
         raise ValueError("Model requires a sibling .onnx filename and SHA-256")
-    weights = (path.parent / filename).resolve(strict=True)
-    if weights.parent != path.parent or weights.stat().st_size > MAX_MODEL_BYTES:
-        raise ValueError("Single-file model must stay in its manifest directory and be <=512 MiB")
     if (
         set(image)
         != {"name", "width", "height", "layout", "dtype", "resize", "color", "mean", "std"}
@@ -81,6 +77,17 @@ def load_model_manifest(path: Path):
     for tensor in (image, output):
         if not isinstance(tensor["name"], str) or not tensor["name"] or len(tensor["name"]) > 200:
             raise ValueError("Tensor names must be explicit bounded strings")
+
+
+def load_model_manifest(path: Path):
+    path = path.expanduser().resolve(strict=True)
+    digest = file_digest(path)
+    document = read_json(path, limit=64 * 1024)
+    validate_model_spec(document)
+    model = document["model"]
+    weights = (path.parent / model["file"]).resolve(strict=True)
+    if weights.parent != path.parent or weights.stat().st_size > MAX_MODEL_BYTES:
+        raise ValueError("Single-file model must stay in its manifest directory and be <=512 MiB")
     if file_digest(weights) != model["sha256"] or file_digest(path) != digest:
         raise ValueError("Model or manifest checksum mismatch")
     return path, weights, document, digest
