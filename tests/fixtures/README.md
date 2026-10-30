@@ -67,3 +67,9 @@ The licensed pilot in `examples/labeled-pilot/` records CC0 camera source hashes
 with constructed blur/darkness variants kept separate. Runtime videos/contact sheets are generated
 under ignored workspace data, not committed. Metadata-contract tests use generated signals and do
 not count as real camera evidence. Human review still requires two raters; assistant review uses one.
+
+`embedding-preprocessing-reference.json` preserves actual torchvision 0.21.0 / Pillow 13.0.0
+reference results for seven original coordinate-pattern RGB images (square, portrait, landscape,
+odd geometry and upscaling). The recipe is `tools/check_embedding_preprocessing.py`; patterns and
+hash metadata are project-authored Apache-2.0 material. No external image or pretrained checkpoint
+is used. Pixel equality and normalized tensor parity are preprocessing evidence only.

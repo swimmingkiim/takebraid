@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
+from takebraid.adapters.models.preprocessing import CROP_RESIZE
 from takebraid.application.embedding_search import search_embeddings
 from takebraid.application.embeddings import observe_embeddings
 from takebraid.application.ingest import ingest
@@ -183,3 +184,25 @@ def test_search_preserves_vfr_and_negative_source_positions(tmp_path, recorded_p
                 point["pts"] * clocks[point["asset_id"]]
                 == points[point["asset_id"]][point["frame_index"]]
             )
+
+
+def test_crop_records_replay_without_pillow_or_runtime_and_reject_legacy_space(
+    tmp_path, recorded_pair
+):
+    pytest.importorskip("PIL")
+    sources, model, _ = recorded_pair
+    spec = json.loads(model.read_text())
+    spec["input"].update(resize=CROP_RESIZE, resize_short_edge=20)
+    model.write_text(json.dumps(spec))
+    cropped = [(asset, observe_embeddings(asset, 0, model, every=1)[0]) for asset, _ in sources]
+    model.parent.rename(tmp_path / "archived-model")
+    with patch(
+        "takebraid.adapters.models.onnx.importlib.import_module",
+        side_effect=AssertionError("Replay must not import Pillow, NumPy or ONNX Runtime"),
+    ):
+        result = search_embeddings(cropped, tmp_path / "crop-search", min_cosine=1.0)
+        record = json.loads(result.read_text())
+        assert record["matching_pairs"] == 2 and record["unknown_pairs"] == 6
+        assert search_embeddings(cropped, tmp_path / "crop-search", min_cosine=1.0) == result
+        with pytest.raises(ValueError, match="Incompatible embedding spaces"):
+            search_embeddings([sources[0], cropped[1]], tmp_path / "mixed", min_cosine=0.5)

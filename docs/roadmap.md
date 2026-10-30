@@ -149,6 +149,9 @@ Automatic exclusions remain opt-in until held-out results justify a specific sup
   cache identity and exact source coordinates. See `local-embeddings.md`; numerical oracle only.
 - [x] TB-301c: runtime-free cosine search over checked compatible saved embeddings, explicit unknown
   coverage and source-clock-bound ranked frame candidates. See `embedding-search.md`.
+- [x] TB-301d preprocessing: optional original-RGB bicubic short-edge/center-crop, independent
+  torchvision pixel/tensor reference, checked sparse spool and recipe-separated replay.
+  See `local-embeddings.md`; pretrained checkpoint export/parity is still pending.
 - [ ] TB-301: qualified learned image embeddings for relevance and labeled duplicate-take proposals.
   The dated candidate comparison and next qualification checks are in `research.md`; no pretrained
   checkpoint has been selected or run. The existing numerical oracle does not close this task.
@@ -198,15 +201,21 @@ automatic video generation, or every genre. Each milestone should land a working
 ## Continuation record — 2026-10-30
 
 - Completed: reviewed the TB-301c saved-vector search changes against current main guidance;
-  local verification passed 412 tests, Ruff/format, source/wheel build and synthetic UI handlers.
+  local verification now passes 426 tests, Ruff/format and source/wheel build. The previous
+  synthetic UI handler verification remains unchanged; this slice does not modify review UI.
   This environment required `PYTHONPATH=src` for pytest after editable installation because the
   source path was absent from the interpreter's import path. No product change was made for this.
 - Completed: a fresh core-only wheel install outside the checkout, without NumPy/ONNX Runtime,
   replayed the six-sample pilot search (12 evaluated pairs) byte-identically to the saved report.
+  The new wheel also replays two matching cropped RGB pairs without Pillow, NumPy or ONNX Runtime;
+  both legacy and crop reports remain byte-identical to their original inference-environment runs.
 - Completed: publisher-source research for two learned encoder candidates; see `research.md`.
 - Pending: browser visual/download QA (Work local browser access disabled), actual independent
   human labels/natural defect footage, and learned-checkpoint qualification/semantic evaluation.
-- Next: qualify explicit preprocessing and one pinned model export using the checklist in
+- Completed: optional bicubic crop matches all seven independent torchvision reference patterns
+  byte-for-byte (zero normalized tensor error). Generated RGB border-removal, budget, signed/VFR
+  source-time and runtime-free search tests exercise the actual inference path; see ADR 0015.
+- Next: qualify one pinned model export using the checklist in
   `research.md`; browser and human-study completion conditions remain in `blind-review.md`.
 - Related changes: TB-301c implementation `84bfd3b`, validation evidence `ef89958`, instructions
   on main `7b908d1`; search validation is in `validation/embedding-search-summary.json`.

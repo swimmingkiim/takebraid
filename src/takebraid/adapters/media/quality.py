@@ -55,13 +55,19 @@ def _decoded_pixels(
     *,
     timeout: float,
     pixel_format: str = "gray",
+    every: int = 1,
 ):
     """Yield a verified disk spool; close it on success, failure or cancellation."""
     width, height = geometry
+    if type(every) is not int or every < 1:
+        raise ValueError("Decoded frame stride must be a positive integer")
     channels = {"gray": 1, "rgb24": 3}[pixel_format]
-    expected_bytes = len(frame_map.frames) * width * height * channels
+    output_count = len(range(0, len(frame_map.frames), every))
+    expected_bytes = output_count * width * height * channels
     if expected_bytes > MAX_DECODE_BYTES:
         raise ValueError("Decoded analysis exceeds 256 MiB budget")
+    # Verify every decoded source frame before selecting by its integer decoded index.
+    selection = f",select=not(mod(n\\,{every}))" if every > 1 else ""
     command = [
         "ffmpeg",
         "-hide_banner",
@@ -81,11 +87,11 @@ def _decoded_pixels(
         "-sn",
         "-dn",
         "-vf",
-        f"showinfo,scale={width}:{height}:flags=area,format={pixel_format}",
+        f"showinfo{selection},scale={width}:{height}:flags=area,format={pixel_format}",
         "-fps_mode",
         "passthrough",
         "-frames:v",
-        str(len(frame_map.frames) + 1),
+        str(output_count + 1),
         "-threads:v",
         "1",
         "-f",
@@ -122,9 +128,15 @@ def decoded_gray(source, frame_map, source_geometry, geometry, *, timeout):
 
 
 @contextmanager
-def decoded_rgb(source, frame_map, source_geometry, geometry, *, timeout):
+def decoded_rgb(source, frame_map, source_geometry, geometry, *, timeout, every=1):
     with _decoded_pixels(
-        source, frame_map, source_geometry, geometry, timeout=timeout, pixel_format="rgb24"
+        source,
+        frame_map,
+        source_geometry,
+        geometry,
+        timeout=timeout,
+        pixel_format="rgb24",
+        every=every,
     ) as raw:
         yield raw
 

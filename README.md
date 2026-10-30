@@ -26,7 +26,7 @@ to its source and evidence.
 | `takebraid evaluate`: duration-weighted labeled evaluation and split audits | Held-out camera accuracy validation |
 | Prediction-hidden offline annotation packets and disagreement-preserving vote collection | Independent human study and browser visual QA |
 | `takebraid visual`: cached spatial features and sampled frame-match proposals | Learned image embeddings and duplicate-take validation |
-| `takebraid embed`: explicit local ONNX image encoder and provenance-bound cache | Qualified learned checkpoints and embedding retrieval |
+| `takebraid embed`: local ONNX encoder with explicit stretch or reference-crop preprocessing | Qualified learned checkpoints and semantic accuracy |
 | `takebraid embedding-search`: checked saved-vector cosine retrieval without model dependencies | Qualified semantic relevance and duplicate-take grouping |
 | Installable Python package and `takebraid doctor` | Optional local model adapters |
 | Exact source-time values and invariant tests | Event selection and multi-take assembly |

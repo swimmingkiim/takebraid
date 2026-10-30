@@ -6,7 +6,6 @@ from pathlib import Path
 from takebraid.adapters.artifacts import write_new_json
 from takebraid.adapters.records import read_json
 from takebraid.adapters.stages import StageAttempt, cached_output, stage_key
-from takebraid.application.embeddings import RECIPE as EMBEDDING_RECIPE
 from takebraid.application.embeddings import load_saved_embeddings
 from takebraid.domain.embeddings import search_series
 
@@ -16,7 +15,7 @@ RECIPE = "saved-embedding-cosine-search/1"
 def embedding_space(inputs):
     settings = inputs["settings"]
     return {
-        "recipe": EMBEDDING_RECIPE,
+        "recipe": inputs["recipe"],
         "model_spec": settings["model_spec"],
         "runtime": settings["runtime"],
         "media_tools": inputs["tools"],

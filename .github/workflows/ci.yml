@@ -118,7 +118,7 @@ jobs:
           fi
           ffmpeg -version
           ffprobe -version
-      - run: python -m pip install -e ".[dev,onnx,onnx-dev]"
+      - run: python -m pip install -e ".[dev,onnx,onnx-dev,image-preprocessing]"
       - name: Run generated ONNX oracle and source-clock integration tests
         run: python -m pytest -m onnx --strict-markers --junitxml=workspace/onnx-validation-junit.xml
       - name: Publish optional encoder validation

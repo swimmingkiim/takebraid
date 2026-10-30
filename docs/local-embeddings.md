@@ -45,18 +45,20 @@ A schema 0.1 JSON object has exactly `provider`, `model`, `input` and `output` b
   The model must stay in the manifest directory and contain all initializers in a single file,
   at most 512 MiB. No URLs, path traversal or implicit external initializer files are loaded.
 - `input`: tensor name, integer `width`/`height` in 16..512, `layout: NCHW`, `dtype: float32`,
-  `resize: stretch-area`, `color: RGB`, and three finite channel `mean`/`std` values. Means/stds
-  have magnitude <=10; stds must be >=1e-6.
+  `color: RGB`, and three finite channel `mean`/`std` values. Means/stds have magnitude <=10;
+  stds must be >=1e-6. Select `resize: stretch-area` for the existing FFmpeg path, or
+  `resize: pillow-bicubic-short-edge-center-crop/1` plus integer `resize_short_edge` for the optional
+  reference crop below. Other fields/resizers are rejected.
 - `output`: tensor name, `dtype: float32`, integer `dimensions` in 1..4096.
 
 Actual graph metadata must have exactly one static float32 `[1,3,H,W]` input and one static float32
 `[1,D]` output with those names. Dynamic batch/geometry, token grids, text encoders, multi-output
-models, external-data graphs and custom preprocessor contracts are outside this initial adapter.
+models, external-data graphs and undeclared preprocessor contracts are unsupported.
 Weights are read as bytes, hash-checked and passed to the runtime without a model filesystem path.
 No custom-op library registration, Python model code or pickle loader is used. Models must still
 be trusted: this is not a sandbox for arbitrary computational graphs.
 
-RGB decoding uses the existing same-pass source PTS checks and FFmpeg area scaling to the declared
+With `stretch-area`, RGB decoding uses same-pass source PTS checks and FFmpeg area scaling to the declared
 fixed dimensions. This **stretches the image**, including upscaling where required. It does not
 silently apply CLIP/other model-specific crops, interpolation, channel order or normalization.
 Use only an encoder compatible with the exact declared pipeline:
@@ -72,6 +74,43 @@ pixel formats). At most 1,000 samples and 256 MiB of decoded RGB are supported. 
 source-frame stride, not seconds or average FPS. Sparse inference still decodes the full source to
 check its clock. PTS and rational time bases remain exact; vectors are floating-point measurements.
 Model input dimensions and resizing do not alter source frame membership or source timestamps.
+
+### Optional aspect-preserving bicubic crop
+
+Explicitly install `takebraid[onnx,image-preprocessing]` to use the Pillow path. For the
+[DINOv2 reference evaluation transform](https://github.com/facebookresearch/dinov2/blob/7764ea0f912e53c92e82eb78a2a1631e92725fc8/dinov2/data/transforms.py),
+the input declaration is width/height 224, `resize: pillow-bicubic-short-edge-center-crop/1`,
+`resize_short_edge: 256`, mean `[0.485,0.456,0.406]`, std `[0.229,0.224,0.225]`.
+This is a preprocessing example, not a usable model manifest or a supplied checkpoint.
+
+The short edge must be >= both crop edges and <=1024; no padding is inferred. Resize the original
+RGB image with preserved aspect ratio (floor the long-edge dimension), Pillow `BICUBIC` and
+`reducing_gap=None`, then crop at round-to-even half-offsets. Pillow's PIL bicubic path performs
+antialiased resizing; this contract is not the torchvision tensor path. Upscaling is explicit.
+Float32 normalization and ONNX execution then follow steps 3..5 above.
+
+Every decoded source PTS/geometry is verified before stride selection. Only selected original RGB
+frames enter the spool (256 MiB maximum, at most 1,000 samples); increasing `--every` reduces that
+spool, not clock verification. Both source and resized frames are limited to 16 megapixels and
+source edges to 3..16384. Over-budget inputs become explicit unknown coverage without inference.
+Existing unsupported media/display-transform rules still apply. This does not normalize SAR.
+
+Crop observations use recipe `local-onnx-image-embedding/2` and add the actual Pillow version to
+runtime/cache identity; legacy stretch records remain recipe `/1`. Search validates both formats
+without opening weights or importing Pillow. It rejects mixed crop/stretch or different Pillow
+spaces. No prior cache is rewritten or silently promoted to the new recipe.
+
+The [committed reference report](../tests/fixtures/embedding-preprocessing-reference.json) records
+seven constructed images, byte-identical crop pixels and zero normalized tensor error against
+torchvision 0.21.0 with torch 2.6.0, Pillow 13.0.0 and NumPy 2.3.5. Reproduce in a separate checkout
+environment with those explicit versions (PyTorch/torchvision are not runtime dependencies):
+
+```bash
+PYTHONPATH=src python -m tools.check_embedding_preprocessing --output workspace/crop-reference.json
+```
+
+The destination must be new. Border-removal and negative/VFR fixtures exercise the actual decoder,
+crop, ONNX oracle and saved-vector search. No learned weights are involved. See ADR 0015.
 
 ## Unknown coverage, failures and cache
 

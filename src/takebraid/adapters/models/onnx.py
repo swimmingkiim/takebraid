@@ -11,6 +11,7 @@ import threading
 from pathlib import Path
 
 from takebraid.adapters.identity import file_digest
+from takebraid.adapters.models.preprocessing import CROP_RESIZE, PillowCrop
 from takebraid.adapters.records import read_json
 from takebraid.domain.embeddings import normalise_embedding
 
@@ -21,12 +22,15 @@ _OWN_RUNTIME = None
 def validate_model_spec(document: dict):
     """Validate declared metadata without opening weights or importing a runtime."""
     if (
-        set(document) != {"schema_version", "provider", "model", "input", "output"}
+        not isinstance(document, dict)
+        or set(document) != {"schema_version", "provider", "model", "input", "output"}
         or document["schema_version"] != "0.1"
         or document["provider"] != "onnx-cpu"
     ):
         raise ValueError("Expected an explicit onnx-cpu model manifest")
     model, image, output = (document[k] for k in ("model", "input", "output"))
+    if any(not isinstance(part, dict) for part in (model, image, output)):
+        raise ValueError("Model, input and output declarations must be objects")
     if (
         set(model) != {"file", "sha256", "id", "revision", "license", "source", "usage_permitted"}
         or model["usage_permitted"] is not True
@@ -43,16 +47,22 @@ def validate_model_spec(document: dict):
         or not re.fullmatch(r"[a-f0-9]{64}", model["sha256"])
     ):
         raise ValueError("Model requires a sibling .onnx filename and SHA-256")
+    fields = {"name", "width", "height", "layout", "dtype", "resize", "color", "mean", "std"}
+    crop = image.get("resize") == CROP_RESIZE
     if (
-        set(image)
-        != {"name", "width", "height", "layout", "dtype", "resize", "color", "mean", "std"}
+        set(image) != fields | ({"resize_short_edge"} if crop else set())
         or image["layout"] != "NCHW"
         or image["dtype"] != "float32"
-        or image["resize"] != "stretch-area"
+        or image["resize"] not in {"stretch-area", CROP_RESIZE}
         or image["color"] != "RGB"
         or any(type(image[k]) is not int or not 16 <= image[k] <= 512 for k in ("width", "height"))
     ):
-        raise ValueError("Input must declare 16..512 RGB float32 NCHW stretch-area geometry")
+        raise ValueError("Input must declare 16..512 RGB float32 NCHW supported resize geometry")
+    if crop and (
+        type(image["resize_short_edge"]) is not int
+        or not max(image["width"], image["height"]) <= image["resize_short_edge"] <= 1024
+    ):
+        raise ValueError("Crop resize_short_edge must be an integer >= crop edges and <=1024")
     for key in ("mean", "std"):
         values = image[key]
         if (
@@ -157,8 +167,11 @@ class LocalOnnxEncoder:
             "platform": platform.platform(),
             "machine": platform.machine(),
         }
+        self.preprocessor = PillowCrop() if image["resize"] == CROP_RESIZE else None
+        if self.preprocessor is not None:
+            self.runtime["pillow"] = self.preprocessor.version
 
-    def encode(self, pixels: bytes, timeout: float):
+    def encode(self, pixels: bytes, timeout: float, *, source_geometry=None):
         if (
             type(timeout) not in (int, float)
             or not math.isfinite(timeout)
@@ -166,6 +179,8 @@ class LocalOnnxEncoder:
         ):
             raise ValueError("Inference deadline must be >0 and <=300 seconds")
         np, image = self.np, self.spec["input"]
+        if self.preprocessor is not None:
+            pixels = self.preprocessor.apply(pixels, source_geometry, image)
         expected = image["width"] * image["height"] * 3
         if len(pixels) != expected:
             raise ValueError("RGB frame length differs from model input geometry")
