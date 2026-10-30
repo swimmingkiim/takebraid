@@ -102,7 +102,10 @@ these tests verifies the format contract only; it is not human accuracy evidence
 interval validation, undo, final/draft export and restore. Node is not a runtime/core dependency.
 The HTML blocks network connections and embeds task data so opening it needs no JSON fetch.
 
-Actual browser visual/download QA is still unverified in this session: the automation browser's
-URL policy rejected local `file://` navigation. The mock-DOM test does not prove rendering, image
-loading, file-origin CSP behavior or browser download compatibility. These need a normal local
-browser check; the restriction was not bypassed by exposing the files through another surface.
+Actual browser visual/download QA remains unverified. The earlier automation browser rejected
+local `file://` navigation. On 2026-10-30, the browser inventory reported local browser use disabled
+in Work settings; no browser interaction or download check was performed. The mock-DOM handlers
+passed again, but do not prove rendering, image loading, file-origin CSP behavior or download
+compatibility. Next: with browser access available, inspect this packet in a normal local browser,
+verify image/navigation/interval controls and draft download/restore, and confirm incomplete or
+unattested final reviews are rejected. Do not attest an AI check as independent human labeling.

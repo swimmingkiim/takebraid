@@ -1,6 +1,6 @@
 # Development roadmap
 
-Status as of 2026-10-29. Milestones are dependency ordered and judged by exit evidence, not dates.
+Status as of 2026-10-30. Milestones are dependency ordered and judged by exit evidence, not dates.
 Initial scope: dialogue-free process/product footage, chronological assembly and a reviewable first cut.
 
 ## M0 — Bootstrap (implemented; initial remote CI passed)
@@ -150,6 +150,8 @@ Automatic exclusions remain opt-in until held-out results justify a specific sup
 - [x] TB-301c: runtime-free cosine search over checked compatible saved embeddings, explicit unknown
   coverage and source-clock-bound ranked frame candidates. See `embedding-search.md`.
 - [ ] TB-301: qualified learned image embeddings for relevance and labeled duplicate-take proposals.
+  The dated candidate comparison and next qualification checks are in `research.md`; no pretrained
+  checkpoint has been selected or run. The existing numerical oracle does not close this task.
 - [ ] TB-302: one optional local VLM adapter with structured output, revision/license manifest,
   sparse screening and dense event reinspection.
 - [ ] TB-303: action start/execution/result windows; long/short trim alternatives and completeness.
@@ -192,3 +194,19 @@ Model hardware, footage rights and a review UI can move it substantially. Re-est
 
 The first release does not include a new foundation model, a full NLE, distributed processing,
 automatic video generation, or every genre. Each milestone should land a working vertical slice.
+
+## Continuation record — 2026-10-30
+
+- Completed: reviewed the TB-301c saved-vector search changes against current main guidance;
+  local verification passed 412 tests, Ruff/format, source/wheel build and synthetic UI handlers.
+  This environment required `PYTHONPATH=src` for pytest after editable installation because the
+  source path was absent from the interpreter's import path. No product change was made for this.
+- Completed: a fresh core-only wheel install outside the checkout, without NumPy/ONNX Runtime,
+  replayed the six-sample pilot search (12 evaluated pairs) byte-identically to the saved report.
+- Completed: publisher-source research for two learned encoder candidates; see `research.md`.
+- Pending: browser visual/download QA (Work local browser access disabled), actual independent
+  human labels/natural defect footage, and learned-checkpoint qualification/semantic evaluation.
+- Next: qualify explicit preprocessing and one pinned model export using the checklist in
+  `research.md`; browser and human-study completion conditions remain in `blind-review.md`.
+- Related changes: TB-301c implementation `84bfd3b`, validation evidence `ef89958`, instructions
+  on main `7b908d1`; search validation is in `validation/embedding-search-summary.json`.
